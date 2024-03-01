@@ -11,7 +11,7 @@ const courseSchema = new Schema ({
             ref: 'Lesson'
         }
     ],
-    teachers: [
+    teacher: [
         {
             type: Schema.Types.ObjectId,
             ref: 'User'

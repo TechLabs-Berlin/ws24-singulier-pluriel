@@ -6,15 +6,15 @@ const userSchema = new Schema ({
     lastname: String,
     email: { 
         type: String,
-        unique: true
+        unique: [true, 'Email already exists!']
     },
     idNumber: Number,
-    courses: [
-        {
-            type: Schema.Types.ObjectId,
-            ref: 'Course'
-        }
-    ],
+    // courses: [
+    //     {
+    //         type: Schema.Types.ObjectId,
+    //         ref: 'Course'
+    //     }
+    // ],
     role: {
         type: [String],
         enum: ['teacher', 'student']
