@@ -2,6 +2,8 @@
 import React, { useState, useEffect } from "react";
 import ReactDOM from "react-dom/client";
 //Import App
+import Dashboard from "./pages/dashboard";
+import Login from "./pages/login";
 import App from "./App";
 // Import axios
 import axios from "axios";
@@ -18,6 +20,8 @@ root.render(
   <BrowserRouter>
     <Routes>
       <Route path="/" element={<App />} />
+      <Route path="/login" element={<Login />} />
+      <Route path="/dashboard" element={<Dashboard />} />
       {/* You can add more Route components here for other paths */}
     </Routes>
   </BrowserRouter>
