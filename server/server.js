@@ -5,6 +5,7 @@ const mongoose = require('mongoose');
 const dbConnect = require('./db/dbConnect.js');
 const User = require('./db/userModel.js');
 const Course = require('./db/courseModel.js');
+const bcrypt = require('bcrypt');
 
 const app = express();
 
@@ -18,16 +19,36 @@ app.get('/', (req, res) => {
 });
 
 // Test client-server connection
-app.post('/register', async (req, res) => {
-    try {
-        const { firstname, lastname, email, role } = req.body;
-        const user = await new User(req.body.user);
-        await user.save();
-        console.log(user);
-        res.send('New user created');
-    } catch (e){
-        console.log(e);
-        res.send('Error: Check console');
+// app.post('/auth/account-activation', async (req, res) => {
+//     const { email, ID, password } = req.body;
+//     const account = await User.findOne({ ID: ID, email: email });
+//     if(!account){
+//         console.log('No accounts found with the given info');
+//         res.send('Not found')
+//     } else {
+//         const hash = await bcrypt.hash(password, 12);
+//         account.hash = hash;
+//         account.status = 'active';
+//         await account.save();
+//         console.log(account);
+//         res.send('User activated!');
+//     }
+// });
+
+
+app.post('/auth/login', async (req, res) => {
+    const { email, password } = req.body;
+    const account = await User.findOne({ email });
+    if(!account){
+        console.log('No accounts found with the given info');
+        res.send('Not found')
+    } else {
+        const login = await bcrypt.compare(password, account.hash);
+        if(!login) {
+            res.send('Wrong email and/or password');
+        } else {
+            res.send('User authenticated!');
+        }
     }
 });
 
