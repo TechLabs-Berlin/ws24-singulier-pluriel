@@ -1,12 +1,11 @@
-import Card from "@mui/material/Card";
-import CardActionArea from "@mui/material/CardActionArea";
-import CardContent from "@mui/material/CardContent";
-import Typography from "@mui/material/Typography";
 import { useNavigate } from "react-router-dom";
+import { Box, Text, useColorModeValue } from "@chakra-ui/react";
 
 function MainCard({ title }) {
   const navigate = useNavigate();
-  // Function to handle card click (navigate to path)
+  const bgColor = useColorModeValue("gray.100", "gray.700");
+  const hoverBgColor = useColorModeValue("gray.200", "gray.600");
+
   const handleCardClick = () => {
     let path = "/";
     switch (title) {
@@ -29,15 +28,23 @@ function MainCard({ title }) {
   };
 
   return (
-    <Card sx={{ maxWidth: 345, margin: 2 }}>
-      <CardActionArea onClick={handleCardClick}>
-        <CardContent>
-          <Typography gutterBottom variant="h5" component="div">
-            {title}
-          </Typography>
-        </CardContent>
-      </CardActionArea>
-    </Card>
+    <Box
+      maxW="sm"
+      borderWidth="1px"
+      borderRadius="lg"
+      overflow="hidden"
+      bg={bgColor}
+      _hover={{ bg: hoverBgColor }}
+      onClick={handleCardClick}
+      cursor="pointer"
+      p={4}
+      m={2}
+    >
+      <Text fontSize="xl" fontWeight="bold" textAlign="center">
+        {title}
+      </Text>
+    </Box>
   );
 }
+
 export default MainCard;

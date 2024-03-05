@@ -1,4 +1,5 @@
 import MainCard from "./MainCard";
+import Dashboard from "./pages/dashboard";
 function App() {
   return (
     <div>
@@ -7,7 +8,7 @@ function App() {
       <MainCard title="Communication" />
       <MainCard title="Announcements" />
       <MainCard title="Grade Center" />
-      <div>Dashboard</div>
+      <Dashboard />
     </div>
   );
 }
