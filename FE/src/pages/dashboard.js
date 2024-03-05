@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { Box, Text } from "@chakra-ui/react";
+
 function Dashboard() {
   const [data, setData] = useState([]); // State to hold the fetched data
   const [isLoading, setIsLoading] = useState(true); // State to track loading status
@@ -21,15 +23,19 @@ function Dashboard() {
   if (isLoading) return <div>Loading...</div>;
 
   return (
-    <div>
-      <h2>Dashboard Data Test</h2>
+    <Box borderWidth="1px" borderRadius="lg" p={4} m={2} overflow="hidden">
+      <Text fontSize="2xl" mb={4}>
+        Dashboard Data Test
+      </Text>
       {data.map((item) => (
-        <div key={item.id}>
-          <h3>{item.title}</h3>
-          <p>{item.body}</p>
-        </div>
+        <Box key={item.id} p={2} borderBottomWidth="1px">
+          <Text fontSize="xl" fontWeight="bold">
+            {item.title}
+          </Text>
+          <Text>{item.body}</Text>
+        </Box>
       ))}
-    </div>
+    </Box>
   );
 }
 export default Dashboard;
