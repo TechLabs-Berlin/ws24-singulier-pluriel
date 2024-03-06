@@ -10,7 +10,7 @@ const userSchema = new Schema ({
     },
     ID: { 
         type: Number,
-        unique: [true, 'ID already exists!']
+        // unique: [true, 'ID already exists!']
     },
     hash: String,
     role: {
