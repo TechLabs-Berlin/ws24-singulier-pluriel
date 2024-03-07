@@ -1,4 +1,5 @@
 import MainCard from "./MainCard";
+import SearchBar from "./SearchBar";
 import Dashboard from "./pages/dashboard";
 import { Flex } from "@chakra-ui/react";
 function App() {
@@ -16,6 +17,7 @@ function App() {
         <MainCard title="Announcements" />
         <MainCard title="Grade Center" />
       </Flex>
+      <SearchBar />
       <Dashboard />
     </div>
   );

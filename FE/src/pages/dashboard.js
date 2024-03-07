@@ -18,7 +18,7 @@ function Dashboard() {
         console.error("Error fetching data: ", error);
         setIsLoading(false);
       });
-  }, []); // To ensure effect runs once on mount
+  }, []); // To ensure effect runs once after the initial render
 
   if (isLoading) return <div>Loading...</div>;
 
@@ -28,8 +28,13 @@ function Dashboard() {
         Dashboard Data Test
       </Text>
       {data.map((item) => (
-        <Box key={item.id} p={2} borderBottomWidth="1px">
-          <Text fontSize="xl" fontWeight="bold">
+        <Box
+          key={item.id}
+          p={2}
+          borderBottomWidth="1px"
+          _hover={{ backgroundColor: "blue.100", cursor: "pointer" }}
+        >
+          <Text fontSize="xl" fontWeight="bold" mb={2}>
             {item.title}
           </Text>
           <Text>{item.body}</Text>

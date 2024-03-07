@@ -7,8 +7,6 @@ import Login from "./pages/login";
 import App from "./App";
 //Import Chakra
 import { ChakraProvider } from "@chakra-ui/react";
-// Import axios
-import axios from "axios";
 // Import BrowserRouter, Routes, and Route from react-router-dom
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
@@ -25,7 +23,7 @@ root.render(
         <Route path="/" element={<App />} />
         <Route path="/login" element={<Login />} />
         <Route path="/dashboard" element={<Dashboard />} />
-        {/* You can add more Route components here for other paths */}
+        {/* Placeholder to add more Route components here for other paths */}
       </Routes>
     </BrowserRouter>
   </ChakraProvider>
