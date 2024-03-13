@@ -4,27 +4,26 @@ const Schema = mongoose.Schema;
 const courseSchema = new Schema ({
     title: String,
     description: String,
-    courseId: String,
+    csid: String,
     lessons: [
         {
             type: Schema.Types.ObjectId,
             ref: 'Lesson'
         }
     ],
-    teacher: [
+    participants: [
         {
             type: Schema.Types.ObjectId,
             ref: 'User'
         }
     ],
-    students: [
-        {
-            type: Schema.Types.ObjectId,
-            ref: 'User'
-        }
-    ],
-    // startDate: Date,
-    // endDate: Date,
+    startDate: Date,
+    endDate: Date,
+    examDate: Date,
+    status: {
+        type: String,
+        enum: ['In Preparation', 'Active', 'Inactive/Archived']
+    }
 });
 
 

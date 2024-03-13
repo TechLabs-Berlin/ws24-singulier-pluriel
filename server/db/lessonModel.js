@@ -4,7 +4,10 @@ const Schema = mongoose.Schema;
 const lessonSchema = new Schema ({
     title: String,
     description: String,
-    courseId: String,
+    courseId: {
+        type: Schema.Types.ObjectId,
+        ref: 'Course'
+    },
     materials: [String]
     // assignments:
 });

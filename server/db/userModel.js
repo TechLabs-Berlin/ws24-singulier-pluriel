@@ -6,10 +6,11 @@ const userSchema = new Schema ({
     lastname: String,
     email: { 
         type: String,
-        unique: [true, 'Email already exists!']
+        unique: [true, 'Email already exists!'],
+        set: v => v.toLowerCase()
     },
-    ID: { 
-        type: Number,
+    sid: { 
+        type: String,
         // unique: [true, 'ID already exists!']
     },
     hash: String,
@@ -20,7 +21,13 @@ const userSchema = new Schema ({
     status: {
         type: String,
         enum: ['active', 'inactive']
-    }
+    },
+    courses: [
+        {
+            type: Schema.Types.ObjectId,
+            ref: 'Course'
+        }
+    ],
 });
 
 // Roles IDs
