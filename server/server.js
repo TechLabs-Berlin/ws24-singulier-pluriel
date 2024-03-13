@@ -152,12 +152,25 @@ app.get('/api/logout', function (req, res) {
     });
 });
 
-app.get('/courses/:id', async (req, res) => {
-    const { id } = req.params
-    console.log("Request recived!")
-    // const courses = await Course.find({ students: currentUser });
-    const courses = await Course.find({ teacher: id });
-    res.send(courses);
+app.get('/api/dashboard', isLoggedIn, async (req, res) => {
+    if(req.session.user) {
+        const id = req.session.user._id;
+        const user = await User.findOne({ _id: id }).populate('role');
+        return res.send(user);
+    } else {
+        return res.status(401).json({ message: 'Unauthorized' });
+    }
+})
+
+app.get('/api/courses', isLoggedIn, async (req, res) => {
+    const id = req.session.user._id;
+    try {
+        const user = await User.findOne({ _id: id }).populate('role').populate('courses');
+        const courses = user.courses;
+        res.send(courses);
+    } catch (err) {
+        res.send(err);
+    }
 })
 
 const port = process.env.PORT || 8080;
