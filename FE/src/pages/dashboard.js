@@ -24,9 +24,19 @@ function Dashboard() {
 
   return (
     <Box borderWidth="1px" borderRadius="lg" p={4} m={2} overflow="hidden">
-      <Text fontSize="2xl" mb={4}>
-        Dashboard Data Test
+      <Box p={2} backgroundColor="cyan.100" borderRadius="md" mb={4}>
+        <Text fontSize="2xl" mb={4} fontWeight="bold">
+          My Dashboard
+        </Text>
+      </Box>
+      {/* Hardcoded lines for demo below */}
+      <Text fontSize="lg" mb={2}>
+        08.03.2024, 11:20
       </Text>
+      <Text fontSize="lg" mb={4} fontWeight="bold">
+        Instructions for Extra-Curricular Students Enrolled in Language Classes
+      </Text>
+      {/* Dynamic content from fetched data */}
       {data.map((item) => (
         <Box
           key={item.id}
@@ -34,7 +44,7 @@ function Dashboard() {
           borderBottomWidth="1px"
           _hover={{ backgroundColor: "blue.100", cursor: "pointer" }}
         >
-          <Text fontSize="xl" fontWeight="bold" mb={2}>
+          <Text fontSize="lg" fontWeight="bold" mb={2}>
             {item.title}
           </Text>
           <Text>{item.body}</Text>

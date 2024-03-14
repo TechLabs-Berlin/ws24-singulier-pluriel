@@ -1,11 +1,13 @@
-import MainCard from "./MainCard";
-import SearchBar from "./SearchBar";
+import MainCard from "./components/MainCard";
+import SearchBar from "./components/SearchBar";
 import Dashboard from "./pages/dashboard";
-import { Flex } from "@chakra-ui/react";
+import UserProfile from "./components/UserProfile";
+import { Flex, Text } from "@chakra-ui/react";
 function App() {
   return (
     <div>
-      <div>Universita Libera di Livorno</div>
+      <Text fontStyle="italic">Universita Libera di Livorno</Text>
+      <UserProfile />
       <Flex
         direction={{ base: "column", md: "row" }}
         wrap="wrap"
@@ -13,8 +15,7 @@ function App() {
         alignItems="center"
       >
         <MainCard title="Courses" />
-        <MainCard title="Communication" />
-        <MainCard title="Announcements" />
+        <MainCard title="Communication & Announcements" />
         <MainCard title="Grade Center" />
       </Flex>
       <SearchBar />

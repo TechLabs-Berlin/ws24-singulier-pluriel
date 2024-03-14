@@ -3,8 +3,8 @@ import { Box, Text, useColorModeValue } from "@chakra-ui/react";
 
 function MainCard({ title }) {
   const navigate = useNavigate();
-  const bgColor = useColorModeValue("gray.100", "gray.700");
-  const hoverBgColor = useColorModeValue("gray.200", "gray.600");
+  const bgColor = useColorModeValue("blue.100", "blue.700");
+  const hoverBgColor = useColorModeValue("blue.200", "blue.800");
 
   const handleCardClick = () => {
     let path = "/";
@@ -12,11 +12,8 @@ function MainCard({ title }) {
       case "Courses":
         path = "/courses";
         break;
-      case "Communication":
+      case "Communication & Announcements":
         path = "/communication";
-        break;
-      case "Announcements":
-        path = "/announcements";
         break;
       case "Grade Center":
         path = "/grade-center";
