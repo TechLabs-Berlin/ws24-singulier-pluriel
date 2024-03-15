@@ -11,6 +11,7 @@ const session = require('express-session');
 const MongoStore = require('connect-mongodb-session')(session);
 const cookieParser = require('cookie-parser');
 const { isLoggedIn, isTeacher } = require('./middleware.js');
+const axios = require('axios');
 
 const app = express();
 
@@ -172,6 +173,25 @@ app.get('/api/courses', isLoggedIn, async (req, res) => {
         res.send(err);
     }
 })
+
+// app.get('/api/test/getdata', async (req, res) => {
+//     const url = 'https://jsonplaceholder.typicode.com/comments/'; // Here the Flask API Url
+
+//     const userId = 6; // UserId taken form session
+
+//     async function getData(){
+//         const response = await axios.get(`${url}?postId=${userId}`); // Url to specific Flask route created dynamically
+//         console.log('Data was fetched!')
+//         console.log(response.data)
+//         return response.data;
+//     }
+
+//     const flaskData = await getData(); // Flask data stored here as for. ex. json
+//     res.send(flaskData); // Json data goind back to FE
+
+// })
+
+
 
 const port = process.env.PORT || 8080;
 app.listen(port, () => {
