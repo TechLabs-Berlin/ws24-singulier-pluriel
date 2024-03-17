@@ -9,19 +9,20 @@ function SearchBar() {
       borderWidth="1px"
       borderRadius="lg"
       bg={bgColor}
-      p={4}
-      m={2}
+      p={3}
+      m={1}
       display="flex"
       flexDirection="column"
       alignItems="center"
     >
-      <Text fontSize="xl" fontWeight="bold" color={textColor} mb={4}>
+      <Text fontSize="md" fontWeight="bold" color={textColor} mb={3}>
+        {" "}
         I want to / I am looking for...
       </Text>
       <Input
         placeholder="ex. Japanese B1, upload an assignment, etc."
-        size="md"
-        width="50%"
+        size="sm"
+        width="80%"
         focusBorderColor="blue.500"
       />
     </Box>
