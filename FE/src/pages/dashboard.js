@@ -1,26 +1,25 @@
-import React, { useState, useEffect } from "react";
+import { useQuery } from "react-query";
 import axios from "axios";
-import { Box, Text } from "@chakra-ui/react";
+import { Box, Text, CircularProgress } from "@chakra-ui/react";
+
+// Fetch function is outside of component
+const fetchPosts = async () => {
+  const { data } = await axios.get(
+    "https://jsonplaceholder.typicode.com/posts?_limit=2"
+  );
+  return data;
+};
 
 function Dashboard() {
-  const [data, setData] = useState([]); // State to hold the fetched data
-  const [isLoading, setIsLoading] = useState(true); // State to track loading status
+  const { data, isLoading, error } = useQuery("posts", fetchPosts);
 
-  useEffect(() => {
-    // Fetch data when the component mounts
-    axios
-      .get("https://jsonplaceholder.typicode.com/posts?_limit=2") // Limit to 2 items for test
-      .then((response) => {
-        setData(response.data); // Set fetched data to state
-        setIsLoading(false); // Update loading status
-      })
-      .catch((error) => {
-        console.error("Error fetching data: ", error);
-        setIsLoading(false);
-      });
-  }, []); // To ensure effect runs once after the initial render
+  if (isLoading) {
+    return <CircularProgress isIndeterminate color="blue.300" />;
+  }
 
-  if (isLoading) return <div>Loading...</div>;
+  if (error) {
+    return <Text>An error occurred: {error.message}</Text>;
+  }
 
   return (
     <Box borderWidth="1px" borderRadius="lg" p={4} m={2} overflow="hidden">
@@ -29,14 +28,6 @@ function Dashboard() {
           My Dashboard
         </Text>
       </Box>
-      {/* Hardcoded lines for demo below */}
-      <Text fontSize="lg" mb={2}>
-        08.03.2024, 11:20
-      </Text>
-      <Text fontSize="lg" mb={4} fontWeight="bold">
-        Instructions for Extra-Curricular Students Enrolled in Language Classes
-      </Text>
-      {/* Dynamic content from fetched data */}
       {data.map((item) => (
         <Box
           key={item.id}
@@ -53,4 +44,5 @@ function Dashboard() {
     </Box>
   );
 }
+
 export default Dashboard;
