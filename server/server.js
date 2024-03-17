@@ -50,7 +50,7 @@ app.use(session({
 }));
 
 app.get('/', (req, res) => {
-    res.send('Response');
+    res.send('Server running');
 });
 
 // Test client-server connection
