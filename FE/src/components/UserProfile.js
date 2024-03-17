@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useQuery } from "react-query";
 import axios from "axios";
 import {
   Box,
@@ -11,41 +11,27 @@ import {
   CircularProgress,
 } from "@chakra-ui/react";
 
+// Fetch function is outside of component
+const fetchUserData = async () => {
+  const { data } = await axios.get("https://swapi.dev/api/people/1/");
+  const [name, surname] = data.name.split(" ");
+  return { ...data, name, surname: surname || "" };
+};
+
 function UserProfile() {
-  const [userData, setUserData] = useState({
-    name: "",
-    surname: "",
-    title: "Jedi Master",
-  });
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState(null);
+  // useQuery hook for fetching user data
+  const {
+    data: userData,
+    isLoading,
+    error,
+  } = useQuery("userData", fetchUserData);
 
   const bgColor = useColorModeValue("gray.100", "gray.700");
   const textColor = useColorModeValue("gray.800", "white");
 
-  useEffect(() => {
-    setIsLoading(true);
-    axios
-      .get("https://swapi.dev/api/people/1/") // Fetching fake data as an example
-      .then((response) => {
-        const [name, surname] = response.data.name.split(" ");
-        setUserData((prevData) => ({
-          ...prevData,
-          name: name,
-          surname: surname || "",
-        }));
-        setIsLoading(false);
-      })
-      .catch((error) => {
-        console.error("Error fetching user data:", error);
-        setError(error);
-        setIsLoading(false);
-      });
-  }, []);
-
   const handleLogout = () => {
     console.log("Log out logic here");
-    // Logout logic here
+    // Placeholder for logout logic
   };
 
   if (isLoading) {
