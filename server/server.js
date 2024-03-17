@@ -99,10 +99,12 @@ app.post('/api/auth/login', async (req, res) => {
         const { email, password } = req.body;
         const user = await User.findOne({ email }).populate('role');
         if(!user){
+            console.log('Wrong email or password.');
             return res.status(403).json({
                 message: 'Wrong email or password.'
             });
         } else if (!user.hash || !user.status){
+            console.log('Wrong email or password.');
             return res.status(403).json({
                 message: 'Account was not activated.'
             });
@@ -140,6 +142,7 @@ app.post('/api/auth/login', async (req, res) => {
 app.get('/api/logout', function (req, res) {
     req.session.destroy(function(err) {
         if (err){
+            console.log(err);
             return res.status(400).json({
                 message: 'Something went wrong.'
             });
@@ -163,13 +166,20 @@ app.get('/api/logout', function (req, res) {
 //     }
 // })
 
-app.get('/api/courses', isLoggedIn, async (req, res) => {
+
+//! Add isLoggedIn middleware again
+app.get('/api/courses', async (req, res) => {
     const userId = req.session.user._id;
     try {
-        const user = await User.findOne({ _id: userId }).populate('role').populate('courses');
+        const user = await User.findOne({ _id: userId }).populate('courses');
         const courses = user.courses;
+        if(!courses){
+            console.log('No courses');
+            res.send('No courses found');
+        }
         res.send(courses);
     } catch (err) {
+        console.log(err);
         res.send(err);
     }
 })
@@ -179,13 +189,13 @@ app.get('/api/courses', isLoggedIn, async (req, res) => {
 
 
 // Display specific course details (shared)
-app.get('/api/courses/:id', isLoggedIn, async (req, res) => {
+app.get('/api/courses/course-detail', isLoggedIn, async (req, res) => {
     try {
         const courseId = req.body.courseId;
         const course = await Course.findOne({ _id: courseId }).populate('lessons');
         res.send(course);
     } catch (err) {
-        res.send(err.message);
+        res.send(err);
     }
 })
 
