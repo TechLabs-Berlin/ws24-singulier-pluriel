@@ -216,7 +216,7 @@ app.post('/api/courses', isLoggedIn, isTeacher, async (req, res) => {
 
 
 // Display specific course details (shared)
-app.get('/api/courses/:_id', isLoggedIn, async (req, res) => {
+app.get('/api/courses/:courseId', isLoggedIn, async (req, res) => {
     try {
         const courseId = req.params;
         const course = await Course.findOne({ _id: courseId }).populate('lessons');
@@ -228,12 +228,12 @@ app.get('/api/courses/:_id', isLoggedIn, async (req, res) => {
 
 
 // Edit specific course properties (teachers only)
-app.put('/api/courses/:_id', isLoggedIn, isTeacher, async (req, res) => {
+app.put('/api/courses/:courseId', isLoggedIn, isTeacher, async (req, res) => {
     try {
-        const courseId = req.params;
+        const courseId = req.params.courseId;
         const updatedData = req.body;
         //? Add logic to make course editable only if ID userId === course.createdBy ID
-        const updatedCourse = await Course.findOneAndUpdate(courseId, updatedData, { new: true });
+        const updatedCourse = await Course.findOneAndUpdate({ _id: courseId }, updatedData, { new: true });
         res.json({ message: 'Course updated', updatedCourse });
     } catch (err) {
         console.log(err);
@@ -243,9 +243,9 @@ app.put('/api/courses/:_id', isLoggedIn, isTeacher, async (req, res) => {
 
 
 // Delete course (+ all existing classes in it)
-app.delete('/api/courses/:_id', isLoggedIn, isTeacher, async (req, res) => {
+app.delete('/api/courses/:courseId', isLoggedIn, isTeacher, async (req, res) => {
     try {
-        const courseId = req.params;
+        const courseId = req.params.courseId;
         //? Add logic to make course can be deleted only if ID userId === course.createdBy ID
         await Course.findOneAndDelete({ _id: courseId });
         res.json({ message: 'Course deleted' });
@@ -259,9 +259,9 @@ app.delete('/api/courses/:_id', isLoggedIn, isTeacher, async (req, res) => {
 // app.get('/courses/:id/modules')
 
 // Create new module in a course (teachers only)
-app.post('/api/courses/:_id/modules', isLoggedIn, isTeacher, async (req, res) => {
+app.post('/api/courses/:courseId/modules', isLoggedIn, isTeacher, async (req, res) => {
     try {
-        const courseId = req.params;
+        const courseId = req.params.courseId;
         const { title, materials } = req.body;
         const course = await Course.findOne({ _id: courseId });
         const module = new Lesson({
@@ -281,7 +281,7 @@ app.post('/api/courses/:_id/modules', isLoggedIn, isTeacher, async (req, res) =>
 })
 
 // Update module properties in DB (teachers only)
-app.put('/api/courses/:id/modules/:moduleId', isLoggedIn, isTeacher, async (req, res) => {
+app.put('/api/courses/:courseId/modules/:moduleId', isLoggedIn, isTeacher, async (req, res) => {
     try {
         const moduleId = req.params.moduleId;
         const updatedData = req.body;
@@ -295,10 +295,12 @@ app.put('/api/courses/:id/modules/:moduleId', isLoggedIn, isTeacher, async (req,
 })
 
 // Delete module (teachers only)
-app.delete('/api/courses/:id/modules/:moduleId', isLoggedIn, isTeacher, async (req, res) => {
+app.delete('/api/courses/:courseId/modules/:moduleId', isLoggedIn, isTeacher, async (req, res) => {
     try {
+        const courseId = req.params.courseId;
         const moduleId = req.params.moduleId;
-        await Lesson.findOneAndDelete( { _id: moduleId } );
+        const updatedCourse = await Course.updateOne({ _id: courseId }, { $pull: { lessons: moduleId } });
+        await Lesson.findOneAndDelete({ _id: moduleId });
         //? Add DB middleware for deleting all materials in Cloud Store
         res.json({ message: 'Module deleted' });
     } catch (err) {
