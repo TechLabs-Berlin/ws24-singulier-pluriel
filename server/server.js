@@ -39,7 +39,7 @@ app.use(session({
   secret: process.env.SECRET,
   store,
   resave: true,
-  saveUninitialized: true,
+  saveUninitialized: false,
   cookie: {
       sameSite: false,
       secure: false,
@@ -167,8 +167,7 @@ app.get('/api/logout', function (req, res) {
 // })
 
 
-//! Add isLoggedIn middleware again
-app.get('/api/courses', async (req, res) => {
+app.get('/api/courses', isLoggedIn, async (req, res) => {
     const userId = req.session.user._id;
     try {
         const user = await User.findOne({ _id: userId }).populate('courses');
@@ -189,9 +188,9 @@ app.get('/api/courses', async (req, res) => {
 
 
 // Display specific course details (shared)
-app.get('/api/courses/course-detail', isLoggedIn, async (req, res) => {
+app.get('/api/courses/:_id', isLoggedIn, async (req, res) => {
     try {
-        const courseId = req.body.courseId;
+        const courseId = req.params;
         const course = await Course.findOne({ _id: courseId }).populate('lessons');
         res.send(course);
     } catch (err) {
@@ -200,27 +199,28 @@ app.get('/api/courses/course-detail', isLoggedIn, async (req, res) => {
 })
 
 // Edit specific course properties (teachers only)
-app.put('/api/courses/:id', isLoggedIn, isTeacher, async (req, res) => {
+app.put('/api/courses/:_id', isLoggedIn, isTeacher, async (req, res) => {
     try {
-        const courseId = { _id: req.body.courseId };
+        const courseId = req.params;
         const updatedData = req.body; 
-        delete updatedData.courseId;
         const updatedCourse = await Course.findOneAndUpdate(courseId, updatedData);
-        res.send('Course updated');
+        res.json({ message: 'Course updated', updatedCourse });
     } catch (err) {
-        res.send(err);
+        console.log(err);
+        res.status(400).json({ message: err });
     }
 })
 
 
 // Delete course (+ all existing classes in it)
-app.delete('/api/courses/:id', isLoggedIn, isTeacher, async (req, res) => {
+app.delete('/api/courses/:_id', isLoggedIn, isTeacher, async (req, res) => {
     try {
-        const courseId = req.body.courseId;
+        const courseId = req.params;
         await Course.findOneAndDelete({ _id: courseId });
-        res.send('Course deleted');
+        res.json({ message: 'Course deleted' });
     } catch (err) {
-        res.send(err);
+        console.log(err);
+        res.status(400).json({ message: err });
     }
 })
 
