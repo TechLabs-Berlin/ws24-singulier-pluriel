@@ -156,6 +156,7 @@ app.get('/api/logout', function (req, res) {
     });
 });
 
+
 // app.get('/api/dashboard', isLoggedIn, async (req, res) => {
 //     if(req.session.user) {
 //         const id = req.session.user._id;
@@ -182,6 +183,7 @@ app.get('/api/courses', isLoggedIn, async (req, res) => {
         res.send(err);
     }
 })
+
 
 // Create new course (teachers only)
 // app.post('/api/courses')
