@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+const Lesson = require('./lessonModel.js');
 
 const courseSchema = new Schema ({
     title: String,
@@ -26,5 +27,14 @@ const courseSchema = new Schema ({
     }
 });
 
+courseSchema.post('findOneAndDelete', async function (doc) {
+    if(doc){
+        await Lesson.deleteMany({
+            _id: {
+                $in: doc.lessons
+            }
+        })
+    }
+})
 
 module.exports = mongoose.model('Course', courseSchema);

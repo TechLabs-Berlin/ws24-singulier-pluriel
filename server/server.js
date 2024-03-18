@@ -11,6 +11,7 @@ const session = require('express-session');
 const MongoStore = require('connect-mongodb-session')(session);
 const cookieParser = require('cookie-parser');
 const { isLoggedIn, isTeacher } = require('./middleware.js');
+const axios = require('axios');
 
 const app = express();
 
@@ -38,7 +39,7 @@ app.use(session({
   secret: process.env.SECRET,
   store,
   resave: true,
-  saveUninitialized: true,
+  saveUninitialized: false,
   cookie: {
       sameSite: false,
       secure: false,
@@ -49,7 +50,7 @@ app.use(session({
 }));
 
 app.get('/', (req, res) => {
-    res.send('Response');
+    res.send('Server running');
 });
 
 // Test client-server connection
@@ -98,10 +99,12 @@ app.post('/api/auth/login', async (req, res) => {
         const { email, password } = req.body;
         const user = await User.findOne({ email }).populate('role');
         if(!user){
+            console.log('Wrong email or password.');
             return res.status(403).json({
                 message: 'Wrong email or password.'
             });
         } else if (!user.hash || !user.status){
+            console.log('Wrong email or password.');
             return res.status(403).json({
                 message: 'Account was not activated.'
             });
@@ -139,6 +142,7 @@ app.post('/api/auth/login', async (req, res) => {
 app.get('/api/logout', function (req, res) {
     req.session.destroy(function(err) {
         if (err){
+            console.log(err);
             return res.status(400).json({
                 message: 'Something went wrong.'
             });
@@ -152,26 +156,109 @@ app.get('/api/logout', function (req, res) {
     });
 });
 
-app.get('/api/dashboard', isLoggedIn, async (req, res) => {
-    if(req.session.user) {
-        const id = req.session.user._id;
-        const user = await User.findOne({ _id: id }).populate('role');
-        return res.send(user);
-    } else {
-        return res.status(401).json({ message: 'Unauthorized' });
+
+// app.get('/api/dashboard', isLoggedIn, async (req, res) => {
+//     if(req.session.user) {
+//         const id = req.session.user._id;
+//         const user = await User.findOne({ _id: id }).populate('role');
+//         return res.send(user);
+//     } else {
+//         return res.status(401).json({ message: 'Unauthorized' });
+//     }
+// })
+
+
+app.get('/api/courses', isLoggedIn, async (req, res) => {
+    const userId = req.session.user._id;
+    try {
+        const user = await User.findOne({ _id: userId }).populate('courses');
+        const courses = user.courses;
+        if(!courses){
+            console.log('No courses');
+            res.send('No courses found');
+        }
+        res.send(courses);
+    } catch (err) {
+        console.log(err);
+        res.send(err);
     }
 })
 
-app.get('/api/courses', isLoggedIn, async (req, res) => {
-    const id = req.session.user._id;
+
+// Create new course (teachers only)
+// app.post('/api/courses')
+
+
+// Display specific course details (shared)
+app.get('/api/courses/:_id', isLoggedIn, async (req, res) => {
     try {
-        const user = await User.findOne({ _id: id }).populate('role').populate('courses');
-        const courses = user.courses;
-        res.send(courses);
+        const courseId = req.params;
+        const course = await Course.findOne({ _id: courseId }).populate('lessons');
+        res.send(course);
     } catch (err) {
         res.send(err);
     }
 })
+
+// Edit specific course properties (teachers only)
+app.put('/api/courses/:_id', isLoggedIn, isTeacher, async (req, res) => {
+    try {
+        const courseId = req.params;
+        const updatedData = req.body; 
+        const updatedCourse = await Course.findOneAndUpdate(courseId, updatedData);
+        res.json({ message: 'Course updated', updatedCourse });
+    } catch (err) {
+        console.log(err);
+        res.status(400).json({ message: err });
+    }
+})
+
+
+// Delete course (+ all existing classes in it)
+app.delete('/api/courses/:_id', isLoggedIn, isTeacher, async (req, res) => {
+    try {
+        const courseId = req.params;
+        await Course.findOneAndDelete({ _id: courseId });
+        res.json({ message: 'Course deleted' });
+    } catch (err) {
+        console.log(err);
+        res.status(400).json({ message: err });
+    }
+})
+
+// Display all modules of a course (shared)
+// app.get('/courses/:id/modules')
+
+// Create new module in a course (teachers only)
+// app.post('/courses/:id/modules')
+
+// Update module properties in DB (teachers only)
+// app.put('/courses/:id/modules/:moduleId')
+
+// Delete module (teachers only)
+// app.delete('/courses/:id/modules/:moduleId')
+
+
+
+
+// app.get('/api/test/getdata', async (req, res) => {
+//     const url = 'https://jsonplaceholder.typicode.com/comments/'; // Here the Flask API Url
+
+//     const userId = 6; // UserId taken form session
+
+//     async function getData(){
+//         const response = await axios.get(`${url}?postId=${userId}`); // Url to specific Flask route created dynamically
+//         console.log('Data was fetched!')
+//         console.log(response.data)
+//         return response.data;
+//     }
+
+//     const flaskData = await getData(); // Flask data stored here as for. ex. json
+//     res.send(flaskData); // Json data goind back to FE
+
+// })
+
+
 
 const port = process.env.PORT || 8080;
 app.listen(port, () => {
