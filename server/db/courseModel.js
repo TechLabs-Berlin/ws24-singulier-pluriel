@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const Lesson = require('./lessonModel.js');
+const User = require('./userModel.js');
 
 const courseSchema = new Schema ({
     title: String,
@@ -23,7 +24,12 @@ const courseSchema = new Schema ({
     examDate: Date,
     status: {
         type: String,
-        enum: ['In Preparation', 'Active', 'Inactive/Archived']
+        enum: ['In Preparation', 'Active', 'Inactive'],
+        default: 'In Preparation',
+    }, 
+    createdBy: {
+        type: Schema.Types.ObjectId,
+        ref: 'User'
     }
 });
 
@@ -33,6 +39,9 @@ courseSchema.post('findOneAndDelete', async function (doc) {
             _id: {
                 $in: doc.lessons
             }
+        })
+        await User.updateMany({}, {
+            $pull: { courses: doc._id }
         })
     }
 })
