@@ -1,3 +1,4 @@
+import Clogo from '../assets/Clogo.png'
 import { useState, useContext } from "react";
 import { useMutation } from "react-query";
 import axios from "axios";
@@ -7,6 +8,7 @@ import {
   Box,
   Button,
   Input,
+  Image,
   FormControl,
   FormLabel,
   useToast,
@@ -72,6 +74,7 @@ function Login() {
       display={'flex'}
       justifyContent={'center'}
       alignItems={'center'}
+      
     >
       <Box
         display={'flex'}
@@ -92,6 +95,11 @@ function Login() {
 
           <FormControl id="email" isRequired>
             <table>
+              <tr>
+                <td>
+        <Image src="Clogo"></Image>
+                </td>
+              </tr>
               <tr>
                 <td>
                   <FormLabel
