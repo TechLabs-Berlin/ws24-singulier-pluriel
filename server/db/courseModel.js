@@ -40,15 +40,26 @@ const courseSchema = new Schema ({
 
 courseSchema.post('findOneAndDelete', async function (doc) {
     if(doc){
+        const lessons = await Lesson.find({ courseId: doc._id});
+        for(let i = 0; i < lessons.length; i++){
+            const materials = lessons[i].materials;
+            for(let j = 0; j < materials.length; j++){
+                if(materials[j].filename){
+                    const matId = materials[j].filename;
+                    matId.replace('/singulier-pluriel', '');
+                    cloudinary.v2.uploader.destroy(matId);
+                };
+            };
+        };
         await Lesson.deleteMany({
             _id: {
                 $in: doc.lessons
             }
-        })
+        });
         await User.updateMany({}, {
             $pull: { courses: doc._id }
-        })
-    }
-})
+        });
+    };
+});
 
 module.exports = mongoose.model('Course', courseSchema);
