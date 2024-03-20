@@ -2,9 +2,14 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const Lesson = require('./lessonModel.js');
 const User = require('./userModel.js');
+const cloudinary = require('cloudinary');
 
 const courseSchema = new Schema ({
     title: String,
+    image: {
+        url: String,
+        filename: String
+    },
     description: String,
     csid: String,
     lessons: [
