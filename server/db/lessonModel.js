@@ -8,7 +8,16 @@ const lessonSchema = new Schema ({
         type: Schema.Types.ObjectId,
         ref: 'Course'
     },
-    materials: [String]
+    materials: [
+        {
+            url: String,
+            filename: String,
+            type: {
+                type: String,
+                enum: ['file', 'link']
+            }
+	    }
+    ]
     // assignments:
 });
 
