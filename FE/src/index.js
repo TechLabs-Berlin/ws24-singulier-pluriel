@@ -10,6 +10,7 @@ import Courses from "./pages/courses";
 import { ChakraProvider } from "@chakra-ui/react";
 // Import BrowserRouter, Routes, and Route from react-router-dom
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+// Import react-query
 import { QueryClient, QueryClientProvider } from "react-query";
 const queryClient = new QueryClient();
 //Get a reference to the div with ID root
@@ -24,8 +25,10 @@ root.render(
       <BrowserRouter>
         <QueryClientProvider client={queryClient}>
           <Routes>
-            <Route path="/" element={<App />} />
-            <Route path="/login" element={<Login />} />
+            <Route path="/" element={<Login />} />
+            {/* Show Login as the default route */}
+            <Route path="/main" element={<App />} />
+            {/* Main page after login */}
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/courses" element={<Courses />} />
             {/* Placeholder to add more Route components here for other paths */}

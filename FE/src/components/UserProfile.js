@@ -1,53 +1,65 @@
-import { useQuery } from "react-query";
+import React from "react";
 import axios from "axios";
+import { useQuery } from "react-query";
+import { useNavigate } from "react-router-dom";
 import {
   Box,
-  Text,
   Button,
   VStack,
-  HStack,
-  useColorModeValue,
   Avatar,
+  Text,
+  useToast,
+  useColorModeValue,
   CircularProgress,
 } from "@chakra-ui/react";
 
-// Fetch function is outside of component
+// Fetch function to get user data - test api
 const fetchUserData = async () => {
-  const { data } = await axios.get("https://swapi.dev/api/people/1/");
-  const [name, surname] = data.name.split(" ");
-  return { ...data, name, surname: surname || "" };
+  const response = await axios.get("https://swapi.dev/api/people/1/");
+  // Parsing
+  const [firstName, lastName] = response.data.name.split(" ");
+  return { ...response.data, firstName, lastName: lastName || "" };
 };
 
 function UserProfile() {
-  // useQuery hook for fetching user data
+  const navigate = useNavigate();
+  const toast = useToast();
   const {
     data: userData,
     isLoading,
     error,
   } = useQuery("userData", fetchUserData);
-
   const bgColor = useColorModeValue("gray.100", "gray.700");
   const textColor = useColorModeValue("gray.800", "white");
 
-  const handleLogout = () => {
-    console.log("Log out logic here");
-    // Placeholder for logout logic
+  const handleLogout = async () => {
+    try {
+      await axios.get("https://ws24-singulier-pluriel.onrender.com/api/logout");
+      toast({
+        title: "Logout Successful",
+        description: "You have been successfully logged out.",
+        status: "success",
+        duration: 9000,
+        isClosable: true,
+      });
+      navigate("/");
+    } catch (error) {
+      toast({
+        title: "Logout Failed",
+        description: "There was a problem logging you out. Please try again.",
+        status: "error",
+        duration: 9000,
+        isClosable: true,
+      });
+    }
   };
 
   if (isLoading) {
-    return (
-      <Box position="fixed" top="2" right="2" p="2">
-        <CircularProgress isIndeterminate color="blue.300" size="24px" />
-      </Box>
-    );
+    return <CircularProgress isIndeterminate color="blue.500" />;
   }
 
   if (error) {
-    return (
-      <Box position="fixed" top="2" right="2" p="2" bg={bgColor}>
-        <Text fontSize="xs">An error occurred while fetching user data.</Text>
-      </Box>
-    );
+    return <Text>An error occurred while fetching user data.</Text>;
   }
 
   return (
@@ -58,35 +70,25 @@ function UserProfile() {
       position="fixed"
       top="2"
       right="2"
-      p="2"
+      p="4"
       bg={bgColor}
-      borderRadius="md"
+      borderRadius="lg"
       boxShadow="md"
+      width="auto"
     >
-      <HStack spacing="2" alignItems="center">
-        <Avatar size="xs" name={`${userData.name} ${userData.surname}`} />
-        <VStack spacing="1" alignItems="flex-start">
-          <Text fontSize="sm" fontWeight="bold" color={textColor}>
-            {userData.name} {userData.surname}
-          </Text>
-          <Text fontSize="xs" color={textColor}>
-            {userData.title}
-          </Text>
-        </VStack>
-      </HStack>
+      <VStack spacing="2" alignItems="flex-start">
+        <Avatar size="md" name={`${userData.firstName} ${userData.lastName}`} />
+        <Text fontSize="md" fontWeight="bold" color={textColor}>
+          {userData.firstName} {userData.lastName}
+        </Text>
+        <Text fontSize="sm" color={textColor}>
+          {userData.title}
+        </Text>
+      </VStack>
 
-      <HStack spacing="2">
-        <Button
-          size="xs"
-          variant="outline"
-          onClick={() => console.log("Navigate to profile")}
-        >
-          My Profile
-        </Button>
-        <Button size="xs" colorScheme="blue" onClick={handleLogout}>
-          Log Out
-        </Button>
-      </HStack>
+      <Button colorScheme="blue" size="sm" onClick={handleLogout}>
+        Log Out
+      </Button>
     </Box>
   );
 }

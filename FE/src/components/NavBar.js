@@ -10,7 +10,7 @@ const NavBar = () => {
       </Box>
 
       <VStack spacing={4} align="start">
-        <Link as={RouterLink} to="/">
+        <Link as={RouterLink} to="/main">
           Home
         </Link>
         <Link as={RouterLink} to="/communication">
