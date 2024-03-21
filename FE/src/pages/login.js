@@ -3,7 +3,7 @@ import { useState } from "react";
 function Login() {
   const [userType, setUserType] = useState('');
   const [userEmail, setUserEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [password, setPassword] = useState('');gti 
   const [error, setError] = useState('');
 
   const handleUserTypeChange = (type) => {
@@ -13,7 +13,8 @@ function Login() {
     setError('');
   };
 
-  const handleLogin = () => {
+  const handleLogin = (e) => {
+    e.preventDefualt();
     if (!userEmail || !password) {
       setError('Please enter both email and password.');
       return;
@@ -32,6 +33,7 @@ function Login() {
     }
   };
   return (
+    
     <div className="login">
       {/* <a href='./singin.js'>If there need t be sing in Don't Have an Account?</a> */}
       <br />
@@ -41,7 +43,7 @@ function Login() {
         <option value="teacher">Teacher</option>
       </select>
       <br />
-      <form>
+      <form onSubmit={()=>handleLogin(e)}>
         <label>Email:</label>
         <input type="email" value={userEmail} onChange={(e) => setUserEmail(e.target.value)} />
         <br />
