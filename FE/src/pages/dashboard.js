@@ -1,46 +1,21 @@
-import { useQuery } from "react-query";
-import axios from "axios";
-import { Box, Text, CircularProgress } from "@chakra-ui/react";
-
-// Fetch function is outside of component
-const fetchPosts = async () => {
-  const { data } = await axios.get(
-    "https://jsonplaceholder.typicode.com/posts?_limit=2"
-  );
-  return data;
-};
+import { Box, Text } from "@chakra-ui/react";
 
 function Dashboard() {
-  const { data, isLoading, error } = useQuery("posts", fetchPosts);
-
-  if (isLoading) {
-    return <CircularProgress isIndeterminate color="blue.300" />;
-  }
-
-  if (error) {
-    return <Text>An error occurred: {error.message}</Text>;
-  }
-
   return (
     <Box borderWidth="1px" borderRadius="lg" p={4} m={2} overflow="hidden">
-      <Box p={2} backgroundColor="cyan.100" borderRadius="md" mb={4}>
-        <Text fontSize="2xl" mb={4} fontWeight="bold">
+      {/* Blue box for "My Dashboard" */}
+      <Box p={2} backgroundColor="blue.100" borderRadius="md" mb={4}>
+        <Text fontSize="2xl" mb={2} fontWeight="bold" color="black">
           My Dashboard
         </Text>
       </Box>
-      {data.map((item) => (
-        <Box
-          key={item.id}
-          p={2}
-          borderBottomWidth="1px"
-          _hover={{ backgroundColor: "blue.100", cursor: "pointer" }}
-        >
-          <Text fontSize="lg" fontWeight="bold" mb={2}>
-            {item.title}
-          </Text>
-          <Text>{item.body}</Text>
-        </Box>
-      ))}
+      {/* Date and announcement with white background */}
+      <Text fontSize="lg" mb={2} fontWeight="bold">
+        30.01.2024, 11:20
+      </Text>
+      <Text fontSize="lg" fontWeight="bold">
+        Instructions for Extra-Curricular Students Enrolled in Language Classes
+      </Text>
     </Box>
   );
 }
