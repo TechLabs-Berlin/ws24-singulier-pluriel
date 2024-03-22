@@ -40,16 +40,17 @@ store.on('error', function(error){
 });
 
 app.use(session({
-  secret: process.env.SECRET,
-  store,
-  resave: true,
-  saveUninitialized: false,
-  cookie: {
-      sameSite: false,
-      secure: false,
-    //   secure: process.env.NODE_ENV === "production",
-      maxAge: 1000 * 60 * 60 * 24 * 7,
-      httpOnly: true
+    secret: process.env.SECRET,
+    store,
+    resave: true,
+    saveUninitialized: false,
+    rolling: true,
+    cookie: {
+        sameSite: false,
+        secure: false,
+        //   secure: process.env.NODE_ENV === "production",
+        maxAge: 1000 * 60 * 60 * 24 * 7,
+        httpOnly: true
     }
 }));
 
@@ -108,7 +109,7 @@ app.post('/api/auth/login', async (req, res) => {
                 message: 'Wrong email or password.'
             });
         } else if (!user.hash || !user.status){
-            console.log('Wrong email or password.');
+            console.log('Account was not activated.');
             return res.status(403).json({
                 message: 'Account was not activated.'
             });
