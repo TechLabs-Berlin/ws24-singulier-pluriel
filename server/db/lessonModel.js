@@ -21,5 +21,13 @@ const lessonSchema = new Schema ({
     // assignments:
 });
 
+lessonSchema.methods.toJSON = function () {
+    const user = this;
+    const lessonObject = user.toObject();
+
+    delete lessonObject.__v;
+
+    return lessonObject;
+};
 
 module.exports = mongoose.model('Lesson', lessonSchema);

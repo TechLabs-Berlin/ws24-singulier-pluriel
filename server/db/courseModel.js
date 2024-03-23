@@ -62,4 +62,14 @@ courseSchema.post('findOneAndDelete', async function (doc) {
     };
 });
 
+
+courseSchema.methods.toJSON = function () {
+    const user = this;
+    const courseObject = user.toObject();
+
+    delete courseObject.__v;
+
+    return courseObject;
+};
+
 module.exports = mongoose.model('Course', courseSchema);
