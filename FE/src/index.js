@@ -1,17 +1,23 @@
 // Import the React and ReactDOM libraries
 import React from "react";
 import ReactDOM from "react-dom/client";
-//Import App
-import App from "./App";
-import Login from "./pages/login";
-import Dashboard from "./pages/dashboard";
-import Courses from "./pages/courses";
-//Import Chakra
+//Import axios
+import axios from "axios";
+//Import Chakra UI
 import { ChakraProvider } from "@chakra-ui/react";
 // Import BrowserRouter, Routes, and Route from react-router-dom
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 // Import react-query
 import { QueryClient, QueryClientProvider } from "react-query";
+//Import App components
+import App from "./App";
+import Login from "./pages/login";
+import Dashboard from "./pages/dashboard";
+import Courses from "./pages/courses";
+
+//Configure axios to send cookies with every request
+axios.defaults.withCredentials = true;
+
 const queryClient = new QueryClient();
 //Get a reference to the div with ID root
 const el = document.getElementById("root");

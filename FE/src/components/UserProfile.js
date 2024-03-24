@@ -1,7 +1,7 @@
 import React from "react";
-import axios from "axios";
 import { useQuery } from "react-query";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 import {
   Box,
   Button,
@@ -13,12 +13,15 @@ import {
   CircularProgress,
 } from "@chakra-ui/react";
 
-// Fetch function to get user data - test api
+// Enable axios to send cookies with every request
+axios.defaults.withCredentials = true;
+
+// Function to get user data
 const fetchUserData = async () => {
-  const response = await axios.get("https://swapi.dev/api/people/1/");
-  // Parsing
-  const [firstName, lastName] = response.data.name.split(" ");
-  return { ...response.data, firstName, lastName: lastName || "" };
+  const response = await axios.get(
+    "https://ws24-singulier-pluriel.onrender.com/api/userprofile"
+  );
+  return response.data;
 };
 
 function UserProfile() {
@@ -27,8 +30,10 @@ function UserProfile() {
   const {
     data: userData,
     isLoading,
+    isError,
     error,
   } = useQuery("userData", fetchUserData);
+
   const bgColor = useColorModeValue("gray.100", "gray.700");
   const textColor = useColorModeValue("gray.800", "white");
 
@@ -39,7 +44,7 @@ function UserProfile() {
         title: "Logout Successful",
         description: "You have been successfully logged out.",
         status: "success",
-        duration: 9000,
+        duration: 5000,
         isClosable: true,
       });
       navigate("/");
@@ -48,18 +53,28 @@ function UserProfile() {
         title: "Logout Failed",
         description: "There was a problem logging you out. Please try again.",
         status: "error",
-        duration: 9000,
+        duration: 5000,
         isClosable: true,
       });
     }
   };
 
   if (isLoading) {
-    return <CircularProgress isIndeterminate color="blue.500" />;
+    return (
+      <Box display="flex" justifyContent="center">
+        <CircularProgress isIndeterminate color="blue.500" />
+      </Box>
+    );
   }
 
-  if (error) {
-    return <Text>An error occurred while fetching user data.</Text>;
+  if (isError) {
+    return (
+      <Box display="flex" justifyContent="center" p="4" m="4" bg={bgColor}>
+        <Text color={textColor}>
+          An error occurred while fetching user data: {error.message}
+        </Text>
+      </Box>
+    );
   }
 
   return (
@@ -77,12 +92,12 @@ function UserProfile() {
       width="auto"
     >
       <VStack spacing="2" alignItems="flex-start">
-        <Avatar size="md" name={`${userData.firstName} ${userData.lastName}`} />
+        <Avatar size="md" name={`${userData.name}`} />
         <Text fontSize="md" fontWeight="bold" color={textColor}>
-          {userData.firstName} {userData.lastName}
+          {userData.name}
         </Text>
         <Text fontSize="sm" color={textColor}>
-          {userData.title}
+          Role: {userData.role}
         </Text>
       </VStack>
 
