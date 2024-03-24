@@ -46,11 +46,11 @@ app.use(session({
     saveUninitialized: false,
     rolling: true,
     cookie: {
-        sameSite: false,
-        secure: false,
+        sameSite: "none",
+        secure: true,
         //   secure: process.env.NODE_ENV === "production",
         maxAge: 1000 * 60 * 60 * 24 * 7,
-        httpOnly: true
+        httpOnly: false
     }
 }));
 
@@ -178,15 +178,19 @@ app.get('/api/userprofile', isLoggedIn, async (req, res) => {
 app.get('/api/courses', isLoggedIn, async (req, res) => {
     const userId = req.session.user._id;
     try {
-        const user = await User.findOne({ _id: userId }).populate('role courses');
-        const courses = user.courses;
+        let user = await User.findOne({ _id: userId }).populate([{ path: 'role' }, { path: 'courses', select: '-stats -lessons -participants' }]);
+
         if(user.role.name !== 'teacher'){
-            courses = await User.findOne({ _id: userId }).populate({ path: 'courses', match: { 'status': 'Active' } }) ;
+            user = await User.findOne({ _id: userId }).populate([{ path: 'role' }, { path: 'courses', match: { 'status': 'Active' }, select: '-stats -lessons -participants' }]);
         }
-        if(!courses){
+
+        let courses = user.courses;
+
+        if(Object.entries(courses).length === 0){
             console.log('No courses');
-            res.send('No courses found');
+            return res.send('No courses found');
         }
+
         res.send(courses);
     } catch (err) {
         console.log(err);
@@ -199,6 +203,12 @@ app.get('/api/courses/students', isLoggedIn, isTeacher, async (req, res) => {
     try {
         //? All students or only students with active account?
         const allStudents = await User.find({}).populate({ path: 'role', match: { 'name': 'student' } });
+
+        if(Object.entries(allStudents).length === 0){
+            console.log('No students found');
+            return res.send('No students found');
+        }
+
         res.send(allStudents);
     } catch (err) {
         console.log(err);
