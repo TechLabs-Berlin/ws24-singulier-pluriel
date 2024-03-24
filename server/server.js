@@ -46,11 +46,11 @@ app.use(session({
     saveUninitialized: false,
     rolling: true,
     cookie: {
-        sameSite: false,
-        secure: false,
+        sameSite: "none",
+        secure: true,
         //   secure: process.env.NODE_ENV === "production",
         maxAge: 1000 * 60 * 60 * 24 * 7,
-        httpOnly: true
+        httpOnly: false
     }
 }));
 
