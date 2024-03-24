@@ -18,9 +18,7 @@ axios.defaults.withCredentials = true;
 
 // Function to get user data
 const fetchUserData = async () => {
-  const response = await axios.get(
-    "https://ws24-singulier-pluriel.onrender.com/api/userprofile"
-  );
+  const response = await axios.get("/userprofile");
   return response.data;
 };
 
@@ -41,7 +39,7 @@ function UserProfile() {
 
   const handleLogout = async () => {
     try {
-      await axios.get("https://ws24-singulier-pluriel.onrender.com/api/logout");
+      await axios.get("/logout");
       toast({
         title: "Logout Successful",
         description: "You have been successfully logged out.",

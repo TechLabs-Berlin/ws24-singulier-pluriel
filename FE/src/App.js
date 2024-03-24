@@ -1,36 +1,32 @@
-import React from "react";
-import MainCard from "./components/MainCard";
-import SearchBar from "./components/SearchBar";
+import React, { useState } from "react";
+import { Routes, Route, Navigate, Outlet } from "react-router-dom";
+import AuthApi from "./pages/AuthApi";
+import Login from "./pages/login";
+import MainApp from "./pages/MainApp";
 import Dashboard from "./pages/dashboard";
-import UserProfile from "./components/UserProfile";
-import { Flex, Text, Box } from "@chakra-ui/react";
+import Courses from "./pages/courses";
 
 function App() {
+  const [auth, setAuth] = useState(false); // State to keep track of authentication status
+
+  // PrivateRoute component for authentication logic
+  const PrivateRoute = () => {
+    return auth ? <Outlet /> : <Navigate to="/" />;
+  };
+
   return (
-    <Box>
-      <Text fontStyle="italic" m={4}>
-        Universita Libera di Livorno
-      </Text>
-      <UserProfile />
-      <Flex
-        direction="column"
-        alignItems="center"
-        mt={{ base: "100px", md: "24px" }}
-      >
-        <Flex
-          direction={{ base: "column", md: "row" }}
-          wrap="wrap"
-          justifyContent="center"
-          alignItems="center"
-        >
-          <MainCard title="Courses" />
-          <MainCard title="Communication & Announcements" />
-          <MainCard title="Grade Center" />
-        </Flex>
-        <SearchBar />
-        <Dashboard />
-      </Flex>
-    </Box>
+    <AuthApi.Provider value={{ auth, setAuth }}>
+      {" "}
+      {/* Provide the AuthApi context */}
+      <Routes>
+        <Route path="/" element={<Login />} />
+        <Route element={<PrivateRoute />}>
+          <Route path="/main" element={<MainApp />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/courses" element={<Courses />} />
+        </Route>
+      </Routes>
+    </AuthApi.Provider>
   );
 }
 

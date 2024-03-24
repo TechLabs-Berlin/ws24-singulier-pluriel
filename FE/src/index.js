@@ -1,55 +1,35 @@
 // Import the React and ReactDOM libraries
 import React from "react";
 import ReactDOM from "react-dom/client";
-//Import axios
-import axios from "axios";
-//Import Chakra UI
+// Import Chakra UI for styling
 import { ChakraProvider } from "@chakra-ui/react";
-// Import BrowserRouter, Routes, and Route from react-router-dom
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-// Import react-query
+// Import BrowserRouter from react-router-dom for routing
+import { BrowserRouter } from "react-router-dom";
+// Import react-query and configure queryClient
 import { QueryClient, QueryClientProvider } from "react-query";
-//Import App components
+// Import App component
 import App from "./App";
-import Login from "./pages/login";
-import Dashboard from "./pages/dashboard";
-import Courses from "./pages/courses";
 
-//Configure axios to send cookies with every request
+// Configure axios to send credentials with every request
+import axios from "axios";
 axios.defaults.withCredentials = true;
 
-// Create a queryClient with global configuration
+// React Query Client
 const queryClient = new QueryClient({
   defaultOptions: {
-    queries: {
-      retry: false, // Disable retries globally for queries
-    },
-    mutations: {
-      retry: false, // Disable retries globally for mutations
-    },
+    queries: { retry: false }, // Disable retries globally
+    mutations: { retry: false }, // Disable retries globally
   },
 });
 
-//Get a reference to the div with ID root
-const el = document.getElementById("root");
-//Tell React to take control of that element
-const root = ReactDOM.createRoot(el);
-
-//Show the component on the screen wrapped with BrowserRouter and Routes
+// Render the application
+const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
     <ChakraProvider>
       <BrowserRouter>
         <QueryClientProvider client={queryClient}>
-          <Routes>
-            <Route path="/" element={<Login />} />
-            {/* Show Login as the default route */}
-            <Route path="/main" element={<App />} />
-            {/* Main page after login */}
-            <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/courses" element={<Courses />} />
-            {/* Placeholder to add more Route components here for other paths */}
-          </Routes>
+          <App />
         </QueryClientProvider>
       </BrowserRouter>
     </ChakraProvider>

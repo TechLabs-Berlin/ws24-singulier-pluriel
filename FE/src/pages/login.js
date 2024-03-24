@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { useMutation } from "react-query";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import AuthApi from "./AuthApi";
 import {
   Box,
   Button,
@@ -14,18 +15,20 @@ import {
 function Login() {
   const navigate = useNavigate();
   const toast = useToast();
+  const { setAuth } = useContext(AuthApi);
   const [userEmail, setUserEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
 
   const { mutate, isLoading } = useMutation(
     () =>
-      axios.post("https://ws24-singulier-pluriel.onrender.com/api/auth/login", {
+      axios.post("/auth/login", {
+        // Using the proxy setup
         email: userEmail,
         password: password,
       }),
     {
       onSuccess: (response) => {
-        console.log(response.data);
         toast({
           title: "Login successful.",
           description: "You're being redirected to the main page.",
@@ -33,12 +36,14 @@ function Login() {
           duration: 9000,
           isClosable: true,
         });
-        navigate("/main"); // Redirect to main page
+        setAuth(true);
+        navigate("/main"); // Redirect to main page after successful login
       },
       onError: (error) => {
+        setError(error.response?.data.message || "Unable to login.");
         toast({
           title: "An error occurred.",
-          description: error.response.data.message || "Unable to login.",
+          description: error.response?.data.message || "Unable to login.",
           status: "error",
           duration: 9000,
           isClosable: true,
@@ -49,11 +54,16 @@ function Login() {
 
   const handleLogin = (e) => {
     e.preventDefault();
+    if (!userEmail || !password) {
+      setError("Please fill in all fields.");
+      return;
+    }
     mutate();
   };
 
   return (
     <Box maxW="sm" borderWidth="1px" borderRadius="lg" p={4} m="40px auto">
+      {error && <p style={{ color: "red" }}>{error}</p>}
       <form onSubmit={handleLogin}>
         <FormControl id="email" isRequired>
           <FormLabel>Email address</FormLabel>
@@ -63,7 +73,7 @@ function Login() {
             onChange={(e) => setUserEmail(e.target.value)}
           />
         </FormControl>
-        <FormControl id="password" mt={4} isRequired>
+        <FormControl id="password" isRequired mt={4}>
           <FormLabel>Password</FormLabel>
           <Input
             type="password"

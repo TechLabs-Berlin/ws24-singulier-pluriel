@@ -1,6 +1,7 @@
 {
   "name": "ws24-singulier-pluriel",
   "version": "0.1.0",
+  "proxy": "https://ws24-singulier-pluriel.onrender.com/api/",
   "private": true,
   "dependencies": {
     "@chakra-ui/react": "^2.8.2",
