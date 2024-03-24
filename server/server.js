@@ -16,6 +16,7 @@ const multer  = require('multer');
 const { storage } = require('./cloudinary');
 const upload = multer({ storage });
 const cloudinary = require('cloudinary');
+const morgan = require('morgan')
 
 const app = express();
 
@@ -24,6 +25,7 @@ dbConnect();
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cookieParser());
+app.use(morgan('common'));
 app.use(cors({
     origin: "http://localhost:3000",
     methods: ["POST", "PUT", "GET", "DELETE", "OPTIONS", "HEAD"],
@@ -83,8 +85,6 @@ app.post('/api/auth/account-activation', async (req, res) => {
 
         req.session.user = userInfo;
 
-        console.log('Account activated')
-
         res.json({
             message: 'Account activated!',
             accountStatus: 'active',
@@ -120,8 +120,6 @@ app.post('/api/auth/login', async (req, res) => {
             const userInfo = { _id, sid, role };
             
             req.session.user = userInfo;
-
-            console.log('User authenticated')
 
             res.json({
                 message: 'Authentication successful!',
@@ -165,7 +163,6 @@ app.get('/api/userprofile', isLoggedIn, async (req, res) => {
     const userId = req.session.user._id;
     try {
         const user = await User.findOne({ _id: userId }).populate('role');
-        console.log(user)
         res.json({ name: `${ user.firstname } ${ user.lastname }`, role: user.role.name });
     } catch (err) {
         console.log(err);
@@ -289,7 +286,6 @@ app.put('/api/courses/:courseId', isLoggedIn, isTeacher, upload.single('image'),
         const updatedData = req.body;
         //? Add logic to make course editable only if userId === course.createdBy ID
         const updatedCourse = await Course.findOneAndUpdate({ _id: courseId }, updatedData, { new: true });
-        console.log(updatedCourse)
         // New image to replace existing one
         if(req.file && updatedCourse.image.filename){
             const publicId = updatedCourse.image.filename;
