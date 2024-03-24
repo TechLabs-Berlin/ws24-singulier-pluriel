@@ -18,7 +18,18 @@ import Courses from "./pages/courses";
 //Configure axios to send cookies with every request
 axios.defaults.withCredentials = true;
 
-const queryClient = new QueryClient();
+// Create a queryClient with global configuration
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      retry: false, // Disable retries globally for queries
+    },
+    mutations: {
+      retry: false, // Disable retries globally for mutations
+    },
+  },
+});
+
 //Get a reference to the div with ID root
 const el = document.getElementById("root");
 //Tell React to take control of that element

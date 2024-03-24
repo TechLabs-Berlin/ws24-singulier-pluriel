@@ -32,7 +32,9 @@ function UserProfile() {
     isLoading,
     isError,
     error,
-  } = useQuery("userData", fetchUserData);
+  } = useQuery("userData", fetchUserData, {
+    retry: false, // Disable retry for fetching user data
+  });
 
   const bgColor = useColorModeValue("gray.100", "gray.700");
   const textColor = useColorModeValue("gray.800", "white");
