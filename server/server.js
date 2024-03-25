@@ -260,10 +260,47 @@ app.post('/api/courses', isLoggedIn, isTeacher, upload.single('image'), async (r
 });
 
 
-app.put('/api/courses/:courseId/publish', isLoggedIn, isTeacher, async (req, res) => {
-    const courseId = req.params.courseId;
-    const course = await Course.findOneAndUpdate({ _id: courseId }, {status: 'Active'}, { new: true });
-    res.send({ message: 'Course published!', courseId: course._id, courseStatus: course.status });
+// app.put('/api/courses/:courseId/publish', isLoggedIn, isTeacher, async (req, res) => {
+//     try {
+//         const courseId = req.params.courseId;
+//         const course = await Course.findOneAndUpdate({ _id: courseId }, { status: 'Active' }, { new: true });
+//         res.send({ message: 'Course published!', courseId: course._id, courseStatus: course.status });
+//     } catch (err) {
+//         console.log(err);
+//         res.send(err);
+//     }
+// });
+
+
+// app.put('/api/courses/:courseId/unpublish', isLoggedIn, isTeacher, async (req, res) => {
+//     try {
+//         const courseId = req.params.courseId;
+//         const course = await Course.findOneAndUpdate({ _id: courseId }, { status: 'In Preparation' }, { new: true });
+//         res.send({ message: 'Course unpublished!', courseId: course._id, courseStatus: course.status });
+//     } catch (err) {
+//         console.log(err);
+//         res.send(err);
+//     }
+// });
+
+
+app.put('/api/courses/:courseId/toggle-publish', isLoggedIn, isTeacher, async (req, res) => {
+    try {
+        const courseId = req.params.courseId;
+        const course = await Course.findOne({ _id: courseId });
+        if(course.status === 'Active'){
+            course.status = 'In Preparation';
+            await course.save();
+            res.send({ message: 'Course unpublished!', courseId: course._id, courseStatus: course.status });
+        } else {
+            course.status = 'Active';
+            await course.save();
+            res.send({ message: 'Course published!', courseId: course._id, courseStatus: course.status });
+        };   
+    } catch (err) {
+        console.log(err);
+        res.send(err);
+    }
 });
 
 
