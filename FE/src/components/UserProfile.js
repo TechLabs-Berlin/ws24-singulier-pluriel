@@ -13,9 +13,7 @@ function UserProfile() {
 
   return (
     <Box
-      position="fixed"
-      top={4}
-      right={4}
+      position="relative"
       p={4}
       bg={bgColor}
       borderRadius="md"

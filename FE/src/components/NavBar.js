@@ -1,5 +1,6 @@
 import { Box, Text, Image, VStack, Link } from "@chakra-ui/react";
 import { Link as RouterLink } from "react-router-dom";
+import UserProfile from "./UserProfile";
 
 const NavBar = () => {
   return (
@@ -7,6 +8,9 @@ const NavBar = () => {
       <Box mb={8} textAlign="center">
         <Image src="http://via.placeholder.com/50x80" alt="Logo" mx="auto" />
         <Text mt={2}>The Logo Text</Text>
+      </Box>
+      <Box>
+        <UserProfile />
       </Box>
 
       <VStack spacing={4} align="start">
