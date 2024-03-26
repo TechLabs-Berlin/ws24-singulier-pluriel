@@ -3,8 +3,8 @@ import { Routes, Route, Navigate, Outlet } from "react-router-dom";
 import AuthApi from "./pages/AuthApi";
 import Login from "./pages/login";
 import MainApp from "./pages/MainApp";
-import Dashboard from "./pages/dashboard";
 import Courses from "./pages/courses";
+import CourseDetail from "./components/CourseDetail";
 
 function App() {
   const [auth, setAuth] = useState(false); // State to keep track of authentication status
@@ -16,14 +16,12 @@ function App() {
 
   return (
     <AuthApi.Provider value={{ auth, setAuth }}>
-      {" "}
-      {/* Provide the AuthApi context */}
       <Routes>
         <Route path="/" element={<Login />} />
         <Route element={<PrivateRoute />}>
           <Route path="/main" element={<MainApp />} />
-          <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/courses" element={<Courses />} />
+          <Route path="/course-detail/:courseId" element={<CourseDetail />} />
         </Route>
       </Routes>
     </AuthApi.Provider>

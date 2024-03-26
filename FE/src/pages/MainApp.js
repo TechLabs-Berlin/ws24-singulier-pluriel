@@ -2,7 +2,7 @@ import React from "react";
 import UserProfile from "../components/UserProfile";
 import MainCard from "../components/MainCard";
 import SearchBar from "../components/SearchBar";
-import Dashboard from "./dashboard";
+import Dashboard from "../components/dashboard";
 import { Box, Text, Flex } from "@chakra-ui/react";
 
 const MainApp = () => {

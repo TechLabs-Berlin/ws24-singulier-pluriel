@@ -6,7 +6,9 @@ const NavBar = () => {
     <Box w="20%" p={5} bg="gray.100" minH="100vh">
       <Box mb={8} textAlign="center">
         <Image src="http://via.placeholder.com/50x80" alt="Logo" mx="auto" />
-        <Text mt={2}>The Logo Text</Text>
+        <Text fontStyle="italic" m="4">
+          Universita Libera di Livorno
+        </Text>
       </Box>
 
       <VStack spacing={4} align="start">
