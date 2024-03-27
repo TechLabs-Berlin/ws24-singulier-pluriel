@@ -35,7 +35,22 @@ const courseSchema = new Schema ({
     createdBy: {
         type: Schema.Types.ObjectId,
         ref: 'User'
-    }
+    },
+    stats: [
+	    {
+		    student: {
+                type: Schema.Types.ObjectId,
+                ref: 'User'
+            },
+		    score: Number,
+		    attendance: Number,
+		    feedback: { 
+                learning: Number,
+                organization: Number,
+                quality: Number
+            }
+	    }
+    ]
 });
 
 courseSchema.post('findOneAndDelete', async function (doc) {
