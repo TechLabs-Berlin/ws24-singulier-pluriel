@@ -1,3 +1,7 @@
+if(process.env.NODE_ENV !== 'production'){
+    require('dotenv').config();
+}
+
 const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
@@ -150,7 +154,6 @@ app.get('/api/logout', function (req, res) {
             });
         }
     })
-    console.log('User logged out!');
 
     res.json({
         message: 'User logged out!',
@@ -369,20 +372,34 @@ app.delete('/api/courses/:courseId', isLoggedIn, isTeacher, async (req, res) => 
 })
 
 // Display all modules of a course (shared)
-// app.get('/courses/:id/modules')
-
-// Create new module in a course (teachers only)
-app.post('/api/courses/:courseId/modules', isLoggedIn, isTeacher, async (req, res) => {
+app.get('/api/courses/:courseId/modules', isLoggedIn, async (req, res) => {
     try {
         const courseId = req.params.courseId;
-        const { title, materials } = req.body;
+        const modules = await Lesson.find({ courseId });
+        res.send(modules);
+    } catch (err) {
+        console.log(err);
+        res.status(400).json({ message: err });
+    };
+});
+
+
+// Create new module in a course (teachers only)
+app.post('/api/courses/:courseId/modules', isLoggedIn, isTeacher, upload.array('files'), async (req, res) => {
+    //TODO FE needs to send formaData with header "Content-Type": "multipart/form-data"
+    try {
+        const courseId = req.params.courseId;
+        const { title, link } = req.body;
         const course = await Course.findOne({ _id: courseId });
-        const module = new Lesson({
-            title,
-            materials
-        });
+        const module = new Lesson({ title });
+        if(req.files){
+            module.materials = req.files.map(f => ({ url: f.path, filename: f.filename, type: 'file' }));
+        };
+        if(link){
+            module.materials.push({ url: link, type: 'link' });
+        };
         module.courseId = courseId;
-        course.lessons.push(module)
+        course.lessons.push(module);
         await module.save();
         await course.save();
 
@@ -393,28 +410,46 @@ app.post('/api/courses/:courseId/modules', isLoggedIn, isTeacher, async (req, re
     }
 })
 
-// Update module properties in DB (teachers only)
-app.put('/api/courses/:courseId/modules/:moduleId', isLoggedIn, isTeacher, async (req, res) => {
+// Update module title, add new materials (link, files) (teachers only)
+app.put('/api/courses/:courseId/modules/:moduleId', isLoggedIn, isTeacher, upload.array('files'), async (req, res) => {
     try {
         const moduleId = req.params.moduleId;
-        const updatedData = req.body;
-        const updatedModule = await Lesson.findOneAndUpdate( { _id: moduleId } , updatedData, { new: true } );
-        //? Add logic for updating materials in Cloud Store
-        res.json({ message: 'Module updated', updatedModule });
+        const { title, link } = req.body;
+        const currentModule = await Lesson.findOne({ _id: moduleId });
+        if(title && title !== currentModule.title){
+            currentModule.title = title;
+            console.log('Updating title!')
+        };
+        if(link){
+            const newLink = { url: link, type: 'link'};
+            currentModule.materials.push(newLink);
+            console.log('Updating link!')
+        };
+        if(req.files != ''){
+            const newFile = req.files.map(f => ({ url: f.path, filename: f.filename, type: 'file' }));
+            console.log(newFile)
+            for (file of newFile){
+                currentModule.materials.push(file);
+                console.log('Adding file!')
+            }
+        };
+        await currentModule.save();
+        
+        res.json({ message: 'Module updated', currentModule });
     } catch (err) {
         console.log(err);
         res.status(400).json({ message: err });
     }
 })
 
+
 // Delete module (teachers only)
 app.delete('/api/courses/:courseId/modules/:moduleId', isLoggedIn, isTeacher, async (req, res) => {
     try {
         const courseId = req.params.courseId;
         const moduleId = req.params.moduleId;
-        const updatedCourse = await Course.updateOne({ _id: courseId }, { $pull: { lessons: moduleId } });
+        await Course.updateOne({ _id: courseId }, { $pull: { lessons: moduleId } });
         await Lesson.findOneAndDelete({ _id: moduleId });
-        //? Add DB middleware for deleting all materials in Cloud Store
         res.json({ message: 'Module deleted' });
     } catch (err) {
         console.log(err);
@@ -422,7 +457,31 @@ app.delete('/api/courses/:courseId/modules/:moduleId', isLoggedIn, isTeacher, as
     }
 })
 
+// Delete specific material (teachers only)
+app.delete('/api/courses/:courseId/modules/:moduleId/:matId', isLoggedIn, isTeacher, async (req, res) => {
+        //? Add logic to make course editable only if userId === course.createdBy ID
+        try { 
+            const moduleId = req.params.moduleId;
+            const matId = req.params.matId;
+            const findMat = await Lesson.findOne({ _id: moduleId }, { materials: { $elemMatch: { _id: matId }}});
+            const material = findMat.materials[0];
+            console.log(findMat.materials[0])
+            if(material.filename){
+                let cloudId = material.filename
+                cloudId = cloudId.replace('singulier-pluriel/', '');
+                cloudinary.v2.uploader.destroy(cloudId);
+            };
+            
+            await Lesson.updateOne({ _id: moduleId }, {
+                $pull: { materials: { _id: matId }}
+            });
 
+            res.json({ message: 'Material deleted' });
+        } catch (err) {
+            console.log(err);
+            res.status(400).json({ message: err });
+        };
+});
 
 
 // app.get('/api/test/getdata', async (req, res) => {

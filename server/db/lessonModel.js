@@ -1,9 +1,10 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+const cloudinary = require('cloudinary');
 
 const lessonSchema = new Schema ({
     title: String,
-    description: String,
+    // description: String,
     courseId: {
         type: Schema.Types.ObjectId,
         ref: 'Course'
@@ -20,6 +21,25 @@ const lessonSchema = new Schema ({
     ]
     // assignments:
 });
+
+
+lessonSchema.post('findOneAndDelete', async function (doc) {
+    try {
+        let materials = doc.materials;
+        if(materials){
+            for(mat of materials){
+                if(mat.filename){
+                    let fileId = mat.filename;
+                    fileId = fileId.replace('/singulier-pluriel', '');
+                    cloudinary.v2.uploader.destroy(fileId);
+                };
+            };
+        };
+    } catch (err) {
+        console.log(err)
+    }
+});
+
 
 lessonSchema.methods.toJSON = function () {
     const user = this;
