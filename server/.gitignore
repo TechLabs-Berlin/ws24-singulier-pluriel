@@ -1,5 +1,4 @@
 node_modules/
 .env
-auth.js
 server_old.js
 seed/

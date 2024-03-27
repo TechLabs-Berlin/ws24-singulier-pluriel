@@ -21,3 +21,6 @@ module.exports.isTeacher = (req, res, next) => {
     };
     next();
 }
+
+
+//! Add TryCatch middleware for async functions
