@@ -398,6 +398,9 @@ app.post('/api/courses/:courseId/modules', isLoggedIn, isTeacher, upload.array('
     try {
         const courseId = req.params.courseId;
         const { title, link } = req.body;
+        if(!title){
+            return res.json({ message: 'Title cannot be empty'});
+        };
         const course = await Course.findOne({ _id: courseId });
         const module = new Lesson({ title });
         if(req.files){
@@ -476,7 +479,7 @@ app.delete('/api/courses/:courseId/modules/:moduleId/:matId', isLoggedIn, isTeac
             console.log(findMat.materials[0])
             if(material.filename){
                 let cloudId = material.filename
-                cloudId = cloudId.replace('singulier-pluriel/', '');
+                cloudId.replace('singulier-pluriel/', '');
                 cloudinary.v2.uploader.destroy(cloudId);
             };
             
