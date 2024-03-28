@@ -4,7 +4,7 @@ import { useQuery } from "react-query";
 import axios from "axios";
 
 // Hardcoded course ID for testing
-const courseId = "65f759075c4fed3b11c0656e";
+const courseId = "66058984b6a2fc1cae5f6d83";
 
 const fetchCourseDetails = async () => {
   const { data } = await axios.get(`/courses/${courseId}`);
