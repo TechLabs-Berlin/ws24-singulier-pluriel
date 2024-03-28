@@ -476,7 +476,6 @@ app.delete('/api/courses/:courseId/modules/:moduleId/:matId', isLoggedIn, isTeac
             const matId = req.params.matId;
             const findMat = await Lesson.findOne({ _id: moduleId }, { materials: { $elemMatch: { _id: matId }}});
             const material = findMat.materials[0];
-            console.log(findMat.materials[0])
             if(material.filename){
                 let cloudId = material.filename
                 cloudId.replace('singulier-pluriel/', '');
