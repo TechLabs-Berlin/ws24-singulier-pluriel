@@ -328,8 +328,8 @@ app.put('/api/courses/:courseId', isLoggedIn, isTeacher, upload.single('image'),
         const updatedCourse = await Course.findOneAndUpdate({ _id: courseId }, updatedData, { new: true });
         // New image to replace existing one
         if(req.file && updatedCourse.image.filename){
-            const publicId = updatedCourse.image.filename;
-            publicId.replace('singulier-pluriel/', '');
+            let publicId = updatedCourse.image.filename;
+            publicId = publicId.replace('singulier-pluriel/', '');
             cloudinary.v2.uploader.destroy(publicId).then(result=>console.log(result));
 
             updatedCourse.image.url = req.file.path;
@@ -342,8 +342,8 @@ app.put('/api/courses/:courseId', isLoggedIn, isTeacher, upload.single('image'),
             await updatedCourse.save();
         } // Only delete existing image without replacement 
         else if (!req.file && req.body.deleteImage){
-            const publicId = updatedCourse.image.filename;
-            publicId.replace('singulier-pluriel/', '');
+            let publicId = updatedCourse.image.filename;
+            publicId = publicId.replace('singulier-pluriel/', '');
             cloudinary.v2.uploader.destroy(publicId).then(result=>console.log(result));
 
             updatedCourse.image = undefined;
@@ -418,19 +418,19 @@ app.put('/api/courses/:courseId/modules/:moduleId', isLoggedIn, isTeacher, uploa
         const currentModule = await Lesson.findOne({ _id: moduleId });
         if(title && title !== currentModule.title){
             currentModule.title = title;
-            console.log('Updating title!')
+            // console.log('Updating title!')
         };
         if(link){
             const newLink = { url: link, type: 'link'};
             currentModule.materials.push(newLink);
-            console.log('Updating link!')
+            // console.log('Updating link!')
         };
         if(req.files != ''){
             const newFile = req.files.map(f => ({ url: f.path, filename: f.filename, type: 'file' }));
             console.log(newFile)
             for (file of newFile){
                 currentModule.materials.push(file);
-                console.log('Adding file!')
+                // console.log('Adding file!')
             }
         };
         await currentModule.save();
