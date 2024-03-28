@@ -12,7 +12,7 @@ function MainCard({ title }) {
       case "Courses":
         path = "/courses";
         break;
-      case "Communication & Announcements":
+      case "Communication":
         path = "/communication";
         break;
       case "Grade Center":

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Routes, Route, Navigate, Outlet } from "react-router-dom";
-import AuthApi from "./pages/AuthApi";
+import AuthApi from "./AuthApi";
 import Login from "./pages/login";
 import MainApp from "./pages/MainApp";
 import Courses from "./pages/courses";

@@ -2,7 +2,7 @@ import { useState, useContext } from "react";
 import { useMutation } from "react-query";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import AuthApi from "./AuthApi";
+import AuthApi from "../AuthApi";
 import {
   Box,
   Button,

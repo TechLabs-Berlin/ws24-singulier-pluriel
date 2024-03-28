@@ -15,7 +15,7 @@ const MainApp = () => {
       <Flex direction="column" align="center" mt="4">
         <Flex wrap="wrap" justify="center" gap="4">
           <MainCard title="Courses" />
-          <MainCard title="Communication & Announcements" />
+          <MainCard title="Communication" />
           <MainCard title="Grade Center" />
         </Flex>
         <SearchBar />

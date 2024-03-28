@@ -9,6 +9,8 @@ import { BrowserRouter } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "react-query";
 // Import App component
 import App from "./App";
+import AuthApi from "./AuthApi";
+import { NavigationProvider } from "./NavigationContext";
 
 // Configure axios to send credentials with every request
 import axios from "axios";
@@ -29,7 +31,17 @@ root.render(
     <ChakraProvider>
       <BrowserRouter>
         <QueryClientProvider client={queryClient}>
-          <App />
+          <AuthApi.Provider
+            value={
+              {
+                /*Placeholder*/
+              }
+            }
+          >
+            <NavigationProvider>
+              <App />
+            </NavigationProvider>
+          </AuthApi.Provider>
         </QueryClientProvider>
       </BrowserRouter>
     </ChakraProvider>
