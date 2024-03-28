@@ -323,13 +323,17 @@ app.get('/api/courses/:courseId', isLoggedIn, async (req, res) => {
 app.put('/api/courses/:courseId', isLoggedIn, isTeacher, upload.single('image'), async (req, res) => {
     try {
         const courseId = req.params.courseId;
-        const updatedData = req.body;
+        const { title, description, csid } = req.body;
         //? Add logic to make course editable only if userId === course.createdBy ID
-        const updatedCourse = await Course.findOneAndUpdate({ _id: courseId }, updatedData, { new: true });
+        if(!title){
+            return res.json({ message: 'Title cannot be empty'});
+        };
+        let updatedCourse = await Course.findOneAndUpdate({ _id: courseId }, { title, description, csid });
+
         // New image to replace existing one
         if(req.file && updatedCourse.image.filename){
             let publicId = updatedCourse.image.filename;
-            publicId = publicId.replace('singulier-pluriel/', '');
+            publicId.replace('singulier-pluriel/', '');
             cloudinary.v2.uploader.destroy(publicId).then(result=>console.log(result));
 
             updatedCourse.image.url = req.file.path;
@@ -341,15 +345,20 @@ app.put('/api/courses/:courseId', isLoggedIn, isTeacher, upload.single('image'),
             updatedCourse.image.filename = req.file.filename;
             await updatedCourse.save();
         } // Only delete existing image without replacement 
-        else if (!req.file && req.body.deleteImage){
+        else if (!req.file && req.body.deleteImage === true){
             let publicId = updatedCourse.image.filename;
-            publicId = publicId.replace('singulier-pluriel/', '');
+            publicId.replace('singulier-pluriel/', '');
             cloudinary.v2.uploader.destroy(publicId).then(result=>console.log(result));
 
             updatedCourse.image = undefined;
             await updatedCourse.save();
         }
 
+        updatedCourse = updatedCourse.toObject();
+        delete updatedCourse.stats;
+        delete updatedCourse.__v;
+
+        console.log(updatedCourse)
         res.json({ message: 'Course updated', updatedCourse });
     } catch (err) {
         console.log(err);

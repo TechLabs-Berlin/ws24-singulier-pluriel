@@ -89,10 +89,11 @@ courseSchema.post('findOneAndDelete', async function (doc) {
 
 
 courseSchema.methods.toJSON = function () {
-    const user = this;
-    const courseObject = user.toObject();
+    const course = this;
+    const courseObject = course.toObject();
 
     delete courseObject.__v;
+    delete courseObject.stats;
 
     return courseObject;
 };
