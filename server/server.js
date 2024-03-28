@@ -328,7 +328,7 @@ app.put('/api/courses/:courseId', isLoggedIn, isTeacher, upload.single('image'),
         if(!title){
             return res.json({ message: 'Title cannot be empty'});
         };
-        let updatedCourse = await Course.findOneAndUpdate({ _id: courseId }, { title, description, csid });
+        let updatedCourse = await Course.findOneAndUpdate({ _id: courseId }, { title, description, csid }, { new: true });
 
         // New image to replace existing one
         if(req.file && updatedCourse.image.filename){
@@ -358,7 +358,6 @@ app.put('/api/courses/:courseId', isLoggedIn, isTeacher, upload.single('image'),
         delete updatedCourse.stats;
         delete updatedCourse.__v;
 
-        console.log(updatedCourse)
         res.json({ message: 'Course updated', updatedCourse });
     } catch (err) {
         console.log(err);
