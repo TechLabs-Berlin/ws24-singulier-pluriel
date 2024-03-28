@@ -345,7 +345,7 @@ app.put('/api/courses/:courseId', isLoggedIn, isTeacher, upload.single('image'),
             updatedCourse.image.filename = req.file.filename;
             await updatedCourse.save();
         } // Only delete existing image without replacement 
-        else if (!req.file && req.body.deleteImage != false){
+        else if (!req.file && req.body.deleteImage === 'true'){
             let publicId = updatedCourse.image.filename;
             publicId.replace('singulier-pluriel/', '');
             cloudinary.v2.uploader.destroy(publicId).then(result=>console.log(result));
