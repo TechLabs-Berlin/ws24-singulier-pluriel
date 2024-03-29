@@ -9,9 +9,6 @@ const NavBar = () => {
         <Image src="http://via.placeholder.com/50x80" alt="Logo" mx="auto" />
         <Text mt={2}>The Logo Text</Text>
       </Box>
-      <Box>
-        <UserProfile />
-      </Box>
 
       <VStack spacing={4} align="start">
         <Link as={RouterLink} to="/">
@@ -23,6 +20,9 @@ const NavBar = () => {
         <Link as={RouterLink} to="/grade-center">
           Grade Center
         </Link>
+        <Box>
+          <UserProfile />
+        </Box>
       </VStack>
     </Box>
   );
