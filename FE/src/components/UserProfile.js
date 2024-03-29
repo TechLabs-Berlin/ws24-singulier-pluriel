@@ -92,12 +92,12 @@ function UserProfile() {
       width="auto"
     >
       <VStack spacing="2" alignItems="flex-start">
-        <Avatar size="md" name={`${userData.name}`} />
+        <Avatar size="sm" name={`${userData.name}`} />
         <Text fontSize="md" fontWeight="bold" color={textColor}>
           {userData.name}
         </Text>
         <Text fontSize="sm" color={textColor}>
-          Role: {userData.role}
+          {userData.role}
         </Text>
       </VStack>
 
