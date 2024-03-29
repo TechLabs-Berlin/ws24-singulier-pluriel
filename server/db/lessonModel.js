@@ -42,8 +42,8 @@ lessonSchema.post('findOneAndDelete', async function (doc) {
 
 
 lessonSchema.methods.toJSON = function () {
-    const user = this;
-    const lessonObject = user.toObject();
+    const lesson = this;
+    const lessonObject = lesson.toObject();
 
     delete lessonObject.__v;
 

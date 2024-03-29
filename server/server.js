@@ -312,8 +312,12 @@ app.get('/api/courses/:courseId', isLoggedIn, async (req, res) => {
     try {
         const courseId = req.params.courseId;
         const course = await Course.findOne({ _id: courseId }).populate('lessons');
+        if(!course){
+            return res.status(404).json({ message: 'No course found.' })
+        };
         res.send(course);
     } catch (err) {
+        console.log(err);
         res.send(err);
     }
 });
