@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   Button,
   Modal,
@@ -11,19 +11,19 @@ import {
   useDisclosure,
   Text,
 } from "@chakra-ui/react";
+import axios from "axios";
 
-const DeleteModuleButton = () => {
+const DeleteModuleButton = ({ courseId, moduleId, onModuleDeleted }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [isLoading, setIsLoading] = useState(false);
 
   const handleDelete = async () => {
-    setIsLoading(true);
-    // Placeholder API call
-    setTimeout(() => {
-      console.log("Module deleted");
-      setIsLoading(false);
-      onClose(); // Close modal
-    }, 1000);
+    try {
+      await axios.delete(`/courses/${courseId}/modules/${moduleId}`);
+      onClose();
+      onModuleDeleted(moduleId);
+    } catch (error) {
+      console.error("Failed to delete module:", error);
+    }
   };
 
   return (
@@ -43,14 +43,10 @@ const DeleteModuleButton = () => {
           </ModalBody>
 
           <ModalFooter>
-            <Button variant="ghost" mr={3} onClick={onClose}>
+            <Button variant="ghost" onClick={onClose}>
               No
             </Button>
-            <Button
-              colorScheme="blue"
-              onClick={handleDelete}
-              isLoading={isLoading}
-            >
+            <Button colorScheme="red" onClick={handleDelete}>
               Yes
             </Button>
           </ModalFooter>

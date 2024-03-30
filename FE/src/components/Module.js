@@ -20,6 +20,7 @@ import EditModuleButton from "./EditModuleButton";
 // Hardcoded course ID for testing only
 const courseId = "6605898db6a2fc1cae5f6e18";
 
+//Get course modules
 const fetchCourseModules = async () => {
   const { data } = await axios.get(`/courses/${courseId}/modules`);
   return data;
@@ -40,6 +41,15 @@ const Module = () => {
     if (data) setModules(data);
   }, [data]);
 
+  //Handle delete module
+  const handleModuleDeleted = (deletedModuleId) => {
+    const updatedModules = modules.filter(
+      (module) => module._id !== deletedModuleId
+    );
+    setModules(updatedModules);
+  };
+
+  //Handle delete course materials
   const handleMaterialDeleted = (moduleId, materialId) => {
     const updatedModules = modules.map((module) => {
       if (module._id === moduleId) {
@@ -71,7 +81,11 @@ const Module = () => {
             </Text>
             <HStack spacing={2}>
               <EditModuleButton />
-              <DeleteModuleButton />
+              <DeleteModuleButton
+                courseId={courseId}
+                moduleId={module._id}
+                onModuleDeleted={handleModuleDeleted}
+              />
             </HStack>
           </Flex>
           <Flex>
