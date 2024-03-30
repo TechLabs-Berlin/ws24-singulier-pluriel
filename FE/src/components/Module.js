@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
   Box,
   Text,
@@ -12,13 +12,13 @@ import {
 } from "@chakra-ui/react";
 import { useQuery } from "react-query";
 import axios from "axios";
+import MaterialDeleteButton from "./MaterialDeleteButton";
 
 // Hardcoded course ID for testing only
 const courseId = "6605898db6a2fc1cae5f6e18";
 
 const fetchCourseModules = async () => {
   const { data } = await axios.get(`/courses/${courseId}/modules`);
-  console.log(data);
   return data;
 };
 
@@ -26,13 +26,31 @@ const fetchCourseModules = async () => {
 const genericIconUrl = "/assets/icon.jpg";
 
 const Module = () => {
-  const {
-    data: modules,
-    isLoading,
-    error,
-  } = useQuery(["courseModules", courseId], fetchCourseModules, {
-    retry: false,
-  });
+  const { data, isLoading, error } = useQuery(
+    ["courseModules", courseId],
+    fetchCourseModules,
+    { retry: false }
+  );
+  const [modules, setModules] = useState([]);
+
+  useEffect(() => {
+    if (data) setModules(data);
+  }, [data]);
+
+  const handleMaterialDeleted = (moduleId, materialId) => {
+    const updatedModules = modules.map((module) => {
+      if (module._id === moduleId) {
+        return {
+          ...module,
+          materials: module.materials.filter(
+            (material) => material._id !== materialId
+          ),
+        };
+      }
+      return module;
+    });
+    setModules(updatedModules);
+  };
 
   if (isLoading) return <CircularProgress isIndeterminate color="blue.500" />;
   if (error) return <Text>An error occurred: {error.message}</Text>;
@@ -44,12 +62,12 @@ const Module = () => {
       </Text>
       {modules?.map((module) => (
         <Box key={module._id} borderWidth="1px" p={5} shadow="md">
-          {/* Module Title and Buttons */}
           <Flex justifyContent="space-between" alignItems="center" mb={4}>
             <Text fontSize="lg" fontWeight="semibold">
               {module.title}
             </Text>
             <HStack spacing={2}>
+              {/* Placeholder buttons for now */}
               <Button size="sm" colorScheme="blue">
                 Edit Module
               </Button>
@@ -58,7 +76,6 @@ const Module = () => {
               </Button>
             </HStack>
           </Flex>
-          {/* Materials and Assignments boxes */}
           <Flex>
             <Box flex={3} pr={4}>
               <VStack spacing={2}>
@@ -82,9 +99,14 @@ const Module = () => {
                         <Text isTruncated>View Material</Text>
                       </HStack>
                     </Link>
-                    <Button size="xs" colorScheme="red">
-                      Delete
-                    </Button>
+                    <MaterialDeleteButton
+                      courseId={courseId}
+                      moduleId={module._id}
+                      materialId={material._id}
+                      onMaterialDeleted={() =>
+                        handleMaterialDeleted(module._id, material._id)
+                      }
+                    />
                   </Flex>
                 ))}
               </VStack>
@@ -93,13 +115,14 @@ const Module = () => {
               <Text fontSize="md" mb={2}>
                 Assignments
               </Text>
+              {/* Placeholder button for now */}
               <Button size="sm" colorScheme="teal">
                 Check/Edit Assignments
               </Button>
             </Box>
           </Flex>
-          {/* Action Buttons */}
           <Flex justifyContent="center" mt={4} gap={2}>
+            {/* Placeholder buttons for now */}
             <Button size="sm" colorScheme="green">
               Upload
             </Button>

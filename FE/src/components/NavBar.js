@@ -24,7 +24,7 @@ const NavBar = () => {
         <Link as={RouterLink} to="/grade-center">
           Grade Center
         </Link>
-        {/* Conditionally render the "Courses" link */}
+        {/* Conditionally render the Courses link */}
         {isCourseDetailPage && (
           <Link as={RouterLink} to="/courses">
             Courses
