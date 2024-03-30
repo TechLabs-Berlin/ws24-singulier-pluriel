@@ -12,7 +12,10 @@ import {
 } from "@chakra-ui/react";
 import { useQuery } from "react-query";
 import axios from "axios";
+//Import buttons
 import MaterialDeleteButton from "./MaterialDeleteButton";
+import DeleteModuleButton from "./DeleteModuleButton";
+import EditModuleButton from "./EditModuleButton";
 
 // Hardcoded course ID for testing only
 const courseId = "6605898db6a2fc1cae5f6e18";
@@ -67,13 +70,8 @@ const Module = () => {
               {module.title}
             </Text>
             <HStack spacing={2}>
-              {/* Placeholder buttons for now */}
-              <Button size="sm" colorScheme="blue">
-                Edit Module
-              </Button>
-              <Button size="sm" colorScheme="red">
-                Delete Module
-              </Button>
+              <EditModuleButton />
+              <DeleteModuleButton />
             </HStack>
           </Flex>
           <Flex>
