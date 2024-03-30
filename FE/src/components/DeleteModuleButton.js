@@ -46,7 +46,7 @@ const DeleteModuleButton = ({ courseId, moduleId, onModuleDeleted }) => {
             <Button variant="ghost" onClick={onClose}>
               No
             </Button>
-            <Button colorScheme="red" onClick={handleDelete}>
+            <Button colorScheme="blue" onClick={handleDelete}>
               Yes
             </Button>
           </ModalFooter>

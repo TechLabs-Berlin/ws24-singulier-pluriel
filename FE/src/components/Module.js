@@ -49,6 +49,17 @@ const Module = () => {
     setModules(updatedModules);
   };
 
+  //Handle edit module
+  const handleModuleUpdated = (moduleId, newTitle) => {
+    const updatedModules = modules.map((module) => {
+      if (module._id === moduleId) {
+        return { ...module, title: newTitle };
+      }
+      return module;
+    });
+    setModules(updatedModules);
+  };
+
   //Handle delete course materials
   const handleMaterialDeleted = (moduleId, materialId) => {
     const updatedModules = modules.map((module) => {
@@ -80,7 +91,11 @@ const Module = () => {
               {module.title}
             </Text>
             <HStack spacing={2}>
-              <EditModuleButton />
+              <EditModuleButton
+                courseId={courseId}
+                moduleId={module._id}
+                onModuleUpdated={handleModuleUpdated}
+              />
               <DeleteModuleButton
                 courseId={courseId}
                 moduleId={module._id}
