@@ -16,6 +16,7 @@ import axios from "axios";
 import MaterialDeleteButton from "./MaterialDeleteButton";
 import DeleteModuleButton from "./DeleteModuleButton";
 import EditModuleButton from "./EditModuleButton";
+import AddModule from "./AddModule";
 
 // Hardcoded course ID for testing only
 const courseId = "6605898db6a2fc1cae5f6e18";
@@ -41,6 +42,7 @@ const Module = () => {
     if (data) setModules(data);
   }, [data]);
 
+  //Handlers for action buttons
   //Handle delete module
   const handleModuleDeleted = (deletedModuleId) => {
     const updatedModules = modules.filter(
@@ -76,14 +78,22 @@ const Module = () => {
     setModules(updatedModules);
   };
 
+  //Handle add module
+  const handleAddModule = (newModule) => {
+    setModules((prevModules) => [...prevModules, newModule]);
+  };
+
   if (isLoading) return <CircularProgress isIndeterminate color="blue.500" />;
   if (error) return <Text>An error occurred: {error.message}</Text>;
-
+  console.log(modules);
   return (
     <VStack spacing={4} align="stretch">
-      <Text fontSize="2xl" fontWeight="bold" mb={4}>
-        Modules
-      </Text>
+      <Flex justifyContent="space-between" alignItems="center" mb={4}>
+        <Text fontSize="2xl" fontWeight="bold">
+          Modules
+        </Text>
+        <AddModule courseId={courseId} onAddModule={handleAddModule} />
+      </Flex>
       {modules?.map((module) => (
         <Box key={module._id} borderWidth="1px" p={5} shadow="md">
           <Flex justifyContent="space-between" alignItems="center" mb={4}>
