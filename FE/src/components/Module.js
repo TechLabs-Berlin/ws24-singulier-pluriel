@@ -17,6 +17,7 @@ import MaterialDeleteButton from "./MaterialDeleteButton";
 import DeleteModuleButton from "./DeleteModuleButton";
 import EditModuleButton from "./EditModuleButton";
 import AddModule from "./AddModule";
+import ActionButtons from "./ActionButtons";
 
 // Hardcoded course ID for testing only
 const courseId = "6605898db6a2fc1cae5f6e18";
@@ -158,17 +159,9 @@ const Module = () => {
               </Button>
             </Box>
           </Flex>
-          <Flex justifyContent="center" mt={4} gap={2}>
-            {/* Placeholder buttons for now */}
-            <Button size="sm" colorScheme="green">
-              Upload
-            </Button>
-            <Button size="sm" colorScheme="purple">
-              Add link
-            </Button>
-            <Button size="sm" colorScheme="orange">
-              Add Multimedia Resources
-            </Button>
+          {/* Action buttons */}
+          <Flex justifyContent="center" mt={4}>
+            <ActionButtons />
           </Flex>
         </Box>
       ))}
