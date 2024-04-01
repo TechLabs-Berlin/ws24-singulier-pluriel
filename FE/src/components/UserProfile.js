@@ -79,6 +79,8 @@ function UserProfile() {
 
   return (
     <Box
+      position="relative"
+      p={4}
       display="flex"
       justifyContent="space-between"
       alignItems="center"

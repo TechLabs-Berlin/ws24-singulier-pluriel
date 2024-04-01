@@ -1,17 +1,14 @@
 import { Link as RouterLink } from "react-router-dom";
 import {
-  Box,
-  Button,
-  VStack,
-  HStack,
-  Text,
-  List,
-  ListItem,
+  Card,
+  CardBody,
+  Heading,
   Image,
+  Text,
   Flex,
+  Box,
 } from "@chakra-ui/react";
 import NavBar from "../components/NavBar";
-
 const Courses = () => {
   return (
     <Flex>
