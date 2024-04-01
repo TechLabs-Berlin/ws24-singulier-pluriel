@@ -161,7 +161,7 @@ const Module = () => {
           </Flex>
           {/* Action buttons */}
           <Flex justifyContent="center" mt={4}>
-            <ActionButtons />
+            <ActionButtons courseId={courseId} />
           </Flex>
         </Box>
       ))}
