@@ -1,57 +1,52 @@
 import {
-  Box,
-  Button,
-  VStack,
-  HStack,
-  Text,
-  List,
-  ListItem,
+  Card,
+  CardBody,
+  Heading,
   Image,
+  Text,
   Flex,
+  Box,
 } from "@chakra-ui/react";
-
 import NavBar from "../components/NavBar";
-
 const Courses = () => {
   return (
     <Flex>
       <NavBar />
-      <Box as="main" p={5} w="80%">
-        <VStack spacing={4} align="stretch">
-          <HStack justifyContent="space-between">
-            <Button colorScheme="teal" variant="outline">
-              Switch to student view
-            </Button>
-            <Button
-              size="lg"
-              height="48px"
-              width="200px"
-              border="2px"
-              borderColor="gray.500"
-            >
-              Courses
-            </Button>
-          </HStack>
-          <Box as="section">
-            <Text fontSize="2xl" mb={4}>
-              Current semesters
-            </Text>
-            <List spacing={3}>
-              {[1, 2, 3].map((course) => (
-                <ListItem key={course} display="flex" alignItems="center">
-                  <Image
-                    src={`http://via.placeholder.com/30x30`}
-                    borderRadius="full"
-                    mr={4}
-                    alt={`Course ${course}`}
-                  />
-                  <Text>Course {course}</Text>
-                </ListItem>
-              ))}
-            </List>
-          </Box>
-        </VStack>
-      </Box>
+
+      <Card
+        width="441px"
+        height="484px"
+        left="383px"
+        top="204p"
+        border="1px"
+        colorBackground="#FFFFFF"
+        position="absolute"
+        boxSizing="border-box"
+        margin="65px"
+      >
+        <CardBody>
+          <Heading size="md" margin="top">
+            Italian A1.2
+          </Heading>
+          <Text>Spring semester 2024</Text>
+          <Image width="441px" height="184px" top="89px" border="1px" />
+        </CardBody>
+        <Box boxSize="borderbox">
+          <Text
+            color="black"
+            width="80px"
+            height="35px"
+            top="420px"
+            left="321px"
+            fontWeight="700"
+            size="24px"
+            lineHeight="32px"
+            gap="110px"
+          >
+            Open
+          </Text>
+        </Box>
+      </Card>
     </Flex>
   );
 };
