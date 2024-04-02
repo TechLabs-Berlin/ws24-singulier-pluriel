@@ -35,22 +35,7 @@ const ActionButtons = ({ courseId }) => {
       return;
     }
 
-    // Prompt the user for a title
-    const title = prompt("Enter a title for the module:");
-
-    if (!title) {
-      toast({
-        title: "Upload failed",
-        description: "Title cannot be empty",
-        status: "error",
-        duration: 5000,
-        isClosable: true,
-      });
-      return;
-    }
-
     const formData = new FormData();
-    formData.append("title", title);
     formData.append("files", selectedFile);
 
     try {
@@ -72,7 +57,7 @@ const ActionButtons = ({ courseId }) => {
       });
       onClose();
 
-      // Refresh the list of modules here to show the newly added module?
+      // To change that newly added on top?
     } catch (error) {
       toast({
         title: "Upload failed",
