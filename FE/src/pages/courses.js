@@ -1,17 +1,14 @@
+import { Link as RouterLink } from "react-router-dom";
 import {
-  Box,
-  Button,
-  VStack,
-  HStack,
-  Text,
-  List,
-  ListItem,
+  Card,
+  CardBody,
+  Heading,
   Image,
+  Text,
   Flex,
+  Box,
 } from "@chakra-ui/react";
-
 import NavBar from "../components/NavBar";
-
 const Courses = () => {
   return (
     <Flex>
@@ -37,17 +34,40 @@ const Courses = () => {
               Current semesters
             </Text>
             <List spacing={3}>
-              {[1, 2, 3].map((course) => (
-                <ListItem key={course} display="flex" alignItems="center">
-                  <Image
-                    src={`http://via.placeholder.com/30x30`}
-                    borderRadius="full"
-                    mr={4}
-                    alt={`Course ${course}`}
-                  />
-                  <Text>Course {course}</Text>
-                </ListItem>
-              ))}
+              <ListItem display="flex" alignItems="center">
+                <Image
+                  src="http://via.placeholder.com/30x30"
+                  borderRadius="full"
+                  mr={4}
+                  alt="Course 1"
+                />
+                <Text
+                  as={RouterLink}
+                  to="/course-detail/course1"
+                  cursor="pointer"
+                >
+                  Course 1
+                </Text>
+              </ListItem>
+              {/* Course1 is clickable just for test */}
+              <ListItem display="flex" alignItems="center">
+                <Image
+                  src="http://via.placeholder.com/30x30"
+                  borderRadius="full"
+                  mr={4}
+                  alt="Course 2"
+                />
+                <Text>Course 2</Text>
+              </ListItem>
+              <ListItem display="flex" alignItems="center">
+                <Image
+                  src="http://via.placeholder.com/30x30"
+                  borderRadius="full"
+                  mr={4}
+                  alt="Course 3"
+                />
+                <Text>Course 3</Text>
+              </ListItem>
             </List>
           </Box>
         </VStack>
