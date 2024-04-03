@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useParams } from "react-router-dom";
 import { useQuery } from "react-query";
 import axios from "axios";
@@ -13,6 +13,8 @@ import {
   Link,
   Image,
 } from "@chakra-ui/react";
+//Import AuthApi for conditional rendering
+import AuthApi from "../AuthApi";
 //Import buttons
 import MaterialDeleteButton from "./MaterialDeleteButton";
 import DeleteModuleButton from "./DeleteModuleButton";
@@ -37,6 +39,7 @@ const Module = () => {
     { retry: false }
   );
   const [modules, setModules] = useState([]);
+  const authContext = useContext(AuthApi);
 
   useEffect(() => {
     if (data) setModules(data);
@@ -83,15 +86,22 @@ const Module = () => {
     setModules((prevModules) => [...prevModules, newModule]);
   };
 
+  // Conditional rendering based on user role
+  const isTeacher =
+    authContext.auth.loggedIn && authContext.auth.user?.role === "teacher";
+
   if (isLoading) return <CircularProgress isIndeterminate color="blue.500" />;
   if (error) return <Text>An error occurred: {error.message}</Text>;
+
   return (
     <VStack spacing={4} align="stretch">
       <Flex justifyContent="space-between" alignItems="center" mb={4}>
         <Text fontSize="2xl" fontWeight="bold">
           Modules
         </Text>
-        <AddModule courseId={courseId} onAddModule={handleAddModule} />
+        {isTeacher && (
+          <AddModule courseId={courseId} onAddModule={handleAddModule} />
+        )}
       </Flex>
       {modules?.map((module) => (
         <Box key={module._id} borderWidth="1px" p={5} shadow="md">
@@ -99,18 +109,20 @@ const Module = () => {
             <Text fontSize="lg" fontWeight="semibold">
               {module.title}
             </Text>
-            <HStack spacing={2}>
-              <EditModuleButton
-                courseId={courseId}
-                moduleId={module._id}
-                onModuleUpdated={handleModuleUpdated}
-              />
-              <DeleteModuleButton
-                courseId={courseId}
-                moduleId={module._id}
-                onModuleDeleted={handleModuleDeleted}
-              />
-            </HStack>
+            {isTeacher && (
+              <HStack spacing={2}>
+                <EditModuleButton
+                  courseId={courseId}
+                  moduleId={module._id}
+                  onModuleUpdated={handleModuleUpdated}
+                />
+                <DeleteModuleButton
+                  courseId={courseId}
+                  moduleId={module._id}
+                  onModuleDeleted={handleModuleDeleted}
+                />
+              </HStack>
+            )}
           </Flex>
           <Flex>
             <Box flex={3} pr={4}>
@@ -135,14 +147,16 @@ const Module = () => {
                         <Text isTruncated>View Material</Text>
                       </HStack>
                     </Link>
-                    <MaterialDeleteButton
-                      courseId={courseId}
-                      moduleId={module._id}
-                      materialId={material._id}
-                      onMaterialDeleted={() =>
-                        handleMaterialDeleted(module._id, material._id)
-                      }
-                    />
+                    {isTeacher && (
+                      <MaterialDeleteButton
+                        courseId={courseId}
+                        moduleId={module._id}
+                        materialId={material._id}
+                        onMaterialDeleted={() =>
+                          handleMaterialDeleted(module._id, material._id)
+                        }
+                      />
+                    )}
                   </Flex>
                 ))}
               </VStack>
@@ -158,9 +172,11 @@ const Module = () => {
             </Box>
           </Flex>
           {/* Action buttons */}
-          <Flex justifyContent="center" mt={4}>
-            <ActionButtons courseId={courseId} />
-          </Flex>
+          {isTeacher && (
+            <Flex justifyContent="center" mt={4}>
+              <ActionButtons courseId={courseId} />
+            </Flex>
+          )}
         </Box>
       ))}
     </VStack>

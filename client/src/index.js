@@ -31,17 +31,9 @@ root.render(
     <ChakraProvider>
       <BrowserRouter>
         <QueryClientProvider client={queryClient}>
-          <AuthApi.Provider
-            value={
-              {
-                /*Placeholder*/
-              }
-            }
-          >
-            <NavigationProvider>
-              <App />
-            </NavigationProvider>
-          </AuthApi.Provider>
+          <NavigationProvider>
+            <App />
+          </NavigationProvider>
         </QueryClientProvider>
       </BrowserRouter>
     </ChakraProvider>
