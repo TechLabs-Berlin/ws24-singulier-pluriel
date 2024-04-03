@@ -1,4 +1,5 @@
 node_modules/
 .env
 server_old.js
-seed/
+seed/v1/
+seed/v2/
