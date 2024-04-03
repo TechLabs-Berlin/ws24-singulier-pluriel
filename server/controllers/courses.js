@@ -7,6 +7,7 @@ const { storage } = require('../cloudinary');
 const cloudinary = require('cloudinary');
 
 
+// Get course list of the logged in user. If student is logged in, only courses with status "Active" will be shown
 module.exports.getCourses = async (req, res) => {
     const userId = req.session.user._id;
     let user = await User.findOne({ _id: userId }).populate([{ path: 'role' }, { path: 'courses', select: '-stats -lessons -participants' }]);
@@ -26,6 +27,7 @@ module.exports.getCourses = async (req, res) => {
 };
 
 
+// Get list of all students, meant for populating "participants" with existing email addresses
 module.exports.getStudents = async (req, res) => {
     //? All students or only students with active account?
     const allStudents = await User.find({}).populate({ path: 'role', match: { 'name': 'student' } });
@@ -64,7 +66,6 @@ module.exports.createCourse = async (req, res) => {
 
     if(participants != ''){
         course.participants = participants.map(p => ({ _id: p }));
-        course.participants.push(userId);
 
         for(let p of participants){
             const stud = await User.findOne({ _id: p});
@@ -72,6 +73,8 @@ module.exports.createCourse = async (req, res) => {
             await stud.save();
         };
     };
+
+    course.participants.push(userId);
     
     if(req.file){
         course.image.url = req.file.path, 
@@ -116,8 +119,8 @@ module.exports.editCourseDetails = async (req, res) => {
     const courseId = req.params.courseId;
     const { title, description, csid } = req.body;
     //? Add logic to make course editable only if userId === course.createdBy ID
-    if(!title){
-        return res.json({ message: 'Title cannot be empty'});
+    if(!title || !csid ){
+        return res.json({ message: 'Title/csid cannot be empty'});
     };
     let updatedCourse = await Course.findOneAndUpdate({ _id: courseId }, { title, description, csid }, { new: true });
 

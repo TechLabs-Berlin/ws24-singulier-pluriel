@@ -5,14 +5,9 @@ if(process.env.NODE_ENV !== 'production'){
 const express = require('express');
 const cors = require('cors');
 const dbConnect = require('./db/dbConnect.js');
-const User = require('./db/userModel.js');
-const Course = require('./db/courseModel.js');
-const Role = require('./db/roleModel.js');
-const Lesson = require('./db/lessonModel.js');
 const session = require('express-session');
 const MongoStore = require('connect-mongodb-session')(session);
 const cookieParser = require('cookie-parser');
-const { isLoggedIn, isTeacher } = require('./middleware.js');
 const multer  = require('multer');
 const { storage } = require('./cloudinary');
 const upload = multer({ storage });
