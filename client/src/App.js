@@ -7,11 +7,11 @@ import Courses from "./pages/courses";
 import CourseDetail from "./components/CourseDetail";
 
 function App() {
-  const [auth, setAuth] = useState(false); // State to keep track of authentication status
+  const [auth, setAuth] = useState({ loggedIn: false, user: null }); // State to keep track of authentication status
 
   // PrivateRoute component for authentication logic
   const PrivateRoute = () => {
-    return auth ? <Outlet /> : <Navigate to="/" />;
+    return auth.loggedIn ? <Outlet /> : <Navigate to="/" />;
   };
 
   return (

@@ -29,6 +29,13 @@ function Login() {
       }),
     {
       onSuccess: (response) => {
+        setAuth({
+          loggedIn: true,
+          user: {
+            ...response.data.user,
+            role: response.data.user.role.name,
+          },
+        });
         toast({
           title: "Login successful.",
           description: "You're being redirected to the main page.",
@@ -36,7 +43,6 @@ function Login() {
           duration: 9000,
           isClosable: true,
         });
-        setAuth(true);
         navigate("/main"); // Redirect to main page after successful login
       },
       onError: (error) => {
