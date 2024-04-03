@@ -1,10 +1,16 @@
+import { Link as RouterLink } from "react-router-dom";
 import {
+  Card,
+  CardBody,
+  Heading,
   Card,
   CardBody,
   Heading,
   Image,
   Text,
+  Text,
   Flex,
+  Box,
   Box,
 } from "@chakra-ui/react";
 import NavBar from "../components/NavBar";
