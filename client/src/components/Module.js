@@ -13,16 +13,16 @@ import {
   Link,
   Image,
 } from "@chakra-ui/react";
-//Import AuthApi for conditional rendering
+// Import AuthApi for conditional rendering
 import AuthApi from "../AuthApi";
-//Import buttons
+// Import buttons
 import MaterialDeleteButton from "./MaterialDeleteButton";
 import DeleteModuleButton from "./DeleteModuleButton";
 import EditModuleButton from "./EditModuleButton";
 import AddModule from "./AddModule";
 import ActionButtons from "./ActionButtons";
 
-//Get course modules
+// Get course modules
 const fetchCourseModules = async (courseId) => {
   const { data } = await axios.get(`/courses/${courseId}/modules`);
   return data;
@@ -39,13 +39,13 @@ const Module = () => {
     { retry: false }
   );
   const [modules, setModules] = useState([]);
-  const authContext = useContext(AuthApi);
+  const { auth } = useContext(AuthApi);
 
   useEffect(() => {
     if (data) setModules(data);
   }, [data]);
 
-  //Handlers for action buttons
+  // Handlers for action buttons
   //Handle delete module
   const handleModuleDeleted = (deletedModuleId) => {
     const updatedModules = modules.filter(
@@ -86,9 +86,8 @@ const Module = () => {
     setModules((prevModules) => [...prevModules, newModule]);
   };
 
-  // Conditional rendering based on user role
-  const isTeacher =
-    authContext.auth.loggedIn && authContext.auth.user?.role === "teacher";
+  // User role from auth context
+  const userRole = auth.loggedIn ? auth.user?.role : null;
 
   if (isLoading) return <CircularProgress isIndeterminate color="blue.500" />;
   if (error) return <Text>An error occurred: {error.message}</Text>;
@@ -99,17 +98,17 @@ const Module = () => {
         <Text fontSize="2xl" fontWeight="bold">
           Modules
         </Text>
-        {isTeacher && (
+        {userRole === "teacher" && (
           <AddModule courseId={courseId} onAddModule={handleAddModule} />
         )}
       </Flex>
-      {modules?.map((module) => (
+      {modules.map((module) => (
         <Box key={module._id} borderWidth="1px" p={5} shadow="md">
           <Flex justifyContent="space-between" alignItems="center" mb={4}>
             <Text fontSize="lg" fontWeight="semibold">
               {module.title}
             </Text>
-            {isTeacher && (
+            {userRole === "teacher" && (
               <HStack spacing={2}>
                 <EditModuleButton
                   courseId={courseId}
@@ -147,14 +146,12 @@ const Module = () => {
                         <Text isTruncated>View Material</Text>
                       </HStack>
                     </Link>
-                    {isTeacher && (
+                    {userRole === "teacher" && (
                       <MaterialDeleteButton
                         courseId={courseId}
                         moduleId={module._id}
                         materialId={material._id}
-                        onMaterialDeleted={() =>
-                          handleMaterialDeleted(module._id, material._id)
-                        }
+                        onMaterialDeleted={handleMaterialDeleted}
                       />
                     )}
                   </Flex>
@@ -165,18 +162,20 @@ const Module = () => {
               <Text fontSize="md" mb={2}>
                 Assignments
               </Text>
-              {/* Placeholder button for now */}
+              {/* Demo button for now */}
               <Button size="sm" colorScheme="teal">
                 Check/Edit Assignments
               </Button>
             </Box>
           </Flex>
           {/* Action buttons */}
-          {isTeacher && (
-            <Flex justifyContent="center" mt={4}>
-              <ActionButtons courseId={courseId} />
-            </Flex>
-          )}
+          <Flex justifyContent="center" mt={4}>
+            <ActionButtons
+              courseId={courseId}
+              moduleId={module._id}
+              userRole={userRole}
+            />
+          </Flex>
         </Box>
       ))}
     </VStack>
