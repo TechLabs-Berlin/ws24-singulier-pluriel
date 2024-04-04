@@ -1,22 +1,19 @@
+require('dotenv').config();
 const mongoose = require('mongoose');
+const cloudinary = require('cloudinary');
+const axios = require('axios');
 const User = require('../../db/userModel.js');
 const Course = require('../../db/courseModel.js');
 const Lesson = require('../../db/lessonModel.js');
+const dbConnect = require('../../db/dbConnect.js');
+const { storage } = require('../../cloudinary/index.js');
 const courses = require('./newcourses.js');
 const lessons = require('./newlessons.js');
-const dbConnect = require('../../db/dbConnect.js');
 const { studentsId, teachersId, tnames, snames } = require('./users.js');
-const { storage } = require('../../cloudinary/index.js');
-const cloudinary = require('cloudinary');
-require('dotenv').config();
-const axios = require('axios');
 
 dbConnect();
 
 const db = mongoose.connection;
-db.once('open', () => {
-    console.log('Database connected');
-})
 
 function randomInteger(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -36,7 +33,7 @@ const seedDB = async () => {
             lastname: snames[i].lastname,
             email: `${snames[i].firstname}.${snames[i].lastname}@email.com`,
             sid: studentsId[i],
-            role: '65f1c47eff7d4cef5b2eacf1'
+            role: '65f6ecd2cbe12cec01dd5250'
         })
         await student.save();
     }
@@ -48,7 +45,7 @@ const seedDB = async () => {
             lastname: tnames[t].lastname,
             email: `${tnames[t].firstname}.${tnames[t].lastname}@email.com`,
             sid: teachersId[t],
-            role: '65f1c465ff7d4cef5b2eacf0'
+            role: '65f6ec2ffbcf0a307810ae81'
         })
         await teacher.save();
     }
@@ -87,8 +84,8 @@ const seedDB = async () => {
     //Create courses
     await Course.deleteMany({});
 
-    const teachers = await User.find({ role: '65f1c465ff7d4cef5b2eacf0'});
-    const students = await User.find({ role: '65f1c47eff7d4cef5b2eacf1'});
+    const teachers = await User.find({ role: '65f6ec2ffbcf0a307810ae81'});
+    const students = await User.find({ role: '65f6ecd2cbe12cec01dd5250'});
 
     for (let x = 0; x < courses.length; x++){
         const random5 = Math.floor(Math.random() * 5);
@@ -162,7 +159,8 @@ const activateUsers = async () => {
     const users = await User.find({});
 
     for(let user of users){
-        await axios.post('http://localhost:8080/api/auth/account-activation', {
+        // await axios.post('http://localhost:8080/api/auth/account-activation', {
+        await axios.post('https://ws24-singulier-pluriel.onrender.com/api/auth/account-activation', {
             email: user.email,
             sid: user.sid,
             password: 'test'
@@ -177,14 +175,18 @@ const activateUsers = async () => {
         })
     }
 }
-// 'https://ws24-singulier-pluriel.onrender.com/api/auth/account-activation'
+
+
 // seedDB().then(() => {
+//     console.log('DB seeded');
 //     db.close();
 // })
 
 activateUsers().then(() => {
+    console.log('Done!');
     db.close();
 })
+
 
 // Roles IDs (test-singplur)
 // name: 'teacher': '65f1c465ff7d4cef5b2eacf0'
