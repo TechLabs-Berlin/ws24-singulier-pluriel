@@ -170,7 +170,11 @@ const Module = () => {
           </Flex>
           {/* Action buttons */}
           <Flex justifyContent="center" mt={4}>
-            <ActionButtons courseId={courseId} userRole={userRole} />
+            <ActionButtons
+              courseId={courseId}
+              moduleId={module._id}
+              userRole={userRole}
+            />
           </Flex>
         </Box>
       ))}

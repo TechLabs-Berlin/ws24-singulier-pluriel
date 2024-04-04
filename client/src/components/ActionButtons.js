@@ -15,7 +15,7 @@ import {
 } from "@chakra-ui/react";
 import axios from "axios";
 
-const ActionButtons = ({ courseId, userRole }) => {
+const ActionButtons = ({ courseId, moduleId, userRole }) => {
   const [selectedFile, setSelectedFile] = useState(null);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const toast = useToast();
@@ -36,17 +36,18 @@ const ActionButtons = ({ courseId, userRole }) => {
     }
 
     const formData = new FormData();
-    formData.append("file", selectedFile);
+    formData.append("files", selectedFile);
 
     //Update upload logic
     try {
-      await axios.post(`/courses/${courseId}/upload`, formData, {
+      await axios.put(`/courses/${courseId}/modules/${moduleId}`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
       });
       toast({
         title: "File uploaded successfully",
+        description: "The file has been added to the module.",
         status: "success",
         duration: 5000,
         isClosable: true,
@@ -55,7 +56,8 @@ const ActionButtons = ({ courseId, userRole }) => {
     } catch (error) {
       toast({
         title: "Upload failed",
-        description: error.response?.data.message || error.message,
+        description:
+          error.response?.data.message || "An error occurred during upload.",
         status: "error",
         duration: 5000,
         isClosable: true,
