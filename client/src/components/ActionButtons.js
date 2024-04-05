@@ -15,7 +15,7 @@ import {
 } from "@chakra-ui/react";
 import axios from "axios";
 
-const ActionButtons = ({ courseId }) => {
+const ActionButtons = ({ courseId, moduleId, userRole }) => {
   const [selectedFile, setSelectedFile] = useState(null);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const toast = useToast();
@@ -38,30 +38,26 @@ const ActionButtons = ({ courseId }) => {
     const formData = new FormData();
     formData.append("files", selectedFile);
 
+    //Update upload logic
     try {
-      const response = await axios.post(
-        `/courses/${courseId}/modules`,
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
+      await axios.put(`/courses/${courseId}/modules/${moduleId}`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
       toast({
         title: "File uploaded successfully",
-        description: `Uploaded: ${response.data.message}`,
+        description: "The file has been added to the module.",
         status: "success",
         duration: 5000,
         isClosable: true,
       });
       onClose();
-
-      // To change that newly added on top?
     } catch (error) {
       toast({
         title: "Upload failed",
-        description: error.response?.data.message || error.message,
+        description:
+          error.response?.data.message || "An error occurred during upload.",
         status: "error",
         duration: 5000,
         isClosable: true,
@@ -71,18 +67,21 @@ const ActionButtons = ({ courseId }) => {
 
   return (
     <>
-      <HStack spacing={2}>
-        <Button size="sm" colorScheme="green" onClick={onOpen}>
-          Upload
-        </Button>
-        <Button size="sm" colorScheme="purple">
-          Add Link
-        </Button>
-        <Button size="sm" colorScheme="orange">
-          Add Multimedia Resources
-        </Button>
-      </HStack>
-
+      {userRole === "teacher" && (
+        <>
+          <HStack spacing={2}>
+            <Button size="sm" colorScheme="green" onClick={onOpen}>
+              Upload
+            </Button>
+            <Button size="sm" colorScheme="purple">
+              Add Link
+            </Button>
+            <Button size="sm" colorScheme="orange">
+              Add Multimedia Resources
+            </Button>
+          </HStack>
+        </>
+      )}
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
@@ -101,6 +100,11 @@ const ActionButtons = ({ courseId }) => {
           </ModalFooter>
         </ModalContent>
       </Modal>
+      {userRole === "student" && (
+        <Button size="sm" colorScheme="blue" mt={4}>
+          Download
+        </Button>
+      )}
     </>
   );
 };

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useParams } from "react-router-dom";
 import { useQuery } from "react-query";
 import axios from "axios";
@@ -13,14 +13,16 @@ import {
   Link,
   Image,
 } from "@chakra-ui/react";
-//Import buttons
+// Import AuthApi for conditional rendering
+import AuthApi from "../AuthApi";
+// Import buttons
 import MaterialDeleteButton from "./MaterialDeleteButton";
 import DeleteModuleButton from "./DeleteModuleButton";
 import EditModuleButton from "./EditModuleButton";
 import AddModule from "./AddModule";
 import ActionButtons from "./ActionButtons";
 
-//Get course modules
+// Get course modules
 const fetchCourseModules = async (courseId) => {
   const { data } = await axios.get(`/courses/${courseId}/modules`);
   return data;
@@ -37,12 +39,13 @@ const Module = () => {
     { retry: false }
   );
   const [modules, setModules] = useState([]);
+  const { auth } = useContext(AuthApi);
 
   useEffect(() => {
     if (data) setModules(data);
   }, [data]);
 
-  //Handlers for action buttons
+  // Handlers for action buttons
   //Handle delete module
   const handleModuleDeleted = (deletedModuleId) => {
     const updatedModules = modules.filter(
@@ -83,34 +86,42 @@ const Module = () => {
     setModules((prevModules) => [...prevModules, newModule]);
   };
 
+  // User role from auth context
+  const userRole = auth.loggedIn ? auth.user?.role : null;
+
   if (isLoading) return <CircularProgress isIndeterminate color="blue.500" />;
   if (error) return <Text>An error occurred: {error.message}</Text>;
+
   return (
     <VStack spacing={4} align="stretch">
       <Flex justifyContent="space-between" alignItems="center" mb={4}>
         <Text fontSize="2xl" fontWeight="bold">
           Modules
         </Text>
-        <AddModule courseId={courseId} onAddModule={handleAddModule} />
+        {userRole === "teacher" && (
+          <AddModule courseId={courseId} onAddModule={handleAddModule} />
+        )}
       </Flex>
-      {modules?.map((module) => (
+      {modules.map((module) => (
         <Box key={module._id} borderWidth="1px" p={5} shadow="md">
           <Flex justifyContent="space-between" alignItems="center" mb={4}>
             <Text fontSize="lg" fontWeight="semibold">
               {module.title}
             </Text>
-            <HStack spacing={2}>
-              <EditModuleButton
-                courseId={courseId}
-                moduleId={module._id}
-                onModuleUpdated={handleModuleUpdated}
-              />
-              <DeleteModuleButton
-                courseId={courseId}
-                moduleId={module._id}
-                onModuleDeleted={handleModuleDeleted}
-              />
-            </HStack>
+            {userRole === "teacher" && (
+              <HStack spacing={2}>
+                <EditModuleButton
+                  courseId={courseId}
+                  moduleId={module._id}
+                  onModuleUpdated={handleModuleUpdated}
+                />
+                <DeleteModuleButton
+                  courseId={courseId}
+                  moduleId={module._id}
+                  onModuleDeleted={handleModuleDeleted}
+                />
+              </HStack>
+            )}
           </Flex>
           <Flex>
             <Box flex={3} pr={4}>
@@ -135,14 +146,14 @@ const Module = () => {
                         <Text isTruncated>View Material</Text>
                       </HStack>
                     </Link>
-                    <MaterialDeleteButton
-                      courseId={courseId}
-                      moduleId={module._id}
-                      materialId={material._id}
-                      onMaterialDeleted={() =>
-                        handleMaterialDeleted(module._id, material._id)
-                      }
-                    />
+                    {userRole === "teacher" && (
+                      <MaterialDeleteButton
+                        courseId={courseId}
+                        moduleId={module._id}
+                        materialId={material._id}
+                        onMaterialDeleted={handleMaterialDeleted}
+                      />
+                    )}
                   </Flex>
                 ))}
               </VStack>
@@ -151,7 +162,7 @@ const Module = () => {
               <Text fontSize="md" mb={2}>
                 Assignments
               </Text>
-              {/* Placeholder button for now */}
+              {/* Demo button for now */}
               <Button size="sm" colorScheme="teal">
                 Check/Edit Assignments
               </Button>
@@ -159,7 +170,11 @@ const Module = () => {
           </Flex>
           {/* Action buttons */}
           <Flex justifyContent="center" mt={4}>
-            <ActionButtons courseId={courseId} />
+            <ActionButtons
+              courseId={courseId}
+              moduleId={module._id}
+              userRole={userRole}
+            />
           </Flex>
         </Box>
       ))}
