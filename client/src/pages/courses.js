@@ -10,10 +10,12 @@ import {
   useColorModeValue,
   chakra,
   Stack,
+  Grid,
 } from "@chakra-ui/react";
 import NavBar from "../components/NavBar";
 import UserProfile from "../components/UserProfile";
 import axios from "axios";
+import UniLogo from "../assets/UNI-LOGO.png";
 
 // Get courses
 const fetchCourses = async () => {
@@ -30,7 +32,7 @@ const CourseCard = ({ course }) => {
     <Box
       as={RouterLink}
       to={`/course-detail/${course._id}`}
-      bg={useColorModeValue("white", "gray.800")}
+      bg={useColorModeValue("#01427A")}
       w="full"
       maxW="calc(50% - 1rem)"
       borderWidth="1px"
@@ -87,6 +89,16 @@ const Courses = () => {
   return (
     <Flex>
       <NavBar />
+      <Image
+        src={UniLogo}
+        mx="auto"
+        width="270px"
+        height="182px"
+        left="244px"
+        gap="0px"
+        border-radius="12px 0px 0px 0px"
+        opacity="0px"
+      />
       <Flex direction="column" flex="1" ml={{ base: 0, md: 60 }} pt="4">
         <UserProfile />
         <VStack spacing={4} align="stretch" mt="5">
