@@ -10,12 +10,11 @@ import {
   useColorModeValue,
   chakra,
   Stack,
-  Grid,
+  SimpleGrid,
 } from "@chakra-ui/react";
 import NavBar from "../components/NavBar";
 import UserProfile from "../components/UserProfile";
 import axios from "axios";
-import UniLogo from "../assets/UNI-LOGO.png";
 
 // Get courses
 const fetchCourses = async () => {
@@ -29,52 +28,54 @@ const CourseCard = ({ course }) => {
   const formatDate = (dateString) => new Date(dateString).toLocaleDateString();
 
   return (
-    <Box
-      as={RouterLink}
-      to={`/course-detail/${course._id}`}
-      bg={useColorModeValue("#01427A")}
-      w="full"
-      maxW="calc(50% - 1rem)"
-      borderWidth="1px"
-      rounded="lg"
-      shadow="lg"
-      position="relative"
-      display="flex"
-      flexDirection="column"
-      cursor="pointer"
-      m="2"
-    >
-      <Text fontSize="lg" fontWeight="bold" textAlign="center" mt="2">
-        {course.title}
-      </Text>
-      <Image
-        src={course.image?.url || defaultImageUrl}
-        alt={`Image of ${course.title}`}
-        roundedTop="lg"
-        objectFit="cover"
-        h="150px"
+    <SimpleGrid columns={2}>
+      <Box
+        as={RouterLink}
+        to={`/course-detail/${course._id}`}
+        bg={useColorModeValue("#01427A")}
         w="full"
-      />
-      <Box p="6">
-        <Text fontSize="sm" noOfLines={2} mb="2">
-          {course.description}
+        maxW="calc(70% - 1rem)"
+        borderWidth="1px"
+        rounded="lg"
+        shadow="lg"
+        position="relative"
+        display="flex"
+        flexDirection="column"
+        cursor="pointer"
+        m="2"
+      >
+        <Text fontSize="lg" fontWeight="bold" textAlign="center" mt="2">
+          {course.title}
         </Text>
-        <Stack spacing={1}>
-          <Text fontSize="sm">
-            <chakra.span fontWeight="bold">Begin:</chakra.span>{" "}
-            {formatDate(course.startDate)}
+        <Image
+          src={course.image?.url || defaultImageUrl}
+          alt={`Image of ${course.title}`}
+          roundedTop="lg"
+          objectFit="cover"
+          h="150px"
+          w="full"
+        />
+        <Box p="6">
+          <Text fontSize="sm" noOfLines={2} mb="2">
+            {course.description}
           </Text>
-          <Text fontSize="sm">
-            <chakra.span fontWeight="bold">Ends:</chakra.span>{" "}
-            {formatDate(course.endDate)}
-          </Text>
-          <Text fontSize="sm">
-            <chakra.span fontWeight="bold">Exam Dates:</chakra.span>{" "}
-            {formatDate(course.examDate)}
-          </Text>
-        </Stack>
+          <Stack spacing={1}>
+            <Text fontSize="sm">
+              <chakra.span fontWeight="bold">Begin:</chakra.span>{" "}
+              {formatDate(course.startDate)}
+            </Text>
+            <Text fontSize="sm">
+              <chakra.span fontWeight="bold">Ends:</chakra.span>{" "}
+              {formatDate(course.endDate)}
+            </Text>
+            <Text fontSize="sm">
+              <chakra.span fontWeight="bold">Exam Dates:</chakra.span>{" "}
+              {formatDate(course.examDate)}
+            </Text>
+          </Stack>
+        </Box>
       </Box>
-    </Box>
+    </SimpleGrid>
   );
 };
 
@@ -89,16 +90,7 @@ const Courses = () => {
   return (
     <Flex>
       <NavBar />
-      <Image
-        src={UniLogo}
-        mx="auto"
-        width="270px"
-        height="182px"
-        left="244px"
-        gap="0px"
-        border-radius="12px 0px 0px 0px"
-        opacity="0px"
-      />
+
       <Flex direction="column" flex="1" ml={{ base: 0, md: 60 }} pt="4">
         <UserProfile />
         <VStack spacing={4} align="stretch" mt="5">

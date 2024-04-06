@@ -1,6 +1,7 @@
-import { Box, Text, Image, VStack, Link } from "@chakra-ui/react";
+import { Box, Text, Image, VStack, Link, HStack } from "@chakra-ui/react";
 import { Link as RouterLink, useLocation } from "react-router-dom";
 import LogoImg from "../assets/LMS-logo.png";
+import UniLogo from "../assets/UNI-LOGO.png";
 
 const NavBar = () => {
   const location = useLocation();
@@ -8,39 +9,52 @@ const NavBar = () => {
 
   return (
     <Box w="20%" p={5} bg="#FFF5F5" minH="100vh">
-      <Box mb={8} textAlign="center">
-        <Text
-          m="4"
-          position="absolute"
-          width="37px"
-          height="17px"
-          left="198px"
-          top="92px"
-          font-family="Zilla Slab"
-          font-style="normal"
-          font-weight=" 400"
-          font-size="13px"
-          line-height=" 16px"
-          /* or 123% */
-          text-align="center"
-          letter-spacing="0.5px"
-          color="#000000"
-          padding="5px"
-          gap="240px"
-        >
-          For
-        </Text>
-        <Image
-          src={LogoImg}
-          alt="Logo"
-          mx="auto"
-          width="171px"
-          height="179px"
-          top="11px"
-          left="32px"
-          gap="10px"
-          opacity="0px"
-        />
+      <Box mb={8} textAlign="center" display="flex">
+        <HStack spacing={20} align="start">
+          <Image
+            src={LogoImg}
+            alt="Logo"
+            mx="auto"
+            width="171px"
+            height="179px"
+            top="11px"
+            left="32px"
+            gap="10px"
+            opacity="0px"
+          />
+          <Text
+            m="4"
+            position="absolute"
+            width="37px"
+            height="17px"
+            left="198px"
+            top="92px"
+            font-family="Zilla Slab"
+            font-style="normal"
+            font-weight=" 400"
+            font-size="13px"
+            line-height=" 16px"
+            /* or 123% */
+            text-align="center"
+            letter-spacing="0.5px"
+            color="#000000"
+            padding="5px"
+            gap="240px"
+          >
+            For
+          </Text>
+
+          <Image
+            src={UniLogo}
+            mx="auto"
+            width="270px"
+            height="182px"
+            left="244px"
+            gap="0px"
+            border-radius="12px 0px 0px 0px"
+            opacity="0px"
+          />
+        </HStack>
       </Box>
 
       <VStack spacing={4} align="start">
