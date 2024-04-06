@@ -1,4 +1,3 @@
-import Clogo from '../assets/Clogo.png'
 import { useState, useContext } from "react";
 import { useMutation } from "react-query";
 import axios from "axios";
@@ -13,6 +12,7 @@ import {
   FormLabel,
   useToast,
 } from "@chakra-ui/react";
+
 
 function Login() {
   const navigate = useNavigate();
@@ -97,7 +97,7 @@ function Login() {
             <table>
               <tr>
                 <td>
-        <Image src="Clogo"></Image>
+        <Image src="LMS logo (Image + text)"></Image>
                 </td>
               </tr>
               <tr>
@@ -207,6 +207,7 @@ function Login() {
                   gap={'8px'}
                   borderRadius={'6px'}
                   bgColor={'#E14177'}
+                  boxShadow={'0px 4px 4px 0px #00000040'}
                 >
                   Login
                 </Button>

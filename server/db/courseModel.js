@@ -61,6 +61,7 @@ courseSchema.post('findOneAndDelete', async function (doc) {
         });
     };
 });
+<<<<<<< HEAD
 
 
 courseSchema.methods.toJSON = function () {
@@ -71,5 +72,7 @@ courseSchema.methods.toJSON = function () {
 
     return courseObject;
 };
+=======
+>>>>>>> 1e9a359a (Adjusted middleware to delete all course materials from Cloudinary)
 
 module.exports = mongoose.model('Course', courseSchema);
