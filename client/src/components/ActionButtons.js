@@ -15,10 +15,23 @@ import {
 } from "@chakra-ui/react";
 import axios from "axios";
 
-const ActionButtons = ({ courseId, moduleId, userRole }) => {
+const ActionButtons = ({ courseId, moduleId, userRole, materials }) => {
   const [selectedFile, setSelectedFile] = useState(null);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const toast = useToast();
+
+  const downloadFiles = () => {
+    materials.forEach((material) => {
+      if (material.type === "file") {
+        const link = document.createElement("a");
+        link.href = material.url;
+        link.setAttribute("download", material.filename || "download");
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      }
+    });
+  };
 
   const handleFileChange = (event) => {
     setSelectedFile(event.target.files[0]);
@@ -40,11 +53,15 @@ const ActionButtons = ({ courseId, moduleId, userRole }) => {
 
     //Update upload logic
     try {
-      await axios.put(`/courses/${courseId}/modules/${moduleId}`, formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
+      const response = await axios.put(
+        `/courses/${courseId}/modules/${moduleId}`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
       toast({
         title: "File uploaded successfully",
         description: "The file has been added to the module.",
@@ -53,6 +70,7 @@ const ActionButtons = ({ courseId, moduleId, userRole }) => {
         isClosable: true,
       });
       onClose();
+      return response.data;
     } catch (error) {
       toast({
         title: "Upload failed",
@@ -101,7 +119,7 @@ const ActionButtons = ({ courseId, moduleId, userRole }) => {
         </ModalContent>
       </Modal>
       {userRole === "student" && (
-        <Button size="sm" colorScheme="blue" mt={4}>
+        <Button size="sm" colorScheme="blue" mt={4} onClick={downloadFiles}>
           Download
         </Button>
       )}

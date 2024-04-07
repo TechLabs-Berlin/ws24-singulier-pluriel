@@ -83,9 +83,19 @@ const Module = () => {
 
   //Handle add module
   const handleAddModule = (newModule) => {
-    setModules((prevModules) => [...prevModules, newModule]);
+    setModules((prevModules) => [newModule, ...prevModules]);
   };
 
+  //Handle state upon upon file upload
+  const onMaterialUploaded = (updatedModule) => {
+    const updatedModules = modules.map((module) => {
+      if (module._id === updatedModule._id) {
+        return updatedModule;
+      }
+      return module;
+    });
+    setModules(updatedModules);
+  };
   // User role from auth context
   const userRole = auth.loggedIn ? auth.user?.role : null;
 
@@ -174,6 +184,8 @@ const Module = () => {
               courseId={courseId}
               moduleId={module._id}
               userRole={userRole}
+              materials={module.materials}
+              onMaterialUploaded={onMaterialUploaded}
             />
           </Flex>
         </Box>
