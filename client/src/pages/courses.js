@@ -3,13 +3,12 @@ import { useQuery } from "react-query";
 import { Link as RouterLink } from "react-router-dom";
 import {
   Box,
-  VStack,
   Text,
   Image,
   Flex,
-  useColorModeValue,
   chakra,
   Stack,
+  Center,
 } from "@chakra-ui/react";
 import NavBar from "../components/NavBar";
 import UserProfile from "../components/UserProfile";
@@ -32,7 +31,7 @@ const CourseCard = ({ course }) => {
     <Box
       as={RouterLink}
       to={`/course-detail/${course._id}`}
-      bg={useColorModeValue("white", "gray.800")}
+      bg="#01427A"
       w="full"
       maxW="calc(50% - 1rem)"
       borderWidth="1px"
@@ -43,8 +42,9 @@ const CourseCard = ({ course }) => {
       flexDirection="column"
       cursor="pointer"
       m="2"
+      color="white"
     >
-      <Text fontSize="lg" fontWeight="bold" textAlign="center" mt="2">
+      <Text fontSize="lg" fontWeight="bold" textAlign="center" mt="4">
         {course.title}
       </Text>
       <Image
@@ -117,28 +117,30 @@ const Courses = () => {
     </>
   );
   return (
-    <Box>
+    <Box bg="linear-gradient(0deg, rgba(0, 17, 68, 0.06), rgba(0, 17, 68, 0.06)), linear-gradient(0deg, rgba(255, 255, 255, 0.88), rgba(255, 255, 255, 0.88))">
       <LmsUniLogo />
       <Flex direction="row" w="full">
-        <NavBar />
-        <Box flex="1" pl={{ md: "20%" }}>
-          <VStack spacing="4" mt="4">
-            <UserProfile />
-            <Text fontSize="2xl" mb="4">
+        <Box minWidth="20%">
+          <NavBar />
+        </Box>
+        <Flex direction="column" flex="1" align="center" overflowX="hidden">
+          <UserProfile />
+          <Center>
+            <Text fontSize="2xl" mb="4" fontWeight="bold">
               Courses
             </Text>
-            <Flex direction="row" gap="4" wrap="wrap" justify="center">
-              {isLoading
-                ? "Loading..."
-                : isError
-                ? "An error occurred"
-                : courses.map((course) => (
-                    <CourseCard key={course._id} course={course} />
-                  ))}
-            </Flex>
-            <HelpButton helpText={helpText} />
-          </VStack>
-        </Box>
+          </Center>
+          <Flex direction="row" wrap="wrap" justify="center" gap={4}>
+            {isLoading
+              ? "Loading..."
+              : isError
+              ? "An error occurred"
+              : courses.map((course) => (
+                  <CourseCard key={course._id} course={course} />
+                ))}
+          </Flex>
+          <HelpButton helpText={helpText} />
+        </Flex>
       </Flex>
     </Box>
   );
