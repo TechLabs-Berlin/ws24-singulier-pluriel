@@ -12,7 +12,7 @@ import {
   useToast,
   CircularProgress,
 } from "@chakra-ui/react";
-import instructorImage from "../assets/instructor.png";
+import instructorImage from "../assets/instructor.jpg";
 
 //Enable axios to send cookies with every request
 axios.defaults.withCredentials = true;

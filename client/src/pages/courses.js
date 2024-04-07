@@ -13,6 +13,7 @@ import {
 } from "@chakra-ui/react";
 import NavBar from "../components/NavBar";
 import UserProfile from "../components/UserProfile";
+import HelpButton from "../components/HelpButton";
 import axios from "axios";
 
 // Get courses
@@ -84,6 +85,36 @@ const Courses = () => {
     isError,
   } = useQuery("courses", fetchCourses);
 
+  const helpText = (
+    <>
+      <Text as="p" mb={2}>
+        You’re currently in the <strong>Course selection </strong> page. All of
+        the courses that you are teaching or attending this semester will be
+        displayed here. Click on <strong>OPEN</strong> to navigate to the
+        corresponding course.
+      </Text>
+      <Text as="p" mb={2}>
+        Access your <strong>graphical dashboards</strong> to visualise
+        information like attendance and student progress for the current
+        semester as a whole across all classes you are currently teaching. You
+        can find graphical dashboards related to a single course in that
+        course’s page.
+      </Text>
+      <Text as="p" mb={2}>
+        You can visualise courses you have attended in{" "}
+        <strong>previous semesters </strong> by clicking on the corresponding
+        buttons in the “Previous Semesters” section.
+      </Text>
+      <Text as="p" mb={2}>
+        Click on <strong>HOME</strong> if you want to go back to the home page;{" "}
+        <strong>COMMUNICATION</strong> if you want to send and receive messages,
+        post and see announcements, manage or participate in group work;{" "}
+        <strong>GRADES CENTER</strong> if you want to see your transcripts and
+        book an exam (as a student) or schedule an exam and grade students (as a
+        course instructor).
+      </Text>
+    </>
+  );
   return (
     <Flex>
       <NavBar />
@@ -103,6 +134,7 @@ const Courses = () => {
                 ))}
           </Flex>
         </VStack>
+        <HelpButton helpText={helpText} />
       </Flex>
     </Flex>
   );
