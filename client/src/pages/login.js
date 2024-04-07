@@ -1,3 +1,5 @@
+import UNI from '../assets/UNIlogo.png';
+import LMS from '../assets/LMSlogo.png';
 import { useState, useContext } from "react";
 import { useMutation } from "react-query";
 import axios from "axios";
@@ -7,12 +9,12 @@ import {
   Box,
   Button,
   Input,
+  Text,
   Image,
   FormControl,
   FormLabel,
   useToast,
 } from "@chakra-ui/react";
-
 
 function Login() {
   const navigate = useNavigate();
@@ -63,7 +65,7 @@ function Login() {
   const handleLogin = (e) => {
     e.preventDefault();
     if (!userEmail || !password) {
-      setError("Please fill in all fields.");
+      console.log("Please fill in all fields.");
       return;
     }
     mutate();
@@ -74,8 +76,20 @@ function Login() {
       display={'flex'}
       justifyContent={'center'}
       alignItems={'center'}
-      
+    // bgImage={cound't find bg}
     >
+      <Box
+        boxSize={'sm'}>
+        <Image
+          width={'270px'}
+          height={'182px'}
+          gap={'0px'}
+          opacity={'0px'}
+          position="absolutes"
+          top={'1'}
+          src={UNI} />
+      </Box>
+
       <Box
         display={'flex'}
         justifyContent={'center'}
@@ -90,23 +104,52 @@ function Login() {
         gap={'0px'}
         borderRadius={'30px'}
       >
-        {error && <p style={{ color: "red" }}>{error}</p>}
         <form onSubmit={handleLogin} >
 
           <FormControl id="email" isRequired>
             <table>
               <tr>
                 <td>
-        <Image src="LMS logo (Image + text)"></Image>
+                  <Box
+                  display={'flex'}
+                  justifyContent={'center'}
+                  alignItems={'center'}
+                  marginTop={'10%'}
+                  >
+                  <Image
+
+                  height={'147px'}
+                  gap={'0px'}
+                  borderRadius={'12px'}
+                  opacity={'0px'}
+                   src={LMS} />
+                  </Box>
                 </td>
               </tr>
+              <tr>
+                <td>
+                  <Text
+                  textAlign={'center'}
+                  >
+                    Singulier Plurlier <br/>
+                    LMS
+                  </Text>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  {error && <p style={{ color: "red", textAlign: "center", marginTop: "10%" }}>{error}</p>}
+                </td>
+              </tr>
+              <br />
+              <br />
               <tr>
                 <td>
                   <FormLabel
                     color={'white'}
                     width={'104px'}
                     height={'28px'}
-                    top={'205px'}
+                    top={'100px'}
                     left={'43px'}
                     gap={'0px'}
                     opacity={'0px'}
@@ -124,7 +167,6 @@ function Login() {
                       bgColor={'white'}
                       width={'244px'}
                       height={'48px'}
-                      left={'16px'}
                       padding={'0px 16px 0px 16px'}
                       gap={'10px'}
                       borderRadius={'6px'}
@@ -165,7 +207,7 @@ function Login() {
                       bgColor={'white'}
                       width={'244px'}
                       height={'48px'}
-                      left={'16px'}
+                      left={'55px'}
                       padding={'0px 16px 0px 16px'}
                       gap={'10px'}
                       borderRadius={'6px'}
@@ -188,10 +230,10 @@ function Login() {
                   width={'126px'}
                   height={'28px'}
                   marginTop={'20%'}
-                  top={'40px'}
+                  top={'37px'}
                   gap={'0px'}
                   fontFamily={'Inter'}
-                  fontSize={'20px'}
+                  fontSize={'18px'}
                   textAlign={'left'}
                 >
                   Forgot your password?
@@ -202,12 +244,13 @@ function Login() {
                   width={'101px'}
                   height={'48px'}
                   top={'37px'}
-                  left={'70px'}
+                  left={'80px'}
                   padding={'0px 24px 0px 24px'}
                   gap={'8px'}
                   borderRadius={'6px'}
                   bgColor={'#E14177'}
                   boxShadow={'0px 4px 4px 0px #00000040'}
+                  mt={4} colorScheme="teal" isLoading={isLoading} type="submit"
                 >
                   Login
                 </Button>
