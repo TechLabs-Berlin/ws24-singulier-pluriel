@@ -28,20 +28,25 @@ const MainApp = () => {
     </>
   );
   return (
-    <Box position="relative">
+    <Box
+      position="relative"
+      bg="linear-gradient(0deg, rgba(0, 17, 68, 0.06), rgba(0, 17, 68, 0.06)), linear-gradient(0deg, rgba(255, 255, 255, 0.88), rgba(255, 255, 255, 0.88))"
+    >
       <LmsUniLogo />
-      <VStack spacing={4} align="stretch" mt="4">
-        <UserProfile />
-        <Flex direction="column" align="center" mt="200px">
+      <Flex direction="column" align="center">
+        <VStack spacing={4} align="stretch">
+          <UserProfile />
           <Flex wrap="wrap" justify="center" gap="4">
             <MainCard title="Courses" />
             <MainCard title="Communication" />
             <MainCard title="Grade Center" />
           </Flex>
-          <SearchBar />
+          <Flex justify="center" w="full" pr={5}>
+            <SearchBar />
+          </Flex>
           <Dashboard />
-        </Flex>
-      </VStack>
+        </VStack>
+      </Flex>
       <HelpButton helpText={helpText} />
     </Box>
   );
