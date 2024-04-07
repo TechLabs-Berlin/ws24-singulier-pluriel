@@ -91,6 +91,7 @@ function Login() {
       </Box>
 
       <Box
+        boxSize={'-moz-fit-content'}
         display={'flex'}
         justifyContent={'center'}
         alignItems={'center'}
@@ -99,7 +100,7 @@ function Login() {
         boxShadow={'0px 4px 4px 0px #00000040'}
         width={'452px'}
         height={'452px'}
-        top={'355px'}
+        top={'100px'}
         left={'587px'}
         gap={'0px'}
         borderRadius={'30px'}
@@ -122,6 +123,7 @@ function Login() {
                   gap={'0px'}
                   borderRadius={'12px'}
                   opacity={'0px'}
+                  bottom={'0px'}
                    src={LMS} />
                   </Box>
                 </td>
