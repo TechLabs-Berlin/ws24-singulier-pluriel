@@ -113,9 +113,24 @@ const Module = () => {
         )}
       </Flex>
       {modules.map((module) => (
-        <Box key={module._id} borderWidth="1px" p={5} shadow="md">
-          <Flex justifyContent="space-between" alignItems="center" mb={4}>
-            <Text fontSize="lg" fontWeight="semibold">
+        <Box
+          key={module._id}
+          borderWidth="1px"
+          p={5}
+          shadow="md"
+          w="80%"
+          minH="200px"
+          mx="auto"
+        >
+          <Flex
+            justifyContent="space-between"
+            alignItems="center"
+            mb={4}
+            bg="#01427A"
+            p={2}
+            borderRadius="md"
+          >
+            <Text fontSize="lg" fontWeight="semibold" color="white">
               {module.title}
             </Text>
             {userRole === "teacher" && (
@@ -169,11 +184,11 @@ const Module = () => {
               </VStack>
             </Box>
             <Box flex={1} ml={4} borderWidth="1px" p={3}>
-              <Text fontSize="md" mb={2}>
+              <Text fontSize="md" mb={2} fontWeight="bold">
                 Assignments
               </Text>
               {/* Demo button for now */}
-              <Button size="sm" colorScheme="teal">
+              <Button size="sm" backgroundColor="#E14177" color="black">
                 Check/Edit Assignments
               </Button>
             </Box>

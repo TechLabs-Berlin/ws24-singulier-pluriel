@@ -79,20 +79,28 @@ const CourseDetail = () => {
   }
 
   return (
-    <Box>
-      <LmsUniLogo />
-      <Flex direction="row" w="full">
-        <NavBar />
-        <Box flex="1" pl={{ md: "250px" }}>
-          <VStack spacing="4" mt="4">
-            <UserProfile />
-            <Text fontSize="2xl" mb="4">
-              {course ? course.title : "Course not found"}
-            </Text>
-            <Module />
-            <HelpButton helpText={helpText} />
-          </VStack>
-        </Box>
+    <Box bg="linear-gradient(0deg, rgba(0, 17, 68, 0.06), rgba(0, 17, 68, 0.06)), linear-gradient(0deg, rgba(255, 255, 255, 0.88), rgba(255, 255, 255, 0.88))">
+      <Flex direction="row" align="start" w="full">
+        <Flex direction="column" minW="20%">
+          <LmsUniLogo />
+          <NavBar />
+        </Flex>
+        <VStack
+          flex="1"
+          spacing={4}
+          align="stretch"
+          maxW="1200px"
+          mx="auto"
+          px={4}
+          mt={{ base: "0", md: "20" }}
+        >
+          <UserProfile />
+          <Text fontSize="2xl" mb="4" fontWeight="bold">
+            {course ? course.title : "Course not found"}
+          </Text>
+          <Module />
+          <HelpButton helpText={helpText} />
+        </VStack>
       </Flex>
     </Box>
   );

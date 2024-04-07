@@ -35,7 +35,13 @@ const MaterialDeleteButton = ({
 
   return (
     <>
-      <Button size="xs" colorScheme="red" onClick={onOpen}>
+      <Button
+        size="xs"
+        backgroundColor="#E14177"
+        color="black"
+        onClick={onOpen}
+        _hover={{ bg: "#c12d56" }}
+      >
         Delete
       </Button>
 

@@ -88,13 +88,29 @@ const ActionButtons = ({ courseId, moduleId, userRole, materials }) => {
       {userRole === "teacher" && (
         <>
           <HStack spacing={2}>
-            <Button size="sm" colorScheme="green" onClick={onOpen}>
+            <Button
+              size="sm"
+              onClick={onOpen}
+              variant="outline"
+              color="black"
+              borderColor="black"
+            >
               Upload
             </Button>
-            <Button size="sm" colorScheme="purple">
+            <Button
+              size="sm"
+              variant="outline"
+              color="black"
+              borderColor="black"
+            >
               Add Link
             </Button>
-            <Button size="sm" colorScheme="orange">
+            <Button
+              size="sm"
+              variant="outline"
+              color="black"
+              borderColor="black"
+            >
               Add Multimedia Resources
             </Button>
           </HStack>

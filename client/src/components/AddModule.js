@@ -11,6 +11,7 @@ import {
   Input,
   useDisclosure,
 } from "@chakra-ui/react";
+import { AddIcon } from "@chakra-ui/icons";
 import axios from "axios";
 
 const AddModule = ({ courseId, onAddModule }) => {
@@ -33,8 +34,16 @@ const AddModule = ({ courseId, onAddModule }) => {
 
   return (
     <>
-      <Button onClick={onOpen} colorScheme="teal">
-        Add Module +
+      <Button
+        onClick={onOpen}
+        backgroundColor="transparent"
+        color="#E14177"
+        borderColor="#E14177"
+        borderWidth="1px"
+        _hover={{ bg: "#E14177", color: "black" }}
+      >
+        Add Module
+        <AddIcon color="black" boxSize="12px" ml={2} />
       </Button>
 
       <Modal isOpen={isOpen} onClose={onClose}>

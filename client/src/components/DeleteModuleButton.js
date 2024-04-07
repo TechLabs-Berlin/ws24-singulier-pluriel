@@ -28,7 +28,13 @@ const DeleteModuleButton = ({ courseId, moduleId, onModuleDeleted }) => {
 
   return (
     <>
-      <Button size="sm" colorScheme="red" onClick={onOpen}>
+      <Button
+        size="sm"
+        backgroundColor="transparent"
+        border="1px solid white"
+        color="white"
+        onClick={onOpen}
+      >
         Delete Module
       </Button>
 
