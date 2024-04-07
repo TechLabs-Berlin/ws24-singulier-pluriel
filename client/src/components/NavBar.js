@@ -1,4 +1,4 @@
-import { Box, Text, Image, VStack, Link } from "@chakra-ui/react";
+import { Box, VStack, Link } from "@chakra-ui/react";
 import { Link as RouterLink, useLocation } from "react-router-dom";
 
 const NavBar = () => {
@@ -6,14 +6,7 @@ const NavBar = () => {
   const isCourseDetailPage = location.pathname.startsWith("/course-detail/");
 
   return (
-    <Box w="20%" p={5} bg="gray.100" minH="100vh">
-      <Box mb={8} textAlign="center">
-        <Image src="http://via.placeholder.com/50x80" alt="Logo" mx="auto" />
-        <Text fontStyle="italic" m="4">
-          Universita Libera di Livorno
-        </Text>
-      </Box>
-
+    <Box w="20%" p={5} bg="gray.100">
       <VStack spacing={4} align="start">
         <Link as={RouterLink} to="/main">
           Home

@@ -14,6 +14,7 @@ import {
 import NavBar from "../components/NavBar";
 import UserProfile from "../components/UserProfile";
 import HelpButton from "../components/HelpButton";
+import LmsUniLogo from "../components/LmsUniLogo";
 import axios from "axios";
 
 // Get courses
@@ -116,27 +117,30 @@ const Courses = () => {
     </>
   );
   return (
-    <Flex>
-      <NavBar />
-      <Flex direction="column" flex="1" ml={{ base: 0, md: 60 }} pt="4">
-        <UserProfile />
-        <VStack spacing={4} align="stretch" mt="5">
-          <Text fontSize="2xl" mb="4" textAlign="center">
-            Courses
-          </Text>
-          <Flex direction="row" gap="4" wrap="wrap" justify="center">
-            {isLoading
-              ? "Loading..."
-              : isError
-              ? "An error occurred"
-              : courses.map((course) => (
-                  <CourseCard key={course._id} course={course} />
-                ))}
-          </Flex>
-        </VStack>
-        <HelpButton helpText={helpText} />
+    <Box>
+      <LmsUniLogo />
+      <Flex direction="row" w="full">
+        <NavBar />
+        <Box flex="1" pl={{ md: "20%" }}>
+          <VStack spacing="4" mt="4">
+            <UserProfile />
+            <Text fontSize="2xl" mb="4">
+              Courses
+            </Text>
+            <Flex direction="row" gap="4" wrap="wrap" justify="center">
+              {isLoading
+                ? "Loading..."
+                : isError
+                ? "An error occurred"
+                : courses.map((course) => (
+                    <CourseCard key={course._id} course={course} />
+                  ))}
+            </Flex>
+            <HelpButton helpText={helpText} />
+          </VStack>
+        </Box>
       </Flex>
-    </Flex>
+    </Box>
   );
 };
 

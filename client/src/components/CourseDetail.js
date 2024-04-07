@@ -1,10 +1,18 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { Flex, Text, CircularProgress, useToast } from "@chakra-ui/react";
+import {
+  Box,
+  Flex,
+  Text,
+  VStack,
+  CircularProgress,
+  useToast,
+} from "@chakra-ui/react";
 import NavBar from "./NavBar";
 import UserProfile from "./UserProfile";
 import Module from "./Module";
 import HelpButton from "./HelpButton";
+import LmsUniLogo from "./LmsUniLogo";
 import axios from "axios";
 
 const CourseDetail = () => {
@@ -71,17 +79,22 @@ const CourseDetail = () => {
   }
 
   return (
-    <Flex>
-      <NavBar />
-      <Flex direction="column" as="main" p={5} w="80%">
-        <UserProfile />
-        <Text fontSize="2xl" mb="4">
-          {course ? course.title : "Course not found"}
-        </Text>
-        <Module />
-        <HelpButton helpText={helpText} />
+    <Box>
+      <LmsUniLogo />
+      <Flex direction="row" w="full">
+        <NavBar />
+        <Box flex="1" pl={{ md: "250px" }}>
+          <VStack spacing="4" mt="4">
+            <UserProfile />
+            <Text fontSize="2xl" mb="4">
+              {course ? course.title : "Course not found"}
+            </Text>
+            <Module />
+            <HelpButton helpText={helpText} />
+          </VStack>
+        </Box>
       </Flex>
-    </Flex>
+    </Box>
   );
 };
 

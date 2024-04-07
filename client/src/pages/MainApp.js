@@ -3,8 +3,9 @@ import UserProfile from "../components/UserProfile";
 import MainCard from "../components/MainCard";
 import SearchBar from "../components/SearchBar";
 import Dashboard from "../components/dashboard";
-import { Box, Text, Flex } from "@chakra-ui/react";
+import { Box, Text, Flex, VStack } from "@chakra-ui/react";
 import HelpButton from "../components/HelpButton";
+import LmsUniLogo from "../components/LmsUniLogo";
 
 const MainApp = () => {
   const helpText = (
@@ -27,20 +28,20 @@ const MainApp = () => {
     </>
   );
   return (
-    <Box>
-      <Text fontStyle="italic" m="4">
-        Universita Libera di Livorno
-      </Text>
-      <UserProfile />
-      <Flex direction="column" align="center" mt="4">
-        <Flex wrap="wrap" justify="center" gap="4">
-          <MainCard title="Courses" />
-          <MainCard title="Communication" />
-          <MainCard title="Grade Center" />
+    <Box position="relative">
+      <LmsUniLogo />
+      <VStack spacing={4} align="stretch" mt="4">
+        <UserProfile />
+        <Flex direction="column" align="center" mt="200px">
+          <Flex wrap="wrap" justify="center" gap="4">
+            <MainCard title="Courses" />
+            <MainCard title="Communication" />
+            <MainCard title="Grade Center" />
+          </Flex>
+          <SearchBar />
+          <Dashboard />
         </Flex>
-        <SearchBar />
-        <Dashboard />
-      </Flex>
+      </VStack>
       <HelpButton helpText={helpText} />
     </Box>
   );
