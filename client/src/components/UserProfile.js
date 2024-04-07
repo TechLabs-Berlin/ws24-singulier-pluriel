@@ -39,8 +39,8 @@ function UserProfile() {
       toast({
         title: "Logout Successful",
         description: "You have been successfully logged out.",
-        status: "success",
-        duration: 5000,
+        status: "info",
+        duration: 2000,
         isClosable: true,
       });
       navigate("/");
@@ -49,7 +49,7 @@ function UserProfile() {
         title: "Logout Failed",
         description: "There was a problem logging you out. Please try again.",
         status: "error",
-        duration: 5000,
+        duration: 3000,
         isClosable: true,
       });
     }
