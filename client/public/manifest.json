@@ -8,7 +8,7 @@
       "type": "image/jpeg"
     },
     {
-      "src": "assets/icon.jpg",
+      "src": "assets/favicon.jpg",
       "type": "image/jpeg",
       "sizes": "512x512",
       "purpose": "maskable"

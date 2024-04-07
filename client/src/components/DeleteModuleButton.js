@@ -28,7 +28,13 @@ const DeleteModuleButton = ({ courseId, moduleId, onModuleDeleted }) => {
 
   return (
     <>
-      <Button size="sm" colorScheme="red" onClick={onOpen}>
+      <Button
+        size="sm"
+        backgroundColor="transparent"
+        border="1px solid white"
+        color="white"
+        onClick={onOpen}
+      >
         Delete Module
       </Button>
 
@@ -39,7 +45,7 @@ const DeleteModuleButton = ({ courseId, moduleId, onModuleDeleted }) => {
           <ModalCloseButton />
           <ModalBody>
             <Text>Are you sure you want to delete this module?</Text>
-            <Text color="red.500">This action cannot be undone!</Text>
+            <Text color="red.500">Warning: This action cannot be undone!</Text>
           </ModalBody>
 
           <ModalFooter>

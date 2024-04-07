@@ -12,7 +12,7 @@ import {
   useToast,
   CircularProgress,
 } from "@chakra-ui/react";
-import instructorImage from "../assets/instructor.png";
+import instructorImage from "../assets/instructor.jpg";
 
 //Enable axios to send cookies with every request
 axios.defaults.withCredentials = true;
@@ -39,8 +39,8 @@ function UserProfile() {
       toast({
         title: "Logout Successful",
         description: "You have been successfully logged out.",
-        status: "success",
-        duration: 5000,
+        status: "info",
+        duration: 2000,
         isClosable: true,
       });
       navigate("/");
@@ -49,7 +49,7 @@ function UserProfile() {
         title: "Logout Failed",
         description: "There was a problem logging you out. Please try again.",
         status: "error",
-        duration: 5000,
+        duration: 3000,
         isClosable: true,
       });
     }
@@ -77,7 +77,7 @@ function UserProfile() {
       bottom="31px"
       left="31px"
       p="4"
-      bg="#FEEBCB"
+      bg="#01427A"
       borderRadius="10px"
       border="1px solid #E2E8F0"
       width="274px"
@@ -94,29 +94,35 @@ function UserProfile() {
           borderRadius="9999px"
         />
         <VStack spacing="0" alignItems="start">
-          <Text fontSize="lg" fontWeight="normal" lineHeight="7">
+          <Text fontSize="lg" fontWeight="normal" lineHeight="7" color="white">
             {userData.name}
           </Text>
-          <Text fontSize="sm">{userData.role}</Text>
+          <Text fontSize="sm" color="white">
+            {userData.role}
+          </Text>
         </VStack>
       </HStack>
       <HStack spacing="4">
         <Button
-          colorScheme="orange"
+          bg="#E14177"
+          color="#000000"
           size="md"
           variant="solid"
           width="125px"
           height="40px"
+          _hover={{ bg: "#c5325d" }}
         >
           View Profile
         </Button>
         <Button
-          colorScheme="orange"
+          bg="#E14177"
+          color="#000000"
           size="md"
           variant="solid"
           width="93px"
           height="40px"
           onClick={handleLogout}
+          _hover={{ bg: "#c5325d" }}
         >
           Log Out
         </Button>
