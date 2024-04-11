@@ -10,6 +10,6 @@ The 'npm install' installs all modules that are listed on package.json file and 
 ### Start the application
 `npm start`
 Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.\
+Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
-This is a web app.\
+This is a web app.
