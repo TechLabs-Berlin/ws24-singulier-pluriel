@@ -36,13 +36,6 @@ function UserProfile() {
   const handleLogout = async () => {
     try {
       await axios.get("/auth/logout");
-      toast({
-        title: "Logout Successful",
-        description: "You have been successfully logged out.",
-        status: "info",
-        duration: 2000,
-        isClosable: true,
-      });
       navigate("/");
     } catch (error) {
       toast({
