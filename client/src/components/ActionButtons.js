@@ -51,7 +51,7 @@ const ActionButtons = ({ courseId, moduleId, userRole, materials }) => {
     const formData = new FormData();
     formData.append("files", selectedFile);
 
-    //Update upload logic
+    //Upload logic
     try {
       const response = await axios.put(
         `/courses/${courseId}/modules/${moduleId}`,

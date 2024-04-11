@@ -24,7 +24,7 @@ const fetchCourses = async () => {
 
 // Component for individual course cards for later refactoring
 const CourseCard = ({ course }) => {
-  const defaultImageUrl = "http://via.placeholder.com/150";
+  const defaultImageUrl = "http://via.placeholder.com/150"; //fall back
   const formatDate = (dateString) => new Date(dateString).toLocaleDateString();
 
   return (
