@@ -9,9 +9,9 @@ const session = require('express-session');
 const MongoStore = require('connect-mongodb-session')(session);
 const cookieParser = require('cookie-parser');
 const multer  = require('multer');
+const cloudinary = require('cloudinary');
 const { storage } = require('./cloudinary');
 const upload = multer({ storage });
-const cloudinary = require('cloudinary');
 const morgan = require('morgan');
 const authRoutes = require('./routes/auth');
 const courseRoutes = require('./routes/courses');
@@ -29,7 +29,7 @@ app.use(cors({
     origin: "http://localhost:3000",
     methods: ["POST", "PUT", "GET", "DELETE", "OPTIONS", "HEAD"],
     credentials: true,
-  }))
+}));
 
 const store = new MongoStore({
   uri: process.env.DB_URL,
