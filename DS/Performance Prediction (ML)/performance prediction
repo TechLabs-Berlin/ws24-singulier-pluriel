@@ -1,0 +1,64 @@
+import numpy as np
+import pandas as pd
+from sklearn.linear_model import LinearRegression
+from sklearn.model_selection import train_test_split
+import matplotlib.pyplot as plt
+
+# Generate fake data for student performance
+np.random.seed(42)
+num_students = 100
+grades = np.random.randint(0, 100, num_students)
+attendance = np.random.randint(0, 100, num_students)
+engagement = np.random.randint(0, 100, num_students)
+
+# Combine the data into a pandas DataFrame
+data = pd.DataFrame({'grades': grades, 'attendance': attendance, 'engagement': engagement})
+X = data[['attendance', 'engagement']]
+y = data['grades']
+
+# Split the data into training and testing sets
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+# Train a linear regression model
+model = LinearRegression()
+model.fit(X_train, y_train)
+
+# Make predictions
+predictions = model.predict(X_test)
+
+# Print the results
+results = pd.DataFrame({'Actual': y_test, 'Predicted': predictions})
+print(results)
+
+# Plot the predicted grades against the actual grades using scatterplot
+plt.figure(figsize=(10, 6))
+plt.scatter(y_test, predictions, color='blue', label='Predicted vs Actual Student Grades')
+plt.plot([0, 100], [0, 100], color='red', linestyle='--', label='Perfect Prediction')
+plt.xlabel('Actual Grades')
+plt.ylabel('Predicted Grades')
+plt.title('Predicted vs Actual Student Grades')
+plt.legend()
+plt.show()
+
+
+# Plot the predicted grades against the actual grades using a bar chart
+plt.figure(figsize=(12, 8))
+barWidth = 0.4
+r1 = np.arange(len(y_test))
+r2 = [x + barWidth for x in r1]
+
+# Define blush pastel colors
+actual_color = '#f3acbd'
+predicted_color = '#f9e8e2'
+
+plt.bar(r1, y_test, color=actual_color, width=barWidth, edgecolor='grey', label='Actual Grades')
+plt.bar(r2, predictions, color=predicted_color, width=barWidth, edgecolor='grey', label='Predicted Grades')
+
+plt.xlabel('Students', fontsize=12, fontweight='bold')
+plt.ylabel('Grades', fontsize=12, fontweight='bold')
+plt.title('Predicted vs Actual Student Grades', fontsize=16, fontweight='bold')
+plt.xticks([r + barWidth/2 for r in range(len(y_test))], [f'Student {i+1}' for i in range(len(y_test))], rotation=45)
+plt.legend()
+plt.tight_layout()
+plt.grid(axis='y', linestyle='--', alpha=0.7)
+plt.show()
