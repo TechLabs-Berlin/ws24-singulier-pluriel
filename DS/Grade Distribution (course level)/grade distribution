@@ -1,0 +1,64 @@
+!pip install faker
+
+import random
+import pandas as pd
+from faker import Faker
+
+# Initialize Faker to generate fake data
+fake = Faker()
+
+# Generate fake student data
+fake_students = []
+grades = [1.0, 1.5, 2.3, 3.0, 3.7, 4.0, 5.0]
+for _ in range(100):
+    first_name = fake.first_name()
+    last_name = fake.last_name()
+    grade = random.choice(grades)
+    fake_students.append({'First Name': first_name, 'Last Name': last_name, 'Grade': grade})
+
+# Create a DataFrame from the fake student data
+df_students = pd.DataFrame(fake_students)
+df_students.head()
+
+!pip install matplotlib
+
+import matplotlib.pyplot as plt
+
+# Count the number of students for each grade
+grade_counts = df_students['Grade'].value_counts().sort_index()
+
+# Define the colors for the doughnut charts
+colors = ['#EDDCD2', '#DBE7E4', '#FFF1E6', '#F0EFEB', '#FDE2E4', '#D6E2E9', '#FAD2E1']
+
+fig, axs = plt.subplots(1, len(grade_counts), figsize=(20, 4))
+for i, (grade, count) in enumerate(grade_counts.items()):
+    color_index = i % len(colors)  # Use modulo to cycle through the colors list
+    axs[i].pie([count, 100 - count], labels=[f'Grade {grade}', ''], colors=[colors[color_index], 'white'], startangle=90, counterclock=False)
+    axs[i].set_title(f'Grade {grade}')
+
+plt.show()
+
+# Create the doughnut chart for all grades
+fig, ax = plt.subplots()
+ax.pie(grade_counts, labels=[f'Grade {grade}' for grade in grade_counts.index], colors=colors, startangle=90, counterclock=False)
+ax.set_title('Grade Distribution for Italian A1')
+
+plt.show()
+
+# Create the outer circle for the doughnut chart
+fig, ax = plt.subplots()
+outer_circle, _ = ax.pie(grade_counts, labels=[f'Grade {grade}' for grade in grade_counts.index], colors=colors, radius=1, startangle=90, counterclock=False)
+
+# Create the inner hole for the doughnut chart
+inner_circle = plt.Circle((0, 0), 0.6, color='white')
+ax.add_artist(inner_circle)
+
+ax.set(aspect="equal")
+ax.set_title('Italian A1.2')
+
+# Save the figure before displaying it
+fig.savefig('grade_distribution_doughnut_chart.png', dpi=300, bbox_inches='tight', transparent=True)
+
+# Display the chart
+plt.show()
+

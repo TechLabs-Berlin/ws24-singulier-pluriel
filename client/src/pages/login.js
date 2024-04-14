@@ -7,10 +7,17 @@ import {
   Box,
   Button,
   Input,
+  Text,
+  Image,
   FormControl,
   FormLabel,
+  VStack,
+  Center,
   useToast,
 } from "@chakra-ui/react";
+import lmsLogo from "../assets/lms-logo.jpg";
+import uniLogo from "../assets/uni-logo.jpg";
+import bgImage from "../assets/bg-image.jpg";
 
 function Login() {
   const navigate = useNavigate();
@@ -29,14 +36,13 @@ function Login() {
       }),
     {
       onSuccess: (response) => {
-        toast({
-          title: "Login successful.",
-          description: "You're being redirected to the main page.",
-          status: "success",
-          duration: 9000,
-          isClosable: true,
+        setAuth({
+          loggedIn: true,
+          user: {
+            ...response.data.user,
+            role: response.data.user.role.name,
+          },
         });
-        setAuth(true);
         navigate("/main"); // Redirect to main page after successful login
       },
       onError: (error) => {
@@ -45,7 +51,7 @@ function Login() {
           title: "An error occurred.",
           description: error.response?.data.message || "Unable to login.",
           status: "error",
-          duration: 9000,
+          duration: 3000,
           isClosable: true,
         });
       },
@@ -62,30 +68,73 @@ function Login() {
   };
 
   return (
-    <Box maxW="sm" borderWidth="1px" borderRadius="lg" p={4} m="40px auto">
-      {error && <p style={{ color: "red" }}>{error}</p>}
-      <form onSubmit={handleLogin}>
-        <FormControl id="email" isRequired>
-          <FormLabel>Email address</FormLabel>
-          <Input
-            type="email"
-            value={userEmail}
-            onChange={(e) => setUserEmail(e.target.value)}
-          />
-        </FormControl>
-        <FormControl id="password" isRequired mt={4}>
-          <FormLabel>Password</FormLabel>
-          <Input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-        </FormControl>
-        <Button mt={4} colorScheme="teal" isLoading={isLoading} type="submit">
-          Login
-        </Button>
-      </form>
-    </Box>
+    <Center
+      minH="100vh"
+      bgImage={`url(${bgImage})`}
+      bgPos="center"
+      bgSize="cover"
+    >
+      <VStack spacing={4}>
+        <Image
+          src={uniLogo}
+          alt="University Logo"
+          boxSize={{ base: "67px", md: "135px" }}
+        />
+        <Box
+          p={6}
+          boxShadow="xl"
+          rounded="lg"
+          bg="#01427A"
+          color="white"
+          w="454px"
+          textAlign="center"
+        >
+          <Image src={lmsLogo} alt="LMS Logo" boxSize="110px" m="auto" />
+          {error && (
+            <Text color="red" mb={4}>
+              {error}
+            </Text>
+          )}
+          <FormControl isRequired mb={4}>
+            <FormLabel>Username</FormLabel>
+            <Input
+              type="email"
+              value={userEmail}
+              onChange={(e) => setUserEmail(e.target.value)}
+              bgColor="white"
+              color="black"
+            />
+          </FormControl>
+          <FormControl isRequired mb={4}>
+            <FormLabel>Password</FormLabel>
+            <Input
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              bgColor="white"
+              color="black"
+            />
+          </FormControl>
+          <Text
+            color="gray.200"
+            mb={4}
+            cursor="pointer"
+            _hover={{ color: "gray.300" }}
+          >
+            Forgot your password?
+          </Text>
+          <Button
+            isLoading={isLoading}
+            backgroundColor="#E14177"
+            onClick={handleLogin}
+            size="lg"
+            color="black"
+          >
+            Log In
+          </Button>
+        </Box>
+      </VStack>
+    </Center>
   );
 }
 

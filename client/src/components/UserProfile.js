@@ -6,19 +6,20 @@ import {
   Box,
   Button,
   VStack,
+  HStack,
   Avatar,
   Text,
   useToast,
-  useColorModeValue,
   CircularProgress,
 } from "@chakra-ui/react";
+import instructorImage from "../assets/instructor.jpg";
 
-// Enable axios to send cookies with every request
+//Enable axios to send cookies with every request
 axios.defaults.withCredentials = true;
 
-// Function to get user data
+//Function to get user data
 const fetchUserData = async () => {
-  const response = await axios.get("/userprofile");
+  const response = await axios.get("/auth/userprofile");
   return response.data;
 };
 
@@ -30,30 +31,18 @@ function UserProfile() {
     isLoading,
     isError,
     error,
-  } = useQuery("userData", fetchUserData, {
-    retry: false, // Disable retry for fetching user data
-  });
-
-  const bgColor = useColorModeValue("gray.100", "gray.700");
-  const textColor = useColorModeValue("gray.800", "white");
+  } = useQuery("userData", fetchUserData, { retry: false });
 
   const handleLogout = async () => {
     try {
-      await axios.get("/logout");
-      toast({
-        title: "Logout Successful",
-        description: "You have been successfully logged out.",
-        status: "success",
-        duration: 5000,
-        isClosable: true,
-      });
+      await axios.get("/auth/logout");
       navigate("/");
     } catch (error) {
       toast({
         title: "Logout Failed",
         description: "There was a problem logging you out. Please try again.",
         status: "error",
-        duration: 5000,
+        duration: 3000,
         isClosable: true,
       });
     }
@@ -69,41 +58,68 @@ function UserProfile() {
 
   if (isError) {
     return (
-      <Box display="flex" justifyContent="center" p="4" m="4" bg={bgColor}>
-        <Text color={textColor}>
-          An error occurred while fetching user data: {error.message}
-        </Text>
+      <Box display="flex" justifyContent="center" p="4" m="4" bg="#FEEBCB">
+        <Text>An error occurred while fetching user data: {error.message}</Text>
       </Box>
     );
   }
 
   return (
     <Box
-      display="flex"
-      justifyContent="space-between"
-      alignItems="center"
       position="fixed"
-      top="2"
-      right="2"
+      bottom="31px"
+      left="31px"
       p="4"
-      bg={bgColor}
-      borderRadius="lg"
-      boxShadow="md"
-      width="auto"
+      bg="#01427A"
+      borderRadius="10px"
+      border="1px solid #E2E8F0"
+      width="274px"
+      height="128px"
+      display="flex"
+      flexDirection="column"
+      justifyContent="space-between"
     >
-      <VStack spacing="2" alignItems="flex-start">
-        <Avatar size="sm" name={`${userData.name}`} />
-        <Text fontSize="md" fontWeight="bold" color={textColor}>
-          {userData.name}
-        </Text>
-        <Text fontSize="sm" color={textColor}>
-          {userData.role}
-        </Text>
-      </VStack>
-
-      <Button colorScheme="blue" size="sm" onClick={handleLogout}>
-        Log Out
-      </Button>
+      <HStack spacing="4">
+        <Avatar
+          size="lg"
+          name={userData.name}
+          src={instructorImage}
+          borderRadius="9999px"
+        />
+        <VStack spacing="0" alignItems="start">
+          <Text fontSize="lg" fontWeight="normal" lineHeight="7" color="white">
+            {userData.name}
+          </Text>
+          <Text fontSize="sm" color="white">
+            {userData.role}
+          </Text>
+        </VStack>
+      </HStack>
+      <HStack spacing="4">
+        <Button
+          bg="#E14177"
+          color="#000000"
+          size="md"
+          variant="solid"
+          width="125px"
+          height="40px"
+          _hover={{ bg: "#c5325d" }}
+        >
+          View Profile
+        </Button>
+        <Button
+          bg="#E14177"
+          color="#000000"
+          size="md"
+          variant="solid"
+          width="93px"
+          height="40px"
+          onClick={handleLogout}
+          _hover={{ bg: "#c5325d" }}
+        >
+          Log Out
+        </Button>
+      </HStack>
     </Box>
   );
 }

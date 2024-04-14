@@ -33,13 +33,6 @@ const EditModuleButton = ({ courseId, moduleId, onModuleUpdated }) => {
         }
       );
       console.log(response.data);
-      toast({
-        title: "Module updated.",
-        description: "The module title has been updated successfully.",
-        status: "success",
-        duration: 5000,
-        isClosable: true,
-      });
       onModuleUpdated(moduleId, title);
       onClose();
     } catch (error) {
@@ -56,7 +49,13 @@ const EditModuleButton = ({ courseId, moduleId, onModuleUpdated }) => {
 
   return (
     <>
-      <Button size="sm" colorScheme="blue" onClick={onOpen}>
+      <Button
+        size="sm"
+        backgroundColor="transparent"
+        border="1px solid white"
+        color="white"
+        onClick={onOpen}
+      >
         Edit Module
       </Button>
 

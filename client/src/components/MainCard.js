@@ -1,10 +1,17 @@
 import { useNavigate } from "react-router-dom";
-import { Box, Text, useColorModeValue } from "@chakra-ui/react";
+import { Button, Image, VStack } from "@chakra-ui/react";
+import coursesImage from "../assets/courses.jpg";
+import communicationImage from "../assets/communication.jpg";
+import gradeCenterImage from "../assets/grade-center.jpg";
 
 function MainCard({ title }) {
   const navigate = useNavigate();
-  const bgColor = useColorModeValue("blue.100", "blue.700");
-  const hoverBgColor = useColorModeValue("blue.200", "blue.800");
+
+  const images = {
+    Courses: coursesImage,
+    Communication: communicationImage,
+    "Grade Center": gradeCenterImage,
+  };
 
   const handleCardClick = () => {
     let path = "/";
@@ -25,22 +32,37 @@ function MainCard({ title }) {
   };
 
   return (
-    <Box
+    <VStack
       maxW="sm"
       borderWidth="1px"
       borderRadius="lg"
       overflow="hidden"
-      bg={bgColor}
-      _hover={{ bg: hoverBgColor }}
-      onClick={handleCardClick}
-      cursor="pointer"
       p={4}
       m={2}
+      spacing={4}
+      align="center"
     >
-      <Text fontSize="xl" fontWeight="bold" textAlign="center">
+      <Image
+        src={images[title]}
+        alt={title}
+        borderRadius="md"
+        boxSize="200px"
+        objectFit="cover"
+      />
+      <Button
+        onClick={handleCardClick}
+        colorScheme="red"
+        variant="solid"
+        backgroundColor="#E14177"
+        color="black"
+        _hover={{
+          bg: "#c12d56",
+        }}
+        width="full"
+      >
         {title}
-      </Text>
-    </Box>
+      </Button>
+    </VStack>
   );
 }
 

@@ -1,0 +1,64 @@
+from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.naive_bayes import MultinomialNB
+from sklearn.model_selection import train_test_split
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+# Generate fake student feedback data for 100 students
+fake_feedback = [
+    "The course materials were excellent and very informative.",
+    "The course structure was confusing and hard to follow.",
+    "The teacher performance was engaging and interactive.",
+    "The content was easy to understand and well-explained.",
+    "The relevance of the material to real-world scenarios was lacking.",
+    "The teacher had good interaction with the students.",
+    "The assignments were challenging but helpful.",
+    "Overall, I was satisfied with the course."
+] * 12
+
+# Generate fake labels (positive/negative)
+labels = ['positive', 'negative', 'positive', 'positive', 'negative', 'positive', 'positive', 'positive'] * 12
+
+# Split data into training and testing sets
+X = fake_feedback
+y = labels
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+# Extract features using CountVectorizer
+vectorizer = CountVectorizer()
+X_train_counts = vectorizer.fit_transform(X_train)
+X_test_counts = vectorizer.transform(X_test)
+
+# Train a Naive Bayes classifier
+model = MultinomialNB()
+model.fit(X_train_counts, y_train)
+
+# Make predictions
+predictions = model.predict(X_test_counts)
+
+# Visualize the results in a bar graph using seaborn
+categories = ['positive', 'negative']
+counts = [list(y_test).count('positive'), list(y_test).count('negative')]
+
+# Set pastel colors palette
+colors = sns.color_palette("pastel")
+
+# Create a bar plot
+sns.set(font_scale=1.2)
+sns.set_style("whitegrid")
+plt.figure(figsize=(10, 6))
+sns.barplot(x=categories, y=counts, palette=colors)
+
+# Add value labels on top of each bar
+for i, count in enumerate(counts):
+    plt.text(i, count + 0.1, str(count), ha='center', va='bottom', fontsize=12)
+
+# Customize the plot
+plt.xlabel('Feedback Sentiment', fontsize=14)
+plt.ylabel('Number of Feedback', fontsize=14)
+plt.title('Distribution of Student Feedback Sentiments', fontsize=16)
+
+plt.savefig('Distribution of Student Feedback Sentiments.png', dpi=300, bbox_inches='tight')
+
+# Display the plot
+plt.show()
