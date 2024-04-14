@@ -1,0 +1,39 @@
+{% extends 'layout.html' %}
+{% block content %}
+    
+    <div class="col-sm-10 ml-auto mr-auto ">
+        <H2>Students</H2>
+        <table class="table">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Date</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Gender</th>
+                    <th scope="col">Course</th>
+                    <th scope="col">Level</th>
+                    <th scope="col">Points</th>
+                    <th scope="col">Grade</th>
+                    <th scope="col">Result</th>
+                    <th scope="col">Delete</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for entry in entries %}
+                        <tr>
+                            <th scope="row">{{loop.index}}</th>
+                            <td>{{entry.date.strftime("%m-%d-%Y")}}</td>
+                            <td>{{ entry.name }}</td>
+                            <td>{{ entry.gender }}</td>
+                            <td>{{ entry.course }}</td>
+                            <td>{{ entry.level }}</td>
+                            <td>{{ entry.points }}</td>
+                            <td>{{ entry.grade }}</td>
+                            <td>{{ entry.result }}</td>
+                            <td><a href="{{ url_for('delete', entry_id = entry.id) }}" class="btn btn-outline-danger btn-sm">Delete</a></td>
+                        </tr>
+                {% endfor %}
+        </tbody>
+        </table>
+    </div>
+{% endblock %}

@@ -1,0 +1,205 @@
+{% extends 'layout.html' %}
+{% block content %}
+<div class="col-xs-10 col-sm-6 col-md-6">
+    <div class="card card-style mb-2">
+        <div class="card-body">
+            <div class="chart-container" style="position: relative;">
+                <canvas id="query1"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="col-xs-10 col-sm-6 col-md-6">
+    <div class="card card-style mb-2">
+        <div class="card-body">
+            <div class="chart-container" style="position: relative;">
+                <canvas id="query2"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="col-xs-10 col-sm-6 col-md-6">
+    <div class="card card-style mb-2">
+        <div class="card-body">
+            <div class="chart-container" style="position: relative;">
+                <canvas id="query3"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="col-xs-10 col-sm-6 col-md-6">
+    <div class="card card-style mb-2">
+        <div class="card-body">
+            <div class="chart-container" style="position: relative;">
+                <canvas id="query4"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+{% block javascript %}
+<script>
+    
+    let query1_data = JSON.parse({{ query1 | tojson }});
+    let query2_data = JSON.parse({{ query2 | tojson}});
+    let query3_data = JSON.parse({{ query3 | tojson }});
+    let query4_data= JSON.parse({{ query4 | tojson}})
+
+    Chart.scaleService.updateScaleDefaults('linear', {
+        ticks: {
+            min: 0
+        }
+    });
+
+
+    let chart1 = new Chart(query1, {
+        type: 'bar',
+        data: {
+        labels: ['Czech', 'Dutch', 'English', 'French', 'German', 'Italian', 'Polish', 'Portuguese', 'Spanish'], 
+            datasets: [{
+                label: "Course",
+                data: query1_data,
+                backgroundColor: ['#5DA5DA ', '#FAA43A', '#60BD68',
+                '#ff99ff', '#E16851', '#Ffff00', '#33FFBD', '#581845', '#000066'],
+
+                borderWidth: 1,
+                hoverBorderColor: "black",
+                hoverBorderWidth: 2,
+                hoverBackgroundColor: 'rgba(154, 245, 140)',
+                pointHoverRadius: 5
+            }]
+        },
+        options: {
+                title: {
+                    display: true,
+                        text: "Number of Students per Course",
+                            fontSize: 20,
+                },
+                legend: {
+                    position: "right",
+                        labels: {
+                        fontColor: "gray"
+                    },
+                    display: false,
+                },
+
+                elements: {
+                    hitRadius: 3,
+                }     
+        }
+    });
+
+    let chart2 = new Chart(query2, {
+        type: 'pie',
+        data: {
+        labels: ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'],
+            datasets: [{
+                label: "Level",
+                data: query2_data,
+                backgroundColor: ['#5DA5DA ', '#FAA43A', '#Ffff00',
+            '#B276B2', '#E16851', '#60BD68'],
+
+                borderWidth: 1,
+                hoverBorderColor: "black",
+                hoverBorderWidth: 2,
+                hoverBackgroundColor: 'rgba(154, 245, 140)',
+                pointHoverRadius: 5
+            }]
+        },
+        options: {
+                title: {
+                    display: true,
+                        text: "Number of Students per Level",
+                            fontSize: 20,
+                },
+                legend: {
+                    position: "right",
+                        labels: {
+                        fontColor: "gray"
+                    },
+                    display: true,
+                },
+
+                elements: {
+                    hitRadius: 3,
+                }     
+        }
+    });
+
+    let chart3 = new Chart(query3, {
+        type: 'doughnut',
+        data: {
+            labels: ['A', 'B', 'C', 'D', 'E', 'F'],
+            datasets: [{
+            label: "Grade",
+            data: query3_data,
+            backgroundColor: ['#5DA5DA ', '#FAA43A', '#60BD68',
+            '#B276B2', '#E16851', '#33FFBD'],
+            borderWidth: 1,
+            hoverBorderColor: "black",
+            hoverBorderWidth: 2,
+            hoverBackgroundColor: 'rgba(154, 245, 140)',
+            pointHoverRadius: 5
+            }],
+        },
+    options: {
+            title: {
+                display: true,
+                    text: "Grades",
+                        fontSize: 20,
+        },
+            legend: {
+                position: "right",
+                    labels: {
+                    fontColor: "gray"
+                },
+                display: true,
+        },
+
+            elements: {
+                hitRadius: 3,
+        }
+        }
+    });
+
+    let chart4 = new Chart(query4, {
+        type: 'bar',
+        data: {
+            labels: ['Fail', 'Pass'],
+            datasets: [{
+            label: "Result",
+            data: query4_data,
+            backgroundColor: ['#5DA5DA ', '#FAA43A', '#60BD68',
+            '#B276B2', '#E16851', '#FB8267'],
+            borderWidth: 1,
+            hoverBorderColor: "black",
+            hoverBorderWidth: 2,
+            hoverBackgroundColor: 'rgba(154, 245, 140)',
+            pointHoverRadius: 5
+            }],
+        },
+    options: {
+            title: {
+                display: true,
+                    text: "Results",
+                        fontSize: 20,
+        },
+            legend: {
+                position: "right",
+                    labels: {
+                    fontColor: "gray"
+                },
+                display: false,
+        },
+
+            elements: {
+                hitRadius: 3,
+        }
+        }
+    });
+      
+</script>
+{% endblock %}
+{% endblock %}
