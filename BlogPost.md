@@ -92,13 +92,13 @@ Anyway, through the design journey, we managed to go from the very first (admitt
 
 Here you can see our prototype in action - including a dynamic help function that allows one to take a journey through the functionalities of each page. Please note that the Figma prototype only includes the Course Instructor side, whereas the app developed by WD has two main roles, Course Instructor and Student.
 
-<p align="center"><video src="./UX/Blogpost_Images/VIDEO.mp4" width="450" height="300" controls><video><p>
+[UX Demo Video](./UX/Blogpost_Images/VIDEO.mp4)
 
-You can also test our high-fidelity Figma prototype here: [https://www.figma.com/proto/dfZykUktjrsipShxE2xHRv/Screwaround-File?type=design&node-id=1162-1904&t=eArMoH8ZFlA4ilZs-1&scaling=scale-down&page-id=1153%3A1903&starting-point-node-id=1162%3A1904&hotspot-hints=0&mode=design](https://www.figma.com/proto/dfZykUktjrsipShxE2xHRv/Screwaround-File?type=design&node-id=1162-1904&t=eArMoH8ZFlA4ilZs-1&scaling=scale-down&page-id=1153%3A1903&starting-point-node-id=1162%3A1904&hotspot-hints=0&mode=design)
+You can also test our high-fidelity Figma prototype [here](https://www.figma.com/proto/dfZykUktjrsipShxE2xHRv/Screwaround-File?type=design&node-id=1162-1904&t=eArMoH8ZFlA4ilZs-1&scaling=scale-down&page-id=1153%3A1903&starting-point-node-id=1162%3A1904&hotspot-hints=0&mode=design).
 
 
 ### User Testing
-<p align="center"><video src="./UX/Blogpost_Images/img_12.PNG" width="450" height="300" controls><video></p>
+<p align="center"><img src="./UX/Blogpost_Images/img_12.PNG"></p>
 
 Lastly, UX administered a battery of user tests, asking potential users (all of whom are professionally active as lecturers or teachers) to perform tasks inside of the high-fidelity prototype while thinking aloud about what they were doing. These interviews have already provided a variety of alleyways we could take moving forward, e.g. streamlining things like the close buttons across the app to allow for more internal UI coherence; creating a skippable tutorial that opens up the first time a user logs into the LMS; offering an easy language option / accessibility mode with more visual cues, etc.
 
@@ -140,7 +140,7 @@ We developed a dynamic Web App complete with client-server configuration and mai
 
 
 ### App Demo
-<video src="https://www.loom.com/share/5e36b0dedfca4ed7a3950646202ac521?sid=cc489221-9c77-4ae2-a61d-1042a4ddc5b1" width="400" height="250" controls><video>
+See app demo [here](https://www.loom.com/share/5e36b0dedfca4ed7a3950646202ac521?sid=cc489221-9c77-4ae2-a61d-1042a4ddc5b1).
 
 
 ### Backend
