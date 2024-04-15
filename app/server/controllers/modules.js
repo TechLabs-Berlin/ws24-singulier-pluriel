@@ -49,7 +49,6 @@ module.exports.editModule = async (req, res) => {
     };
     if(req.files != ''){
         const newFile = req.files.map(f => ({ url: f.path, filename: f.filename, type: 'file' }));
-        console.log(newFile)
         for (file of newFile){
             currentModule.materials.push(file);
         }
