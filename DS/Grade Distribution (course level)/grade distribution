@@ -56,7 +56,7 @@ ax.add_artist(inner_circle)
 ax.set(aspect="equal")
 ax.set_title('Italian A1.2')
 
-# Save the figure before displaying it
+# Save the figure 
 fig.savefig('grade_distribution_doughnut_chart.png', dpi=300, bbox_inches='tight', transparent=True)
 
 # Display the chart

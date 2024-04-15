@@ -1,0 +1,28 @@
+import matplotlib.pyplot as plt
+import numpy as np
+
+# Features that students have evaluated
+features = ['Course Materials', 'Course Structure', 'Teacher Performance', 'Ease of Understanding', 'Relevance of Material', 'Interaction with Students', 'Assignments', 'Overall Satisfaction']
+
+# Generate random fake data for feedback scores
+feedback_scores = np.random.randint(1, 6, size=(8, 100))
+
+# Calculate the percentage distribution of feedback scores for each feature
+percentage_distribution = [(np.bincount(scores, minlength=6) / len(scores)) * 100 for scores in feedback_scores]
+
+# Plot the bar chart
+plt.figure(figsize=(12, 8))
+colors = plt.cm.get_cmap('Blues')(np.linspace(0.2, 0.8, 5))
+
+for i in range(5):
+    plt.bar(features, [dist[i+1] for dist in percentage_distribution], color=colors[i], alpha=0.8, label=f'Score {i+1}')
+
+plt.xlabel('Features', fontsize=12)
+plt.ylabel('Percentage Distribution (%)', fontsize=12)
+plt.title('Distribution of Student Feedback in Italian A1.2 Course', fontsize=14)
+plt.legend(title='Feedback Score', fontsize=10)
+plt.xticks(rotation=45, ha='right')
+plt.gca().yaxis.grid(True)
+plt.tight_layout()
+plt.savefig('student_feedback_distribution.png', dpi=300, bbox_inches='tight')
+plt.show()
