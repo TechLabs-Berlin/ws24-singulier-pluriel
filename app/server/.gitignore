@@ -1,0 +1,4 @@
+node_modules/
+.env
+seed/v1/
+seed/v2/
