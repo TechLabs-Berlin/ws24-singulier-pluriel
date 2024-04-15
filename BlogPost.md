@@ -55,9 +55,7 @@ UX then set out to poll course instructors and students regarding their experien
 
 Based on these responses, UX generated three distinct user persona — 2 for course instructors, 1 for a student user. The two course instructor personas differed in age and tech capabilities, which also meant that they had different goals with the LMS (the less tech-savvy one just wanted to use it as a directory for course materials, the more technically versed one wanted to use it to have an interesting digital extension to their classroom environment). UX accordingly generated scenarios and user stories to match these personas.
 
-<p align="center">
 <img src="./UX/Blogpost_Images/img_3.png" width=50%> <img src="./UX/Blogpost_Images/img_4.png" width=49%> <img src="./UX/Blogpost_Images/img_5.png" width=50%>
-</p>
 
 Finally, UX set out to boil down the categories of the SingulierPluriel LMS to 4 possible sections (Courses, Communication, Announcements, Grades Center) and to conduct card-sorting interviews using a tool called Optimal Workshop. Users were asked to place a variety of possible tasks connected to the LMS (e.g. upload an assignment, schedule an exam etc.) into those 4 categories.
 
