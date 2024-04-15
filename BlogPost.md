@@ -199,16 +199,17 @@ The file upload/deletion is made possible with the combination of the 'cloudinar
 
 ## Data Science
 
-1) Graphical dashboard designed for teachers, featuring two levels: **general** and **course-specific**. 
+1) Graphical dashboard designed for teachers that is build with python using the flask framework. The dashboard under development is featuring two levels: **general** and **course-specific**. 
 
+The **general level** includes aggregate statistics about courses, grades and student results.
 The **course level** includes three key features with graphical representation.
 
-- The first feature is attendance tracking, which allows teachers to monitor student attendance in both classes and online sessions, making it easier to identify patterns and follow up with absent students (**Attendance Distribution (course level))**
-- The second feature is feedback distribution, enabling teachers to adjust and modify course plans based on student feedback (**Feedback Distribution (course level))**
-- The third feature is performance tracking, providing insights into student progress within a specific course, including detailed grade distribution (**Grade Distribution (course level))**
-- An example of how these three features can be integrated into the system using Flask can be found in the subfolder "**Example Flask Integration Attendance Feature**," which demonstrates the integration using student attendance as an example
+- The first feature is attendance tracking, which allows teachers to monitor student attendance in both classes and online sessions, making it easier to identify patterns and follow up with absent students (**Attendance Distribution (course level)**)
+- The second feature is feedback distribution, enabling teachers to adjust and modify course plans based on student feedback (**Feedback Distribution (course level)**)
+- The third feature is performance tracking, providing insights into student progress within a specific course, including detailed grade distribution (**Grade Distribution (course level)**)
+- An example of how these three features can be integrated into the system using Flask can be found in the subfolder "**Example Flask Integration Attendance Feature**", which demonstrates the integration using student attendance as an example
 
-2) Two machine learning algorithms: one predicts student feedback (**Student Feedback prediction (ML))** to help teachers customize course content even before the course begins and save teachers time and effort that would have otherwise been spent manually reviewing data; the other algorithm (**Performance Prediction (ML)**) predicts performance to assist in identifying at-risk students, improving teaching strategies, and pinpointing student learning preferences, strengths, and weaknesses.
+2) Two machine learning algorithms: one predicts student feedback (**Student Feedback prediction (ML)**) to help teachers customize course content even before the course begins and save teachers time and effort that would have otherwise been spent manually reviewing data; the other algorithm (**Performance Prediction (ML)**) predicts performance to assist in identifying at-risk students, improving teaching strategies, and pinpointing student learning preferences, strengths, and weaknesses.
 
 
 <a id="next-steps"></a>
