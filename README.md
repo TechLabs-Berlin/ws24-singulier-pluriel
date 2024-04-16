@@ -26,7 +26,7 @@
 <a id="Folder-Structure"></a>
 
 ## Folder Structure
-**WD**
+**DS**
 
 - Attendance Distribution (course level)/
 - Example Flask Integration Attendance Feature (course level)/
