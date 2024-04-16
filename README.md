@@ -47,24 +47,24 @@
 
 **app**
 
-- client/
+<ul>
+  <li>client/</li>
+  <ul>
+    <li>public/</li>
+    <li>src/</li>
+  </ul>
+  <li>screenshots/</li>
+  <li>server/</li>
+  <ul>
+    <li>cloudinary/</li>
+    <li>controllers/</li>
+    <li>db/</li>
+    <li>routes/</li>
+    <li>seed/v3/</li>
+  </ul>
+</ul>
 
- >public/
 
- >src/
-
-- screenshots/
-- server/
-
- >cloudinary/
-
- >controllers/
-
- >db/
-
- >routes/
-
- >seed/v3/
 
 <a id="App-Setup"></a>
 
